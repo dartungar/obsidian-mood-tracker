@@ -1,4 +1,5 @@
-export interface daySummary {
+export interface IDayStats {
+    date: string;
     moodRating: number;
     emotions: string[];
 }

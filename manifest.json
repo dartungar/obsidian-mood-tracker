@@ -1,11 +1,11 @@
 {
-	"id": "obsidian-mood-tracker",
+	"id": "mood-tracker",
 	"name": "Mood Tracker",
 	"version": "0.0.1",
 	"minAppVersion": "1.1.0",
-	"description": "Mood Tracker for Obsidian.",
+	"description": "Mood Tracker for Obsidian.md",
 	"author": "dartungar",
-	"authorUrl": "https://obsidian.md",
+	"authorUrl": "https://dartungar.com",
 	"fundingUrl": "https://obsidian.md/pricing",
 	"isDesktopOnly": false
 }

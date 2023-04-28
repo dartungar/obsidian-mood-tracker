@@ -3,36 +3,35 @@
 	import MoodTrackerPlugin from "../main";
     import MoodRating from "./MoodRating.svelte";
 	import MoodSelector from "./MoodSelector.svelte";
+	import { MoodTrackerEntry } from "src/entities/MoodTrackerEntry";
 
-    let plugin: MoodTrackerPlugin | undefined = undefined;
+    let plugin: MoodTrackerPlugin;
 
-    store.plugin.subscribe((p) =>  {
-        this.plugin = p;
-        console.log("plugin from store and in component", p, plugin);
-    });
+    store.plugin.subscribe((p) => (plugin = p));
 
-    
     // modal state
     let moods = this.plugin?.settings.moods ?? [];
     let activeMoodRating: number;
     let activeMoods: string[] = [];
     let note = "";
 
-    console.log("moods in component", moods);
-
     function handleSetRating(event: any) {
         activeMoodRating = event.detail.rating;
     }
 
     function handleToggleMood(event: any) {
-        console.log("handleToggleMood", event.detail.mood);
         if (activeMoods.includes(event.detail.mood)) {
             activeMoods = activeMoods.filter((m) => m !== event.detail.mood);
         } else {
             activeMoods.push(event.detail.mood);
         }
 
-        console.log("activeMoods in parent", activeMoods);
+    }
+
+    async function saveEntry() {
+        var entry = new MoodTrackerEntry(activeMoodRating, activeMoods, note);
+        await plugin!.addEntry(entry);
+        //this.close();
     }
 
 </script>
@@ -57,7 +56,7 @@
         <textarea class="note" placeholder="add a note about what you feel (optional)" bind:value={note}></textarea>
     </div>
     <!-- TODO: save button -->
-    <div><button on:click={() => console.log(activeMoodRating, activeMoods, note)}>Save</button></div>
+    <div><button on:click={saveEntry}>Save</button></div>
 </div>
   
 <style>

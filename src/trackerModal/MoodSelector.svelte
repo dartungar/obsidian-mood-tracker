@@ -9,7 +9,6 @@
 
     function toogleMood(mood) {
         dispatch('toggleMood', {mood: mood});
-        console.log(activeMoods);
         moods = moods;
     }
 
