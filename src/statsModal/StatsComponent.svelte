@@ -81,7 +81,7 @@
 </script>
 
 <!-- date picker -->
-<h2>Mood Tracking Stats</h2>
+<h2>Mood Tracking History</h2>
 <div class="date-picker-container">
     from: <input bind:value={startDate} type="date" required pattern="\d{4}-\d{2}-\d{2}" />
     to: <input bind:value={endDate} type="date" required pattern="\d{4}-\d{2}-\d{2}"/>
