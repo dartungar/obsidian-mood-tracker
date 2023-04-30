@@ -4,7 +4,7 @@ Mood Tracker for Obsidian.md, inspired by [Amazing Marvin's](https://amazingmarv
 ## Track Your Moods & Emotions
 Track your overall mood and more nuanced emotions.
 Add notes to entries.
-![mood-tracker-stats-demo](https://user-images.githubusercontent.com/36126057/235359391-177d314c-ffca-47fd-844d-f97179d0ee6a.gif)
+![mood-tracker-demo](https://user-images.githubusercontent.com/36126057/235359413-ab006f61-9b13-4a2c-934a-e4b5f5d554f5.gif)
 
 
 ## See The History
