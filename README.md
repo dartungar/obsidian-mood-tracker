@@ -1,6 +1,8 @@
 # Mood Tracker
 Mood Tracker for Obsidian.md, inspired by [Amazing Marvin's](https://amazingmarvin.com/) Mood Tracker.
 
+> The data is stored in your vault, in plain JSON, in case you need to use it in another application. 
+
 ## Track Your Moods & Emotions
 Track your overall mood and more nuanced emotions.
 Add notes to entries.
@@ -24,3 +26,5 @@ Click on a point on a graph to see that day's details.
 - [ ] Emotion sections / blocks
 - [ ] Export data
 - [ ] Import data
+- [ ] Add data to daily notes
+- [ ] Read data from daily notes
