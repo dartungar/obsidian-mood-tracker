@@ -7,15 +7,17 @@
 
     let plugin: MoodTrackerPlugin;
     let moods: string[] = [];
+    let moodRatingLabelDict: { [key: number]: string } = {};
 
     store.plugin.subscribe((p) => {
-        moods = p.settings.moods;
+        moods = p.settings.emotions;
         plugin = p;
+        moodRatingLabelDict = p.settings.moodRatingLabelDict;
     });
     
 
     // modal state
-    let activeMoodRating: number;
+    let activeMoodRating: number = 3;
     let activeMoods: string[] = [];
     let note = "";
 
@@ -43,19 +45,16 @@
 </script>
   
 <div class="modal-inner-container">
-    
+    <h3>How are you feeling?</h3>
     <div class="mood-rating-container"> 
-        <h3>How are you feeling?</h3>
-        <!-- TODO: set emoji in settings -->
-        <MoodRating emoji="😨" title="very bad" rating="1" on:setRating={handleSetRating}  bind:activeRating={activeMoodRating}/>
-        <MoodRating emoji="☹️" title="bad" rating="2"  on:setRating={handleSetRating}  bind:activeRating={activeMoodRating}/>
-        <MoodRating emoji="😐" title="ok" rating="3"  on:setRating={handleSetRating}  bind:activeRating={activeMoodRating}/>
-        <MoodRating emoji="🙂" title="good" rating="4"  on:setRating={handleSetRating}  bind:activeRating={activeMoodRating}/>
-        <MoodRating emoji="😊" title="very good" rating="5" on:setRating={handleSetRating}  bind:activeRating={activeMoodRating} />
+        <MoodRating emoji={moodRatingLabelDict[1]} title="very bad" rating="1" on:setRating={handleSetRating}  bind:activeRating={activeMoodRating}/>
+        <MoodRating emoji={moodRatingLabelDict[2]} title="bad" rating="2"  on:setRating={handleSetRating}  bind:activeRating={activeMoodRating}/>
+        <MoodRating emoji={moodRatingLabelDict[3]} title="ok" rating="3"  on:setRating={handleSetRating}  bind:activeRating={activeMoodRating}/>
+        <MoodRating emoji={moodRatingLabelDict[4]} title="good" rating="4"  on:setRating={handleSetRating}  bind:activeRating={activeMoodRating}/>
+        <MoodRating emoji={moodRatingLabelDict[5]} title="very good" rating="5" on:setRating={handleSetRating}  bind:activeRating={activeMoodRating} />
     </div>
     
     <div class="feelings-container">
-        <h3>What are you feeling?</h3>
         <MoodSelector on:toggleMood={handleToggleMood} bind:activeMoods={activeMoods} moods={moods} />
     </div>
     <div class="note-container">

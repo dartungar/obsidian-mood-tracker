@@ -20,11 +20,11 @@ export default class MoodTrackerPlugin extends Plugin {
 		await this.loadSettings();
 		await this.loadEntries();
 
-		this.addRibbonIcon('smile-plus', 'Mood Tracker', (evt: MouseEvent) => {
+		this.addRibbonIcon('smile-plus', 'Open Mood Tracker', (evt: MouseEvent) => {
 			new MoodTrackerModal(this.app, this).open();
 		});
 
-		this.addRibbonIcon('line-chart', 'Mood Tracking Stats', (evt: MouseEvent) => {
+		this.addRibbonIcon('line-chart', 'Open Mood Tracking History', (evt: MouseEvent) => {
 			new MoodTrackerStatsModal(this.app, this).open();
 		});
 

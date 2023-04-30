@@ -18,6 +18,7 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 		containerEl.createEl('h2', { text: 'Mood Tracker Settings' });
 
         this.addFolderPathSetting();
+        this.addEmotionsSetting();
     }
 
     // by C.Houmann (https://github.com/chhoumann/quickadd)
@@ -26,7 +27,7 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 
 		setting.setName("Folder to store data file");
 		setting.setDesc(
-			"A path to a folder where mood tracker data will be stored."
+			"A path to a folder where mood tracker data will be stored. If you change this, you will need to move the data file manually."
 		);
 
 		setting.addText((text) => {
@@ -55,6 +56,27 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 					.map((f) => f.path)
 			);
 		});
+
+
+    }
+
+    private addEmotionsSetting() {
+        const setting = new Setting(this.containerEl);
+
+        setting.setName("Emotions list");
+
+        setting.setDesc("A list of emotions, separated by commas or newlines. You will be able to choose one or more of these when adding a new mood tracker entry.");
+
+        setting.addTextArea((input) => {
+            input.inputEl.style.minHeight = "120px";
+            input.inputEl.style.maxHeight = "300px";
+            input.inputEl.style.maxWidth = "180px";
+            input.setValue(this._plugin.settings.emotions.join("\n"))
+            .onChange(async (value) => {
+                this._plugin.settings.emotions = value.split(/[\n,]/g);
+                await this._plugin.saveSettings();
+            });
+        });
     }
 
 }

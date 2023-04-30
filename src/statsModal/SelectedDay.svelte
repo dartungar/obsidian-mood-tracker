@@ -36,6 +36,9 @@
 			<div>
 				<span>{getTimeFromDate(entry.dateTime)}	{moodRatingDict[entry.moodRating]}	{entry.emotions.join(", ")}
 				</span>
+                {#if entry.note}
+                    <span>📝 <i>{entry.note}</i></span>
+                {/if}
 			</div>
 		{/each}
 	{/if}

@@ -1,7 +1,7 @@
 {
 	"id": "mood-tracker",
 	"name": "Mood Tracker",
-	"version": "0.0.1",
+	"version": "0.1.0",
 	"minAppVersion": "1.1.0",
 	"description": "Mood Tracker for Obsidian.md",
 	"author": "dartungar",

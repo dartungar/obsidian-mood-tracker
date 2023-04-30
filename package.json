@@ -1,7 +1,7 @@
 {
-	"name": "obsidian-sample-plugin",
+	"name": "mood-tracker",
 	"version": "1.0.0",
-	"description": "This is a sample plugin for Obsidian (https://obsidian.md)",
+	"description": "Mood Tracking for Obsidian.md",
 	"main": "main.js",
 	"scripts": {
 		"dev": "node esbuild.config.mjs",
