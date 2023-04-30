@@ -16,7 +16,7 @@ export class MoodTrackerEntry implements IMoodTrackerEntry {
     constructor(moodRating: number, emotions: string[], note: string) {
         this.id = crypto.randomUUID();
         this.dateTime = new Date();
-        this.moodRating = moodRating;
+        this.moodRating = Number(moodRating);
         this.emotions = emotions;
         this.note = note;
     }

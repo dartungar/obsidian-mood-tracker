@@ -1,5 +1,5 @@
 export interface IDayStats {
     date: string;
-    moodRating: number;
+    moodRating: number | undefined;
     emotions: string[];
 }

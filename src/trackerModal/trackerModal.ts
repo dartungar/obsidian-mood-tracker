@@ -19,6 +19,7 @@ export class MoodTrackerModal extends Modal {
         this.modal = new TrackerModal({
             target: this.contentEl,
             props: {
+                closeModalFunc: () => this.close(),
             }
         });
     }

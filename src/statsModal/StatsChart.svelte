@@ -1,71 +1,74 @@
-<script>
-	import { Line } from 'svelte-chartjs';
-  import { getRelativePosition } from 'chart.js/helpers';
-
+<script lang="ts">
+	import { Bar, Line } from "svelte-chartjs";
+	import { getRelativePosition } from "chart.js/helpers";
+  import { Colors } from 'chart.js';
+	import { createEventDispatcher } from "svelte";
 	import {
-	  Chart as ChartJS,
-	  Title,
-	  Tooltip,
-	  Legend,
-	  LineElement,
-	  LinearScale,
-	  PointElement,
-	  CategoryScale,
-	} from 'chart.js';
-  
+		Chart as ChartJS,
+		Title,
+		Tooltip,
+		Legend,
+		LineElement,
+    BarElement,
+		LinearScale,
+		PointElement,
+		CategoryScale,
+		ChartData,
+	} from "chart.js";
+	import { IDayStats } from "src/entities/IDayStats";
+
 	ChartJS.register(
-	  Title,
-	  Tooltip,
-	  Legend,
-	  LineElement,
-	  LinearScale,
-	  PointElement,
-	  CategoryScale
+		Title,
+		Tooltip,
+		Legend,
+		LineElement,
+    BarElement,
+		LinearScale,
+		PointElement,
+		CategoryScale,
+    Colors
 	);
 
-  export let data;
+	export let data: IDayStats[] = [];
 
-  console.log("data in statsChart", data);
+	let chartRef: any;
 
-  let chartRef;
+	$: transformedData = transformData(data);
 
-    export const transformedData = {
-    labels: data.map(d => d.date),
-    datasets: [
-      {
-        label: 'Mood Rating',
-        fill: true,
-        lineTension: 0.3,
-        backgroundColor: 'rgba(225, 204,230, .3)',
-        borderColor: 'rgb(205, 130, 158)',
-        borderCapStyle: 'butt',
-        borderDash: [],
-        borderDashOffset: 0.0,
-        borderJoinStyle: 'miter',
-        pointBorderColor: 'rgb(205, 130,1 58)',
-        pointBackgroundColor: 'rgb(255, 255, 255)',
-        pointBorderWidth: 10,
-        pointHoverRadius: 5,
-        pointHoverBackgroundColor: 'rgb(0, 0, 0)',
-        pointHoverBorderColor: 'rgba(220, 220, 220,1)',
-        pointHoverBorderWidth: 2,
-        pointRadius: 1,
-        pointHitRadius: 10,
-        data: data.map(d => d.moodRating),
-      }
-    ],
-  };
+	function transformData(rawData: IDayStats[]): ChartData<'bar', any, string> {
+		return {
+			labels: rawData.map((d) => d.date),
+			datasets: [
+				{
+					label: "Average Mood Rating",
+					data: rawData.map((d) => d.moodRating),
+					//spanGaps: true,
+					// backgroundColor: "var(--text-muted)",
+					//pointBackgroundColor: "var(--text-normal)",
+				},
+			],
+		};
+	}
 
-  const onClick = (e) => { 
-    const canvasPosition = getRelativePosition(e, chartRef);
 
-    // Substitute the appropriate scale IDs
-    const dataX = chartRef.scales.x.getValueForPixel(canvasPosition.x);
-    const dataY = chartRef.scales.y.getValueForPixel(canvasPosition.y);
+	const dispatch = createEventDispatcher();
 
-    console.log("clicked chart:", dataX, dataY);
-  }
+	const onClick = (e: any) => {
+		const canvasPosition = getRelativePosition(e, chartRef);
+		const dataX = chartRef.scales.x.getValueForPixel(canvasPosition.x);
 
-  </script>
-  
-  <Line bind:chart={chartRef} data={transformedData} options={{ responsive: true, onClick }} />
+		dispatch("clickChart", dataX);
+
+    // TODO: highlight clicked element
+    const clickedElement = chartRef.getElementsAtEventForMode(e, 'nearest', { intersect: true }, true)[0].element;
+
+	};
+</script>
+
+  <Bar
+	bind:chart={chartRef}
+	data={transformedData}
+	options={{ responsive: true, onClick}}
+  />
+
+

@@ -6,11 +6,15 @@
 	import { MoodTrackerEntry } from "src/entities/MoodTrackerEntry";
 
     let plugin: MoodTrackerPlugin;
+    let moods: string[] = [];
 
-    store.plugin.subscribe((p) => (plugin = p));
+    store.plugin.subscribe((p) => {
+        moods = p.settings.moods;
+        plugin = p;
+    });
+    
 
     // modal state
-    let moods = this.plugin?.settings.moods ?? [];
     let activeMoodRating: number;
     let activeMoods: string[] = [];
     let note = "";
@@ -31,8 +35,10 @@
     async function saveEntry() {
         var entry = new MoodTrackerEntry(activeMoodRating, activeMoods, note);
         await plugin!.addEntry(entry);
-        //this.close();
+        closeModalFunc();
     }
+
+    export let closeModalFunc: () => void;
 
 </script>
   

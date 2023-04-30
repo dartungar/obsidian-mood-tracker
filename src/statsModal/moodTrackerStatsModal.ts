@@ -1,11 +1,11 @@
 import { App, Modal } from "obsidian";
-import  StatsModal from "./StatsModal.svelte";
+import  StatsComponent from "./StatsComponent.svelte";
 import store from "src/store";
 import MoodTrackerPlugin from "src/main";
 
 
 export class MoodTrackerStatsModal extends Modal {
-    modal: StatsModal;
+    component: StatsComponent;
 
     constructor(app: App, private plugin: MoodTrackerPlugin) {
         super(app);
@@ -16,7 +16,7 @@ export class MoodTrackerStatsModal extends Modal {
 
         this.modalEl.addClass("mood-tracker-modal");
 
-        this.modal = new StatsModal({
+        this.component = new StatsComponent({
             target: this.contentEl,
             props: {
             }
@@ -24,6 +24,6 @@ export class MoodTrackerStatsModal extends Modal {
     }
 
     onClose() {
-        this.modal.$destroy();
+        this.component.$destroy();
     }
 }
