@@ -3,7 +3,7 @@
 	"name": "Mood Tracker",
 	"version": "0.1.0",
 	"minAppVersion": "1.1.0",
-	"description": "Mood Tracker for Obsidian.md",
+	"description": "Track your moods & emotions easily. Visualize tracked history and browse the past entries.",
 	"author": "dartungar",
 	"authorUrl": "https://dartungar.com",
 	"isDesktopOnly": false
