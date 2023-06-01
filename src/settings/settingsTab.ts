@@ -15,8 +15,6 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 
         containerEl.empty();
 
-		containerEl.createEl('h2', { text: 'Mood Tracker Settings' });
-
         this.addFolderPathSetting();
         this.addEmotionsSetting();
     }
