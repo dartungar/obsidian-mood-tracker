@@ -51,8 +51,8 @@ export default class MoodTrackerPlugin extends Plugin {
 		await this.saveEntries();
 	}
 
-	public showNotice(message: string) {
-		new Notice(message, 5000);
+	public showNotice(message: string, durationMs: number = 5000) {
+		new Notice(message, durationMs);
 	}
 
 	async loadSettings() {

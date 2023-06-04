@@ -52,8 +52,14 @@ export class PersistenceService {
     private async createDataFileIfNotExists(): Promise<void> {
         let adapter = this.plugin.app.vault.adapter;
 
+        if (!await adapter.exists(this.plugin.settings.folderPath)) {
+            this.plugin.showNotice(`Mood Tracker: folder "${this.plugin.settings.folderPath}" not found, creating it...`);
+            await adapter.mkdir(this.plugin.settings.folderPath);
+            this.plugin.showNotice(`Mood Tracker: created a folder "${this.plugin.settings.folderPath}". You can change the path in the settings; for now you'll have to move mood-tracker-data.json manually. Click to dismiss`, 30000);
+        }
+
         if (!await adapter.exists(this.filepath)) {
-            this.plugin.showNotice(`No mood tracker data file found at ${this.filepath}. Creating a new one...`);
+            this.plugin.showNotice(`No mood tracker data file found at "${this.filepath}". Creating a new data file...`);
             await adapter.write(this.filepath, "[]");
         }
     }
