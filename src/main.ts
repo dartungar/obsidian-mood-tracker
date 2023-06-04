@@ -24,10 +24,25 @@ export default class MoodTrackerPlugin extends Plugin {
 			new MoodTrackerModal(this.app, this).open();
 		});
 
+		this.addCommand({
+			id: "open-mood-tracker",
+			name: "Open Tracker",
+			callback: () => {
+				new MoodTrackerModal(this.app, this).open();
+			},
+		});
+
 		this.addRibbonIcon('line-chart', 'Open Mood Tracking History', (evt: MouseEvent) => {
 			new MoodTrackerStatsModal(this.app, this).open();
 		});
 
+		this.addCommand({
+			id: "open-mood-tracker-history",
+			name: "Open History",
+			callback: () => {
+				new MoodTrackerStatsModal(this.app, this).open();
+			},
+		});
 
 		this.addSettingTab(new MoodTrackerSettingsTab(this, this.app));
 	}
