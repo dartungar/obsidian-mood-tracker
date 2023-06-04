@@ -17,6 +17,8 @@ Click on a point on a graph to see that day's details.
 
 ![mood-tracker-stats-demo](https://user-images.githubusercontent.com/36126057/235359375-14337714-6e4b-440a-81a3-fbe42bbeb4c2.gif)
 
+## Known Issues
+- for now, after changing data path you have to move mood-tracker-data.json to the new destination manually.
 
 ## Roadmap
 - [ ] Customize mood emojis
