@@ -7,7 +7,7 @@ Mood Tracker for Obsidian.md, inspired by [Amazing Marvin's](https://amazingmarv
 Track your overall mood and more nuanced emotions.
 Add notes to entries.
 
-![mood-tracker-demo](https://user-images.githubusercontent.com/36126057/235359413-ab006f61-9b13-4a2c-934a-e4b5f5d554f5.gif)
+![mood-tracker-sections-demo](https://github.com/dartungar/obsidian-mood-tracker/assets/36126057/cdef3563-dbee-4bb6-b52e-78c09ba4d826)
 
 
 ## See The History
@@ -25,7 +25,7 @@ Click on a point on a graph to see that day's details.
 - [ ] Customize graph colors
 - [ ] More chart types
 - [ ] Edit past entries
-- [ ] Emotion sections / blocks
+- [x] Emotion sections / blocks
 - [ ] Export data
 - [ ] Import data
 - [ ] Add data to daily notes
