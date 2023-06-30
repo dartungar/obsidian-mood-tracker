@@ -1,15 +1,16 @@
-import { defaultEmotions } from "src/data/defaultEmotions";
+import { defaultEmotions as defaultEmotionSections } from "src/data/defaultEmotions";
+import { EmotionSection } from "src/entities/IEmotionSection";
 
 
-export interface MoodTrackerSettings {
-    folderPath: string;
-    emotions: string[];
+export class MoodTrackerSettings {
+    folderPath: string = "";
+    emotionSections: EmotionSection[] = [];
     moodRatingLabelDict: { [key: number]: string };
 }
 
 export const DEFAULT_SETTINGS: MoodTrackerSettings = {
     folderPath: "./data/",
-    emotions: defaultEmotions,
+    emotionSections: defaultEmotionSections,
     moodRatingLabelDict: { 
         1: "😨",
         2: "☹️",

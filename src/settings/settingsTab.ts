@@ -1,27 +1,33 @@
-import { App, PluginSettingTab, Setting, TFolder } from "obsidian";
+import {
+	App,
+	ButtonComponent,
+	Component,
+	PluginSettingTab,
+	Setting,
+	TFolder,
+} from "obsidian";
 import MoodTrackerPlugin from "src/main";
 import { DEFAULT_SETTINGS } from "./moodTrackerSettings";
 import { GenericTextSuggester } from "./fileSuggester";
-
+import { EmotionSection } from "src/entities/IEmotionSection";
 
 export class MoodTrackerSettingsTab extends PluginSettingTab {
+	constructor(private _plugin: MoodTrackerPlugin, app: App) {
+		super(app, _plugin);
+	}
 
-    constructor(private _plugin: MoodTrackerPlugin, app: App) {
-        super(app, _plugin);
-    }
+	display() {
+		const { containerEl } = this;
 
-    display() {
-        const { containerEl } = this;
+		containerEl.empty();
 
-        containerEl.empty();
+		this.addFolderPathSetting();
+		this.addEmotionsSetting();
+	}
 
-        this.addFolderPathSetting();
-        this.addEmotionsSetting();
-    }
-
-    // by C.Houmann (https://github.com/chhoumann/quickadd)
-    private addFolderPathSetting() {
-        const setting = new Setting(this.containerEl);
+	// by C.Houmann (https://github.com/chhoumann/quickadd)
+	private addFolderPathSetting() {
+		const setting = new Setting(this.containerEl);
 
 		setting.setName("Folder to store data file");
 		setting.setDesc(
@@ -32,17 +38,17 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 			text.setPlaceholder("data/")
 				.setValue(this._plugin.settings.folderPath)
 				.onChange(async (value) => {
-                    if (await this.app.vault.adapter.exists(value)) { 
-                        text.inputEl.removeAttribute("style");
-                        text.inputEl.removeAttribute("title");
-                        this._plugin.settings.folderPath = value;
-                        await this._plugin.saveSettings();
-                        // TODO: move file to new location
-                        return;
-                    }
+					if (await this.app.vault.adapter.exists(value)) {
+						text.inputEl.removeAttribute("style");
+						text.inputEl.removeAttribute("title");
+						this._plugin.settings.folderPath = value;
+						await this._plugin.saveSettings();
+						// TODO: move file to new location
+						return;
+					}
 
-                    text.inputEl.style.border = "1px solid red";
-                    text.inputEl.title = "Folder does not exist";
+					text.inputEl.style.border = "1px solid red";
+					text.inputEl.title = "Folder does not exist";
 				});
 
 			new GenericTextSuggester(
@@ -54,27 +60,63 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 					.map((f) => f.path)
 			);
 		});
+	}
 
+	private addEmotionsSetting() {
+		const settingGroupEl = this.containerEl.createEl("div");
+		settingGroupEl.createEl("h4", { text: "Emotions (moods)" });
+		settingGroupEl.createEl("p", {
+			text: "A list of emotions (moods), separated by commas or newlines. You will be able to choose one or more of these when adding a new mood tracker entry.\n You can add more sections for convenience via button at the bottom.",
+		});
 
-    }
+		for (const [
+			index,
+			moodSection,
+		] of this._plugin.settings.emotionSections.entries()) {
+			const setting = new Setting(settingGroupEl);
 
-    private addEmotionsSetting() {
-        const setting = new Setting(this.containerEl);
+			setting.setName("Emotions (moods) section");
 
-        setting.setName("Emotions list");
+			// TODO: color! color -> hover & border in mood picker
 
-        setting.setDesc("A list of emotions, separated by commas or newlines. You will be able to choose one or more of these when adding a new mood tracker entry.");
+			//setting.addColorPicker();
+			setting.addColorPicker((input) => {
+				input.setValue(moodSection.color).onChange(async (value) => {
+					this._plugin.settings.emotionSections[index].color = value;
+					await this._plugin.saveSettings();
+				});
+			});
 
-        setting.addTextArea((input) => {
-            input.inputEl.style.minHeight = "120px";
-            input.inputEl.style.maxHeight = "300px";
-            input.inputEl.style.maxWidth = "180px";
-            input.setValue(this._plugin.settings.emotions.join("\n"))
-            .onChange(async (value) => {
-                this._plugin.settings.emotions = value.split(/[\n,]/g);
-                await this._plugin.saveSettings();
-            });
-        });
-    }
+			setting.addTextArea((input) => {
+				input.inputEl.style.minHeight = "120px";
+				input.inputEl.style.maxHeight = "300px";
+				input.inputEl.style.maxWidth = "180px";
+				input
+					.setValue(moodSection.emotions.join("\n"))
+					.onChange(async (value) => {
+						this._plugin.settings.emotionSections[index].emotions =
+							value.split(/[\n,]/g);
+						await this._plugin.saveSettings();
+					});
+			});
 
+			setting.addButton((input) => {
+				input.setButtonText("Delete").onClick(async (value) => {
+					this._plugin.settings.emotionSections.splice(index, 1);
+					await this._plugin.saveSettings();
+					this.display();
+				});
+			});
+
+			//setting.addButton(())
+		}
+
+		const addMoodSectionBtn = new ButtonComponent(settingGroupEl);
+		addMoodSectionBtn.setButtonText("Add Section");
+		addMoodSectionBtn.onClick(async () => {
+			this._plugin.settings.emotionSections.push(new EmotionSection());
+			await this._plugin.saveSettings();
+			this.display();
+		});
+	}
 }

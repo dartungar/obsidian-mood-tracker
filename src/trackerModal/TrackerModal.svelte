@@ -4,13 +4,14 @@
     import MoodRating from "./MoodRating.svelte";
 	import MoodSelector from "./MoodSelector.svelte";
 	import { MoodTrackerEntry } from "src/entities/MoodTrackerEntry";
+	import { EmotionSection } from "src/entities/IEmotionSection";
 
     let plugin: MoodTrackerPlugin;
-    let moods: string[] = [];
+    let moodSections: EmotionSection[]= [];
     let moodRatingLabelDict: { [key: number]: string } = {};
 
     store.plugin.subscribe((p) => {
-        moods = p.settings.emotions;
+        moodSections = p.settings.emotionSections;
         plugin = p;
         moodRatingLabelDict = p.settings.moodRatingLabelDict;
     });
@@ -55,7 +56,7 @@
     </div>
     
     <div class="feelings-container">
-        <MoodSelector on:toggleMood={handleToggleMood} bind:activeMoods={activeMoods} moods={moods} />
+        <MoodSelector on:toggleMood={handleToggleMood} bind:activeMoods={activeMoods} moodSections={moodSections} />
     </div>
     <div class="note-container">
         <textarea class="note" placeholder="add a note about what you feel (optional)" bind:value={note}></textarea>
@@ -78,7 +79,6 @@
         width: 100%;
     }
 
-
     .note {
         width: 100%;
         height: 100%;
@@ -87,5 +87,6 @@
         outline: none;
         font-size: 1.2rem;
         padding: 0.5rem;
+        border: 1px solid var(--background-modifier-border)
     }
 </style>
