@@ -6,7 +6,6 @@
     export let data: IMoodTrackerEntry[];
     export let dateString: string;
 
-    console.log("selected day data:", data);
 
     // TODO: get dict from settings
     export let moodRatingDict: { [key: number]: string } = {

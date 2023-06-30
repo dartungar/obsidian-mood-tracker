@@ -66,7 +66,6 @@
     }
 
     function onClickChart(event: CustomEvent<number>) {
-        console.log("clicked chart", event.detail, processedData[event.detail])
         selectedDay = processedData[event.detail];
     }
 
