@@ -1,10 +1,11 @@
 {
 	"id": "mood-tracker",
 	"name": "Mood Tracker",
-	"version": "0.2.0",
+	"version": "0.2.1",
 	"minAppVersion": "1.1.0",
 	"description": "Track your moods & emotions easily. Visualize tracked history and browse the past entries.",
 	"author": "dartungar",
 	"authorUrl": "https://dartungar.com",
+	"fundingUrl": "https://www.paypal.com/paypalme/dartungar",
 	"isDesktopOnly": false
 }
