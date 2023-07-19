@@ -31,7 +31,6 @@ export const defaultEmotions: EmotionSection[] = [
 			"attracted",
 			"sentimental",
 			"compassionate",
-			"satisfied",
 			"peaceful",
 			"relieved",
 		],
