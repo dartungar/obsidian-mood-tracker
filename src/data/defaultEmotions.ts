@@ -31,7 +31,6 @@ export const defaultEmotions: EmotionSection[] = [
 			"attracted",
 			"sentimental",
 			"compassionate",
-			"satisfied",
 			"peaceful",
 			"relieved",
 		],
@@ -40,6 +39,9 @@ export const defaultEmotions: EmotionSection[] = [
 		name: "",
 		color: "#f2d05e",
 		emotions: [
+			"ok",
+			"fine",
+			"bored",
 			"surprised",
 			"shocked",
 			"dismayed",
@@ -56,6 +58,7 @@ export const defaultEmotions: EmotionSection[] = [
 		name: "",
 		color: "#f04a1d",
 		emotions: [
+			"stressed",
 			"angry",
 			"enraged",
 			"hateful",
