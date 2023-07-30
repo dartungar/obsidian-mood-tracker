@@ -1,6 +1,8 @@
 import { MoodTrackerEntry } from "src/entities/MoodTrackerEntry";
 import MoodTrackerPlugin from "src/main";
 import fs from "fs/promises";
+import type moment from "moment";
+
 
 
 export class PersistenceService {
@@ -40,6 +42,8 @@ export class PersistenceService {
         await this.createDataFileIfNotExists();
 
         try {
+            // override toJSON so dates will be saved with preserved timezone 
+            Date.prototype.toJSON = function(){ return window.moment(this).format(); }
             const entries = this.plugin.entries;
             const jsonData = JSON.stringify(entries, null, 2);
             await adapter.write(this.filepath, jsonData);
