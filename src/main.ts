@@ -21,6 +21,14 @@ import { MoodTrackerStatsModal } from "./statsModal/moodTrackerStatsModal";
 import { getAverageMoodRatingByDay } from "./statsModal/statsHelpers";
 import { EmotionSection } from "./entities/IEmotionSection";
 
+import type moment from "moment";
+
+declare global {
+  interface Window {
+    moment: typeof moment;
+  }
+}
+
 export default class MoodTrackerPlugin extends Plugin {
 	readonly dataFileName: string = "mood-tracker-data.json";
 	settings: MoodTrackerSettings;
