@@ -6,6 +6,7 @@ export class MoodTrackerSettings {
     folderPath: string = "";
     emotionSections: EmotionSection[] = [];
     moodRatingLabelDict: { [key: number]: string };
+    template: string
 }
 
 export const DEFAULT_SETTINGS: MoodTrackerSettings = {
@@ -17,5 +18,6 @@ export const DEFAULT_SETTINGS: MoodTrackerSettings = {
         3: "😐",
         4: "🙂",
         5: "😊",
-    }
+    },
+    template: "- {{ICON}} {{NOTE}}"
 }
