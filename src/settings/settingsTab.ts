@@ -22,6 +22,7 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 		containerEl.empty();
 
 		this.addFolderPathSetting();
+		this.addTemplateSetting();
 		this.addEmotionsSetting();
 	}
 
@@ -60,6 +61,22 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 					.map((f) => f.path)
 			);
 		});
+	}
+
+	private addTemplateSetting() {
+		const setting = new Setting(this.containerEl);
+
+		setting.setName("Template for inserting mood tracking entry in a note")
+		setting.setDesc("Available variables: {{TIME}} (time of entry), {{ICON}} (entry's mood icon), {{EMOTIONS}} (comma-separated list of emotions, if any), {{NOTE}} (entry's note)");
+
+		setting.addTextArea((input) => {
+			input.setValue(this._plugin.settings.template)
+			.onChange(async (value) => {
+				this._plugin.settings.template = value;
+				await this._plugin.saveSettings();
+			});
+
+		})
 	}
 
 	private addEmotionsSetting() {

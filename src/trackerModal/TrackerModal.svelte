@@ -5,6 +5,7 @@
 	import MoodSelector from "./MoodSelector.svelte";
 	import { MoodTrackerEntry } from "src/entities/MoodTrackerEntry";
 	import { EmotionSection } from "src/entities/IEmotionSection";
+	import { DailyNoteService } from "src/services/dailyNoteService";
 
     let plugin: MoodTrackerPlugin;
     let moodSections: EmotionSection[]= [];
@@ -21,6 +22,7 @@
     let activeMoodRating: number = 3;
     let activeMoods: string[] = [];
     let note = "";
+    let insertToNote = false;
 
     function handleSetRating(event: any) {
         activeMoodRating = event.detail.rating;
@@ -38,6 +40,9 @@
     async function saveEntry() {
         var entry = new MoodTrackerEntry(activeMoodRating, activeMoods, note);
         await plugin!.addEntry(entry);
+        if (insertToNote) {
+            plugin!.noteService.appendToCurrentNote(entry);
+        }
         closeModalFunc();
     }
 
@@ -62,7 +67,10 @@
         <textarea class="note" placeholder="add a note about what you feel (optional)" bind:value={note}></textarea>
     </div>
     <!-- TODO: save button -->
-    <div><button on:click={saveEntry}>Save</button></div>
+    <div>
+    <button on:click={saveEntry}>Save</button>
+    <input type="checkbox" bind:value={insertToNote}><span>Insert into current note</span>
+    </div>
 </div>
   
 <style>

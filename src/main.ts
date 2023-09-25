@@ -22,6 +22,7 @@ import { getAverageMoodRatingByDay } from "./statsModal/statsHelpers";
 import { EmotionSection } from "./entities/IEmotionSection";
 
 import type moment from "moment";
+import { DailyNoteService } from "./services/dailyNoteService";
 
 declare global {
   interface Window {
@@ -34,6 +35,7 @@ export default class MoodTrackerPlugin extends Plugin {
 	settings: MoodTrackerSettings;
 	entries: IMoodTrackerEntry[] = [];
 	persistenceService: PersistenceService = new PersistenceService(this);
+	noteService = new DailyNoteService(this);
 	moodTrackerService: MoodTrackerService = new MoodTrackerService(
 		this.persistenceService
 	);
