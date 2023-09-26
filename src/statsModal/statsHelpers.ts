@@ -3,8 +3,10 @@ import { IMoodTrackerEntry } from "src/entities/MoodTrackerEntry";
 
 export function generateDatasetForDateRange(entries: IMoodTrackerEntry[], start: Date | string, end: Date | string): IDayStats[] {
     // TODO: generate data only if there are entries for the date range
+    console.log("generateDatasetForDateRange", start, end);
     const dayStats = getAverageMoodRatingByDay(entries);
     var days = generateStringDatesForDateRange(start, end);
+
 
     var dataset: IDayStats[] = days.map(day => {
         var stat = dayStats.find(x => x.date == day);
@@ -46,13 +48,17 @@ export function getAverageMoodRatingByDay(entries: IMoodTrackerEntry[]): IDaySta
 function generateStringDatesForDateRange(start: Date | string, end: Date | string) : string[] {
 
     const datesArray = [];
-    const currentDate = new Date(start);
+    const startDate = new Date(start);
+    const startDateCorrected = startDate.getFullYear() > 2000 ? startDate : new Date("2000-01-01");
     const endDate = new Date(end);
+    const currentDate = new Date();
+    const endDateCorrected = endDate.getFullYear() > currentDate.getFullYear() ? currentDate : endDate; 
+    console.log("generating string dates", startDateCorrected, endDateCorrected );
   
-    while (currentDate <= endDate) {
-      const formattedDate = currentDate.toISOString().split('T')[0];
+    while (startDateCorrected <= endDateCorrected) {
+      const formattedDate = startDateCorrected.toISOString().split('T')[0];
       datesArray.push(formattedDate);
-      currentDate.setDate(currentDate.getDate() + 1);
+      startDateCorrected.setDate(startDateCorrected.getDate() + 1);
     }
   
     return datesArray;
@@ -88,5 +94,6 @@ export function generateStringDatesForNdays(n: number): string[] {
 }
 
 export function dateToNormalizedString(date: Date): string {
+    console.log("date to normalized string", date);
     return date.toISOString().split('T')[0];
 }

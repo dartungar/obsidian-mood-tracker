@@ -11,10 +11,11 @@
     let startDate: string = dateToNormalizedString(subtractDays(new Date(), 14));
     let endDate: string = dateToNormalizedString(new Date());
     let moodRatingLabelDict: { [key: number]: string } = {};
+    let timer: any;
 
 
     let rawData: IMoodTrackerEntry[] = this.plugin?.entries ?? [];
-    $: processedData = generateDatasetForDateRange(rawData, startDate, endDate);
+    let processedData: IDayStats[] = []; 
 
     store.plugin.subscribe((p) => {
         plugin = p;
@@ -30,6 +31,13 @@
 
     let selectedDay = processedData[processedData.length - 1];
     $: selectedDayData = rawData.filter((d) => dateToNormalizedString(d?.dateTime) === selectedDay.date) ?? [];
+
+    function generateDatasetDebounced() {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            processedData = generateDatasetForDateRange(rawData, startDate, endDate);
+        }, 1000)
+    }
 
     function getTotalAverageMoodRating(stats: IDayStats[]): number {
         const daysWithValues = stats.filter((s) => s.moodRating && s.moodRating > 0);
@@ -70,6 +78,7 @@
     }
 
     function subtractDays(date: Date, days: number) {
+        console.log("substract days", date, days);
         const dateCopy = new Date(date);
 
         dateCopy.setDate(dateCopy.getDate() - days);
@@ -82,8 +91,8 @@
 <!-- date picker -->
 <h2>Mood Tracking History</h2>
 <div class="date-picker-container">
-    from: <input bind:value={startDate} type="date" required pattern="\d{4}-\d{2}-\d{2}" />
-    to: <input bind:value={endDate} type="date" required pattern="\d{4}-\d{2}-\d{2}"/>
+    from: <input bind:value={startDate} on:change={generateDatasetDebounced} type="date" min="2000-01-01" pattern="\d{4}-\d{2}-\d{2}" />
+    to: <input bind:value={endDate} on:change={generateDatasetDebounced} type="date" min="2000-01-01"  required pattern="\d{4}-\d{2}-\d{2}"/>
 </div>
 <!-- chart -->
 <StatsChart data={processedData} on:clickChart={onClickChart}/>
