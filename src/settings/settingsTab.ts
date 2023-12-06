@@ -1,13 +1,11 @@
 import {
 	App,
 	ButtonComponent,
-	Component,
 	PluginSettingTab,
 	Setting,
 	TFolder,
 } from "obsidian";
 import MoodTrackerPlugin from "src/main";
-import { DEFAULT_SETTINGS } from "./moodTrackerSettings";
 import { GenericTextSuggester } from "./fileSuggester";
 import { EmotionSection } from "src/entities/IEmotionSection";
 

@@ -3,7 +3,7 @@ import { EmotionSection } from "src/entities/IEmotionSection";
 
 
 export class MoodTrackerSettings {
-    folderPath: string = "";
+    folderPath = "";
     emotionSections: EmotionSection[] = [];
     moodRatingLabelDict: { [key: number]: string };
     template: string
