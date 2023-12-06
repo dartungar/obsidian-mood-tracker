@@ -1,8 +1,5 @@
 import { MoodTrackerEntry } from "src/entities/MoodTrackerEntry";
 import MoodTrackerPlugin from "src/main";
-import fs from "fs/promises";
-import type moment from "moment";
-
 
 
 export class PersistenceService {
@@ -14,7 +11,7 @@ export class PersistenceService {
     }
 
     public async getEntries(): Promise<MoodTrackerEntry[] | undefined> {
-        let adapter = this.plugin.app.vault.adapter;
+        const adapter = this.plugin.app.vault.adapter;
         
         await this.createDataFileIfNotExists();
 
@@ -37,7 +34,7 @@ export class PersistenceService {
     }
 
     public async saveEntries(): Promise<void> {
-        let adapter = this.plugin.app.vault.adapter;
+        const adapter = this.plugin.app.vault.adapter;
 
         await this.createDataFileIfNotExists();
 
@@ -54,7 +51,7 @@ export class PersistenceService {
     }
 
     private async createDataFileIfNotExists(): Promise<void> {
-        let adapter = this.plugin.app.vault.adapter;
+        const adapter = this.plugin.app.vault.adapter;
 
         if (!await adapter.exists(this.plugin.settings.folderPath)) {
             this.plugin.showNotice(`Mood Tracker: folder "${this.plugin.settings.folderPath}" not found, creating it...`);

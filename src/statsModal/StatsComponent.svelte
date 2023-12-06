@@ -78,7 +78,6 @@
     }
 
     function subtractDays(date: Date, days: number) {
-        console.log("substract days", date, days);
         const dateCopy = new Date(date);
 
         dateCopy.setDate(dateCopy.getDate() - days);

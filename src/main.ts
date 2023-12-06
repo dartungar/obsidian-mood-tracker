@@ -1,12 +1,6 @@
 import {
-	App,
-	Editor,
-	MarkdownView,
-	Modal,
 	Notice,
 	Plugin,
-	PluginSettingTab,
-	Setting,
 } from "obsidian";
 import {
 	DEFAULT_SETTINGS,
@@ -18,7 +12,6 @@ import { MoodTrackerService } from "./services/moodTrackerEntryService";
 import { PersistenceService } from "./services/persistenceService";
 import { IMoodTrackerEntry } from "./entities/MoodTrackerEntry";
 import { MoodTrackerStatsModal } from "./statsModal/moodTrackerStatsModal";
-import { getAverageMoodRatingByDay } from "./statsModal/statsHelpers";
 import { EmotionSection } from "./entities/IEmotionSection";
 
 import type moment from "moment";
@@ -83,7 +76,6 @@ export default class MoodTrackerPlugin extends Plugin {
 
 	async loadEntries() {
 		this.entries = (await this.persistenceService.getEntries()) ?? [];
-	
 	}
 
 	async saveEntries(): Promise<void> {
@@ -95,12 +87,12 @@ export default class MoodTrackerPlugin extends Plugin {
 		await this.saveEntries();
 	}
 
-	public showNotice(message: string, durationMs: number = 5000) {
+	public showNotice(message: string, durationMs = 5000) {
 		new Notice(message, durationMs);
 	}
 
 	async loadSettings() {
-		let loadedData: MoodTrackerSettings | any = Object.assign(
+		const loadedData: MoodTrackerSettings | any = Object.assign(
 			{},
 			DEFAULT_SETTINGS,
 			await this.loadData()
