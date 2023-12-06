@@ -13,7 +13,6 @@
     let moodRatingLabelDict: { [key: number]: string } = {};
     let timer: any;
 
-
     let rawData: IMoodTrackerEntry[] = this.plugin?.entries ?? [];
     let processedData: IDayStats[] = []; 
 
@@ -78,7 +77,6 @@
     }
 
     function subtractDays(date: Date, days: number) {
-        console.log("substract days", date, days);
         const dateCopy = new Date(date);
 
         dateCopy.setDate(dateCopy.getDate() - days);
