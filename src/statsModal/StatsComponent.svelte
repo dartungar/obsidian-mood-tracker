@@ -13,7 +13,6 @@
     let moodRatingLabelDict: { [key: number]: string } = {};
     let timer: any;
 
-
     let rawData: IMoodTrackerEntry[] = this.plugin?.entries ?? [];
     let processedData: IDayStats[] = []; 
 
