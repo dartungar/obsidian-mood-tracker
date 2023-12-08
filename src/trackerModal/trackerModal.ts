@@ -11,10 +11,13 @@ export class MoodTrackerModal extends Modal {
         super(app);
     }
 
-    onOpen() {
+    async onOpen() {
         store.plugin.set(this.plugin);
 
         this.modalEl.addClass("mood-tracker-modal");
+
+        // reload data in case data file was synced / modified
+        await this.plugin.loadEntries();
 
         this.modal = new TrackerModal({
             target: this.contentEl,
