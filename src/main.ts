@@ -16,6 +16,7 @@ import { EmotionSection } from "./entities/IEmotionSection";
 
 import type moment from "moment";
 import { DailyNoteService } from "./services/dailyNoteService";
+import { DataIntegrityService } from "./services/dataIntegrityService";
 
 declare global {
   interface Window {
@@ -28,6 +29,7 @@ export default class MoodTrackerPlugin extends Plugin {
 	settings: MoodTrackerSettings;
 	entries: IMoodTrackerEntry[] = [];
 	persistenceService: PersistenceService = new PersistenceService(this);
+	dataIntegrityService: DataIntegrityService = new DataIntegrityService();
 	noteService = new DailyNoteService(this);
 	moodTrackerService: MoodTrackerService = new MoodTrackerService(
 		this.persistenceService
@@ -75,7 +77,8 @@ export default class MoodTrackerPlugin extends Plugin {
 	onunload() {}
 
 	async loadEntries() {
-		this.entries = (await this.persistenceService.getEntries()) ?? [];
+		const loadedEntries = (await this.persistenceService.getEntries()) ?? [];
+		this.entries = this.dataIntegrityService.safeMergeData(loadedEntries, this.entries);
 	}
 
 	async saveEntries(): Promise<void> {
