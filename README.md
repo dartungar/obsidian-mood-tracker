@@ -7,7 +7,7 @@ Mood Tracker for Obsidian.md, inspired by [Amazing Marvin's](https://amazingmarv
 Track your overall mood and more nuanced emotions.
 Add notes to entries.
 
-![mood-tracker-demo](https://user-images.githubusercontent.com/36126057/235359413-ab006f61-9b13-4a2c-934a-e4b5f5d554f5.gif)
+![mood-tracker-sections-demo](https://github.com/dartungar/obsidian-mood-tracker/assets/36126057/cdef3563-dbee-4bb6-b52e-78c09ba4d826)
 
 
 ## See The History
@@ -15,17 +15,21 @@ Visualize your mood history on a graph.
 See your average and most common moods and emotions.
 Click on a point on a graph to see that day's details.
 
-![mood-tracker-stats-demo](https://user-images.githubusercontent.com/36126057/235359375-14337714-6e4b-440a-81a3-fbe42bbeb4c2.gif)
+![mood-tracker-stats-demo](https://github.com/dartungar/obsidian-mood-tracker/assets/36126057/7031bf7b-3e5d-4bfc-89bb-099d5f3c32fa)
 
-## Known Issues
-- for now, after changing data path you have to move mood-tracker-data.json to the new destination manually.
+## Edit The History
+Edit past entries.
+Add new entries for past days.
+
+![mood-tracker-edit-history-demo](https://github.com/dartungar/obsidian-mood-tracker/assets/36126057/2a5b325d-8737-4c94-9aee-de2476feebbc)
+
 
 ## Roadmap
 - [ ] Customize mood emojis
 - [ ] Customize graph colors
 - [ ] More chart types
-- [ ] Edit past entries
-- [ ] Emotion sections / blocks
+- [x] Edit past entries
+- [x] Emotion sections / blocks
 - [ ] Export data
 - [ ] Import data
 - [ ] Add data to daily notes
