@@ -20,7 +20,9 @@ jobs:
       - name: Build plugin
         run: |
           npm install
+          npm install typescript@latest
           npm run build
+
 
       - name: Create release
         env:
