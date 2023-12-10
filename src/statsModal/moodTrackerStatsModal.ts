@@ -2,12 +2,13 @@ import { App, Modal } from "obsidian";
 import StatsComponent from "./StatsComponent.svelte";
 import store from "src/store";
 import MoodTrackerPlugin from "src/main";
+import { DateService } from "src/services/dateService";
 
 
 export class MoodTrackerStatsModal extends Modal {
     component: StatsComponent;
 
-    constructor(app: App, private plugin: MoodTrackerPlugin) {
+    constructor(app: App, private plugin: MoodTrackerPlugin, private selectedDate: Date) {
         super(app);
     }
 
@@ -22,6 +23,7 @@ export class MoodTrackerStatsModal extends Modal {
         this.component = new StatsComponent({
             target: this.contentEl,
             props: {
+                selectedDateString: DateService.createDateString(this.selectedDate)
             }
         });
     }

@@ -16,7 +16,10 @@
 		ChartData,
 	} from "chart.js";
 	import { IDayStats } from "src/entities/IDayStats";
-	import { DEFAULT_SETTINGS, MoodTrackerSettings } from "src/settings/moodTrackerSettings";
+	import {
+		DEFAULT_SETTINGS,
+		MoodTrackerSettings,
+	} from "src/settings/moodTrackerSettings";
 
 	ChartJS.register(
 		Title,
@@ -56,35 +59,35 @@
 	const dispatch = createEventDispatcher();
 
 	const onClick = (e: any) => {
-		const canvasPosition = getRelativePosition(e, chartRef);
-		const dataX = chartRef.scales.x.getValueForPixel(canvasPosition.x);
+		try {
+			const canvasPosition = getRelativePosition(e, chartRef);
+			const dataX = chartRef.scales.x.getValueForPixel(canvasPosition.x);
 
-		dispatch("clickChart", dataX);
+			dispatch("clickChart", dataX);
 
-		// TODO: highlight clicked element
-		const clickedElement = chartRef.getElementsAtEventForMode(
-			e,
-			"nearest",
-			{ intersect: true },
-			true,
-		)[0].element;
+			// TODO: highlight clicked element
+			const clickedElement = chartRef.getElementsAtEventForMode(
+				e,
+				"nearest",
+				{ intersect: true },
+				true,
+			)[0].element;
+		} catch (error) {} // ChartJS gives errors when clicked on empty space; ignore them
 	};
-
 
 	const chartOptions = {
 		responsive: true,
 		onClick: onClick,
-		// TODO: scales based on possible mood values
 		scales: {
 			y: {
 				min: 1,
 				max: 5,
 				ticks: {
-					stepSize: 1, 
-					callback: function(val: number, _: any) {
+					stepSize: 1,
+					callback: function (val: number, _: any) {
 						// TODO: use ones from plugin settings!
-            			return DEFAULT_SETTINGS.moodRatingLabelDict[val];
-          			},
+						return DEFAULT_SETTINGS.moodRatingLabelDict[val];
+					},
 				},
 			},
 		},

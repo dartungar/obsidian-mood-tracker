@@ -1,100 +1,163 @@
 <script lang="ts">
 	import store from "src/store";
 	import MoodTrackerPlugin from "../main";
-    import MoodRating from "./MoodRating.svelte";
+	import MoodRating from "./MoodRating.svelte";
 	import MoodSelector from "./MoodSelector.svelte";
-	import { MoodTrackerEntry } from "src/entities/MoodTrackerEntry";
+	import {
+		IMoodTrackerEntry,
+		MoodTrackerEntry,
+	} from "src/entities/MoodTrackerEntry";
 	import { EmotionSection } from "src/entities/IEmotionSection";
 	import { DailyNoteService } from "src/services/dailyNoteService";
+	import moment from "moment";
+	import { DateService } from "src/services/dateService";
 
-    let plugin: MoodTrackerPlugin;
-    let moodSections: EmotionSection[]= [];
-    let moodRatingLabelDict: { [key: number]: string } = {};
+	let plugin: MoodTrackerPlugin;
+	let moodSections: EmotionSection[] = [];
+	let moodRatingLabelDict: { [key: number]: string } = {};
+	let insertToNote = false;
 
-    store.plugin.subscribe((p) => {
-        moodSections = p.settings.emotionSections;
-        plugin = p;
-        moodRatingLabelDict = p.settings.moodRatingLabelDict;
-    });
-    
+	export let entry: IMoodTrackerEntry;
 
-    // modal state
-    let activeMoodRating: number = 3;
-    let activeMoods: string[] = [];
-    let note = "";
-    let insertToNote = false;
+	$: dateTimeString = DateService.createDateTimeString(entry.dateTime);
 
-    function handleSetRating(event: any) {
-        activeMoodRating = event.detail.rating;
-    }
+	store.plugin.subscribe((p) => {
+		moodSections = p.settings.emotionSections;
+		plugin = p;
+		moodRatingLabelDict = p.settings.moodRatingLabelDict;
+	});
 
-    function handleToggleMood(event: any) {
-        if (activeMoods.includes(event.detail.mood)) {
-            activeMoods = activeMoods.filter((m) => m !== event.detail.mood);
-        } else {
-            activeMoods.push(event.detail.mood);
-        }
 
-    }
+	function handleSetRating(event: any) {
+		entry.moodRating = Number(event.detail.rating);
+	}
 
-    async function saveEntry() {
-        var entry = new MoodTrackerEntry(activeMoodRating, activeMoods, note);
-        await plugin!.addEntry(entry);
-        if (insertToNote) {
-            plugin!.noteService.appendToCurrentNote(entry);
-        }
-        closeModalFunc();
-    }
+	function handleToggleMood(event: any) {
+		if (entry.emotions.includes(event.detail.mood)) {
+			entry.emotions = entry.emotions.filter(
+				(m) => m !== event.detail.mood,
+			);
+		} else {
+			entry.emotions.push(event.detail.mood);
+		}
+	}
 
-    export let closeModalFunc: () => void;
+	function handleDateTimeChange(event: any) {
+		entry.dateTime = window.moment(event.target.value).toDate();
+	}
 
+	async function saveEntry() {
+		await plugin!.saveEntry(entry);
+		if (insertToNote) {
+			plugin!.noteService.appendToCurrentNote(entry);
+		}
+		closeModalFunc();
+	}
+
+	export let closeModalFunc: () => void;
 </script>
-  
+
 <div class="modal-inner-container">
-    <h3>How are you feeling?</h3>
-    <div class="mood-rating-container"> 
-        <MoodRating emoji={moodRatingLabelDict[1]} title="very bad" rating="1" on:setRating={handleSetRating}  bind:activeRating={activeMoodRating}/>
-        <MoodRating emoji={moodRatingLabelDict[2]} title="bad" rating="2"  on:setRating={handleSetRating}  bind:activeRating={activeMoodRating}/>
-        <MoodRating emoji={moodRatingLabelDict[3]} title="ok" rating="3"  on:setRating={handleSetRating}  bind:activeRating={activeMoodRating}/>
-        <MoodRating emoji={moodRatingLabelDict[4]} title="good" rating="4"  on:setRating={handleSetRating}  bind:activeRating={activeMoodRating}/>
-        <MoodRating emoji={moodRatingLabelDict[5]} title="very good" rating="5" on:setRating={handleSetRating}  bind:activeRating={activeMoodRating} />
-    </div>
-    
-    <div class="feelings-container">
-        <MoodSelector on:toggleMood={handleToggleMood} bind:activeMoods={activeMoods} moodSections={moodSections} />
-    </div>
-    <div class="note-container">
-        <textarea class="note" placeholder="add a note about what you feel (optional)" bind:value={note}></textarea>
-    </div>
-    <!-- TODO: save button -->
-    <div>
-    <button on:click={saveEntry}>Save</button>
-    <input type="checkbox" bind:value={insertToNote}><span>Insert into current note</span>
-    </div>
+	<div style="display: flex; justify-content: center">
+		<h3>{plugin.settings.trackerModalTitle}</h3>
+	</div>
+
+	<div class="mood-rating-container">
+		<MoodRating
+			emoji={moodRatingLabelDict[1]}
+			title="very bad"
+			rating="1"
+			on:setRating={handleSetRating}
+			bind:activeRating={entry.moodRating}
+		/>
+		<MoodRating
+			emoji={moodRatingLabelDict[2]}
+			title="bad"
+			rating="2"
+			on:setRating={handleSetRating}
+			bind:activeRating={entry.moodRating}
+		/>
+		<MoodRating
+			emoji={moodRatingLabelDict[3]}
+			title="ok"
+			rating="3"
+			on:setRating={handleSetRating}
+			bind:activeRating={entry.moodRating}
+		/>
+		<MoodRating
+			emoji={moodRatingLabelDict[4]}
+			title="good"
+			rating="4"
+			on:setRating={handleSetRating}
+			bind:activeRating={entry.moodRating}
+		/>
+		<MoodRating
+			emoji={moodRatingLabelDict[5]}
+			title="very good"
+			rating="5"
+			on:setRating={handleSetRating}
+			bind:activeRating={entry.moodRating}
+		/>
+	</div>
+
+	<div class="feelings-container">
+		<MoodSelector
+			on:toggleMood={handleToggleMood}
+			bind:activeMoods={entry.emotions}
+			{moodSections}
+		/>
+	</div>
+	<div class="note-container" style="font-size: 100%;">
+		<textarea
+			class="note"
+			placeholder="add a note about what you feel (optional)"
+			bind:value={entry.note}
+		></textarea>
+	</div>
+	<div style="display: flex; align-items: center; gap: 0.8rem;">
+		<span>date & time of entry </span><input
+			id="datetime"
+			type="datetime-local"
+			value={dateTimeString}
+			on:change={handleDateTimeChange}
+            style="cursor: pointer;"
+		/><label for="datetime"></label>
+	</div>
+
+	<div style="display: flex; justify-content: space-between">
+		<div style="display: flex; align-items: center; gap: 0.8rem;" title="insert entry according to template (see settings) at the end of current note">
+			<span>insert into the current note</span><input
+				type="checkbox"
+                style="cursor: pointer;"
+				bind:value={insertToNote}
+			/>
+		</div>
+		<button style="cursor: pointer;" on:click={saveEntry}>Save</button>
+	</div>
 </div>
-  
+
 <style>
-    .modal-inner-container>div{
-        margin: 0.5rem;
-    }
+	.modal-inner-container > div {
+		margin: 0.5rem;
+	}
 
-    .mood-rating-container {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
-        width: 100%;
-    }
+	.mood-rating-container {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		height: 100%;
+		width: 100%;
+	}
 
-    .note {
-        width: 100%;
-        height: 100%;
-        resize: none;
-        border: none;
-        outline: none;
-        font-size: 1.2rem;
-        padding: 0.5rem;
-        border: 1px solid var(--background-modifier-border)
-    }
+	.note {
+		width: 100%;
+		height: 100%;
+		resize: none;
+		border: none;
+		outline: none;
+		font-size: 1.2rem;
+		padding: 0.5rem;
+		border: 1px solid var(--background-modifier-border);
+	}
 </style>

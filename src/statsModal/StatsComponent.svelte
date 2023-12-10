@@ -2,14 +2,15 @@
 	import MoodTrackerPlugin from "src/main";
 	import StatsChart from "./StatsChart.svelte";
 	import store from "src/store";
-    import { dateToNormalizedString, generateDatasetForDateRange, getAverageMoodRatingByDay } from "./statsHelpers";
+    import { generateDatasetForDateRange, getAverageMoodRatingByDay } from "./statsHelpers";
 	import { IDayStats } from "src/entities/IDayStats";
 	import { IMoodTrackerEntry } from "src/entities/MoodTrackerEntry";
 	import SelectedDay from "./SelectedDay.svelte";
+	import { DateService } from "src/services/dateService";
 
     let plugin: MoodTrackerPlugin;
-    let startDate: string = dateToNormalizedString(subtractDays(new Date(), 14));
-    let endDate: string = dateToNormalizedString(new Date());
+    let startDate: string = DateService.createDateString(subtractDays(new Date(), 14));
+    let endDate: string = DateService.createDateString(new Date());
     let moodRatingLabelDict: { [key: number]: string } = {};
     let timer: any;
 
@@ -28,8 +29,9 @@
     $: mostCommonEmotions = getMostCommonEmotions(processedData, 3);
 
 
-    let selectedDay = processedData[processedData.length - 1];
-    $: selectedDayData = rawData.filter((d) => dateToNormalizedString(d?.dateTime) === selectedDay.date) ?? [];
+    export let selectedDateString: string; // selected date
+
+    $: selectedDayData = rawData.filter((d) => DateService.createDateString(d?.dateTime) === selectedDateString) ?? [];
 
     function generateDatasetDebounced() {
         clearTimeout(timer);
@@ -73,7 +75,7 @@
     }
 
     function onClickChart(event: CustomEvent<number>) {
-        selectedDay = processedData[event.detail];
+        selectedDateString = processedData[event.detail].date;
     }
 
     function subtractDays(date: Date, days: number) {
@@ -92,16 +94,18 @@
     from: <input bind:value={startDate} on:change={generateDatasetDebounced} type="date" min="2000-01-01" pattern="\d{4}-\d{2}-\d{2}" />
     to: <input bind:value={endDate} on:change={generateDatasetDebounced} type="date" min="2000-01-01"  required pattern="\d{4}-\d{2}-\d{2}"/>
 </div>
+
 <!-- chart -->
 <StatsChart data={processedData} on:clickChart={onClickChart}/>
+
 <!-- total stats -->
 <div class="total-stats-container">
     <div>Average mood: {moodRatingLabelDict[Math.round(averageMoodRating)]} ({averageMoodRating})</div>
     <div>Most common mood: {moodRatingLabelDict[mostCommonMood]}</div>
     <div>Common emotions: {mostCommonEmotions.join(', ')}</div>
 </div>
-<!-- selected date (default = latest? or placeholder "click on a day in graph to show stats?") -->
-<SelectedDay dateString={selectedDay.date} data={selectedDayData} moodRatingDict={moodRatingLabelDict}/>
+
+<SelectedDay plugin={plugin} dateString={selectedDateString} data={selectedDayData} moodRatingDict={moodRatingLabelDict}/>
 
 <style>
     .date-picker-container {
