@@ -1,10 +1,11 @@
 <script lang="ts">
-	import { IMoodTrackerEntry } from "src/entities/MoodTrackerEntry";
-	import { dateToNormalizedString } from "./statsHelpers";
+	import { IMoodTrackerEntry, MoodTrackerEntry } from "src/entities/MoodTrackerEntry";
+	import MoodTrackerPlugin from "src/main";
 
 
     export let data: IMoodTrackerEntry[];
     export let dateString: string;
+    export let plugin: MoodTrackerPlugin;
 
 
     // TODO: get dict from settings
@@ -22,10 +23,20 @@
         return `${hours}:${minutes}`;
     };
 
+    function openModalForNewEntry() {
+        const entry = new MoodTrackerEntry();
+        entry.dateTime = new Date(dateString);
+        entry.dateTime.setHours(9); // default value is 9:00 AM 
+        openMoodTrackerModal(entry);
+    }
+
+    function openMoodTrackerModal(entry: IMoodTrackerEntry) {
+        plugin.openTrackerModal(entry, true);
+    }
+
 
 </script>
 
-<!-- TODO: default value / placeholder / directions what to do ('click on chart to select a day') -->
 <div>
 	<h4>{dateString}</h4>
 	{#if !data || data.length === 0}
@@ -33,14 +44,16 @@
 	{:else}
 		{#each data as entry}
 			<div>
+                <span style="cursor: pointer;" title="edit entry" on:click={() => openMoodTrackerModal(entry)} on:keyup={() => console.log("keyup in edit icon")}>✏️</span>
 				<span>{getTimeFromDate(entry.dateTime)}	{moodRatingDict[entry.moodRating]}	{entry.emotions.join(", ")}
 				</span>
                 {#if entry.note}
-                    <span>📝 <i>{entry.note}</i></span>
+                    <span>📄 <i>{entry.note}</i></span>
                 {/if}
 			</div>
 		{/each}
 	{/if}
+<div><button on:click={openModalForNewEntry} style="cursor: pointer; margin-top: 0.5rem" on:keyup={() => console.log("keyup in add entry")}>add a new entry</button></div>
 </div>
 
 <style>

@@ -6,14 +6,14 @@
     export let rating;
     export let activeRating;
     
-    $: isActive = activeRating === rating;
+    $: isActive = activeRating === Number(rating);
 
 	const dispatch = createEventDispatcher();
 
     
 	function setRating() {
         dispatch('setRating', {
-            rating: rating
+            rating: Number(rating)
 		});
 	}
 </script>

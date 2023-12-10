@@ -34,6 +34,7 @@ export default class MoodTrackerPlugin extends Plugin {
 	moodTrackerService: MoodTrackerService = new MoodTrackerService(
 		this.persistenceService
 	);
+	activeStatsModel: MoodTrackerStatsModal;
 
 	async onload() {
 		await this.loadSettings();
@@ -43,7 +44,7 @@ export default class MoodTrackerPlugin extends Plugin {
 			"smile-plus",
 			"Open Mood Tracker",
 			(evt: MouseEvent) => {
-				new MoodTrackerModal(this.app, this).open();
+				this.openTrackerModal();
 			}
 		);
 
@@ -51,7 +52,7 @@ export default class MoodTrackerPlugin extends Plugin {
 			id: "open-mood-tracker",
 			name: "Open Tracker",
 			callback: () => {
-				new MoodTrackerModal(this.app, this).open();
+				this.openTrackerModal();
 			},
 		});
 
@@ -59,7 +60,7 @@ export default class MoodTrackerPlugin extends Plugin {
 			"line-chart",
 			"Open Mood Tracking History",
 			(evt: MouseEvent) => {
-				new MoodTrackerStatsModal(this.app, this).open();
+				this.openStatsModal();
 			}
 		);
 
@@ -67,7 +68,7 @@ export default class MoodTrackerPlugin extends Plugin {
 			id: "open-mood-tracker-history",
 			name: "Open History",
 			callback: () => {
-				new MoodTrackerStatsModal(this.app, this).open();
+				this.openStatsModal();
 			},
 		});
 
@@ -75,6 +76,18 @@ export default class MoodTrackerPlugin extends Plugin {
 	}
 
 	onunload() {}
+
+	openTrackerModal(entry: IMoodTrackerEntry | undefined = undefined, reopenStatsModalOnClose = false) {
+		new MoodTrackerModal(this.app, this, entry, reopenStatsModalOnClose).open();
+	}
+
+	openStatsModal(selectedDate = new Date()) {
+		if (this.activeStatsModel) {
+			this.activeStatsModel.close();
+		}
+		this.activeStatsModel = new MoodTrackerStatsModal(this.app, this, selectedDate);
+		this.activeStatsModel.open();
+	}
 
 	async loadEntries() {
 		const loadedEntries = (await this.persistenceService.getEntries()) ?? [];
@@ -85,8 +98,13 @@ export default class MoodTrackerPlugin extends Plugin {
 		await this.persistenceService.saveEntries();
 	}
 
-	async addEntry(entry: IMoodTrackerEntry): Promise<void> {
-		this.entries.push(entry);
+	async saveEntry(entry: IMoodTrackerEntry): Promise<void> {
+		const index = this.entries.findIndex(e => e.id === entry.id);
+		if (index === -1) {
+			this.entries.push(entry);
+		} else {
+			this.entries[index] = entry;
+		}
 		await this.saveEntries();
 	}
 

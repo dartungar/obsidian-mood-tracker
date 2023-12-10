@@ -1,6 +1,7 @@
 import {
 	App,
 	ButtonComponent,
+	debounce,
 	PluginSettingTab,
 	Setting,
 	TFolder,
@@ -8,6 +9,7 @@ import {
 import MoodTrackerPlugin from "src/main";
 import { GenericTextSuggester } from "./fileSuggester";
 import { EmotionSection } from "src/entities/IEmotionSection";
+import { MoveDataModal } from "./moveDataModal";
 
 export class MoodTrackerSettingsTab extends PluginSettingTab {
 	constructor(private _plugin: MoodTrackerPlugin, app: App) {
@@ -19,36 +21,58 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 
 		containerEl.empty();
 
+		this.addTrackerModalTitleSetting();
 		this.addFolderPathSetting();
 		this.addTemplateSetting();
 		this.addEmotionsSetting();
 	}
 
+	private addTrackerModalTitleSetting() {
+		const setting = new Setting(this.containerEl);
+
+		setting.setName("Tracker Modal Title")
+		setting.setDesc("Title for mood tracker modal");
+
+		setting.addText((input) => {
+			input.setValue(this._plugin.settings.trackerModalTitle)
+			.onChange(async (value) => {
+				this._plugin.settings.trackerModalTitle = value;
+				await this._plugin.saveSettings();
+			});
+		})
+	}
+
 	// by C.Houmann (https://github.com/chhoumann/quickadd)
+	// TODO: try to implement better one, maybe look outside of obsidian plugins
 	private addFolderPathSetting() {
 		const setting = new Setting(this.containerEl);
+		let path = this._plugin.settings.folderPath;
 
 		setting.setName("Folder to store data file");
 		setting.setDesc(
-			"A path to a folder where mood tracker data will be stored. If you change this, you will need to move the data file manually."
+			"A path to a folder where mood tracker data will be stored."
 		);
+
+		
+		
 
 		setting.addText((text) => {
 			text.setPlaceholder("data/")
 				.setValue(this._plugin.settings.folderPath)
-				.onChange(async (value) => {
-					if (await this.app.vault.adapter.exists(value)) {
-						text.inputEl.removeAttribute("style");
-						text.inputEl.removeAttribute("title");
-						this._plugin.settings.folderPath = value;
-						await this._plugin.saveSettings();
-						// TODO: move file to new location
+				.onChange(debounce(async (value) => {
+					if (value === this._plugin.settings.folderPath) {
 						return;
 					}
 
+					if (await this.app.vault.adapter.exists(value)) {
+						text.inputEl.removeAttribute("style");
+						text.inputEl.removeAttribute("title");
+						path = value;
+						return;
+					}
 					text.inputEl.style.border = "1px solid red";
 					text.inputEl.title = "Folder does not exist";
-				});
+				}, 500, true));
 
 			new GenericTextSuggester(
 				app,
@@ -59,6 +83,13 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 					.map((f) => f.path)
 			);
 		});
+
+		setting.addButton((button) => {
+			button.setButtonText("Apply")
+			.onClick(async () => {
+				new MoveDataModal(this.app, this._plugin, this, path).open();
+			})
+		})
 	}
 
 	private addTemplateSetting() {
@@ -92,7 +123,7 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 
 			setting.setName("Emotions (moods) section");
 
-			// TODO: color! color -> hover & border in mood picker
+			// TODO: text color
 
 			//setting.addColorPicker();
 			setting.addColorPicker((input) => {

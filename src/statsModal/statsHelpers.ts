@@ -6,7 +6,6 @@ export function generateDatasetForDateRange(entries: IMoodTrackerEntry[], start:
     const dayStats = getAverageMoodRatingByDay(entries);
     const days = generateStringDatesForDateRange(start, end);
 
-
     const dataset: IDayStats[] = days.map(day => {
         const stat = dayStats.find(x => x.date == day);
 
@@ -88,8 +87,4 @@ export function generateStringDatesForNdays(n: number): string[] {
     }
 
     return dates;
-}
-
-export function dateToNormalizedString(date: Date): string {
-    return date.toISOString().split('T')[0];
 }
