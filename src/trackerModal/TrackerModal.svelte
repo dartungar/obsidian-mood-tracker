@@ -100,6 +100,7 @@
 		/>
 	</div>
 
+	{#if plugin.settings.useEmotions}
 	<div class="feelings-container">
 		<MoodSelector
 			on:toggleMood={handleToggleMood}
@@ -107,6 +108,8 @@
 			{moodSections}
 		/>
 	</div>
+	{/if}
+
 	<div class="note-container" style="font-size: 100%;">
 		<textarea
 			class="note"
