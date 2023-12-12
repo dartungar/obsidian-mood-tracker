@@ -22,6 +22,7 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 		containerEl.empty();
 
 		this.addTrackerModalTitleSetting();
+		this.addUseEmotionsSetting();
 		this.addFolderPathSetting();
 		this.addTemplateSetting();
 		this.addEmotionsSetting();
@@ -30,13 +31,28 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 	private addTrackerModalTitleSetting() {
 		const setting = new Setting(this.containerEl);
 
-		setting.setName("Tracker Modal Title")
+		setting.setName("Tracker modal title")
 		setting.setDesc("Title for mood tracker modal");
 
 		setting.addText((input) => {
 			input.setValue(this._plugin.settings.trackerModalTitle)
 			.onChange(async (value) => {
 				this._plugin.settings.trackerModalTitle = value;
+				await this._plugin.saveSettings();
+			});
+		})
+	}
+
+	private addUseEmotionsSetting() {
+		const setting = new Setting(this.containerEl);
+
+		setting.setName("Use emotions")
+		setting.setDesc("Track more nuanced emotions in addition to simple mood rating");
+
+		setting.addToggle((input) => {
+			input.setValue(this._plugin.settings.useEmotions)
+			.onChange(async (value) => {
+				this._plugin.settings.useEmotions = value;
 				await this._plugin.saveSettings();
 			});
 		})
@@ -52,9 +68,6 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 		setting.setDesc(
 			"A path to a folder where mood tracker data will be stored."
 		);
-
-		
-		
 
 		setting.addText((text) => {
 			text.setPlaceholder("data/")

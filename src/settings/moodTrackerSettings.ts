@@ -8,6 +8,7 @@ export class MoodTrackerSettings {
     moodRatingLabelDict: { [key: number]: string };
     template: string;
     trackerModalTitle: string;
+    useEmotions: boolean;
 }
 
 export const DEFAULT_SETTINGS: MoodTrackerSettings = {
@@ -21,5 +22,6 @@ export const DEFAULT_SETTINGS: MoodTrackerSettings = {
         5: "😊",
     },
     template: "- {{ICON}} {{NOTE}}",
-    trackerModalTitle: "How are you feeling?"
+    trackerModalTitle: "How are you feeling?",
+    useEmotions: true
 }
