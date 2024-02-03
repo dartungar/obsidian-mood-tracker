@@ -8,8 +8,10 @@ import {
 } from "obsidian";
 import MoodTrackerPlugin from "src/main";
 import { GenericTextSuggester } from "./fileSuggester";
-import { EmotionSection } from "src/entities/IEmotionSection";
+import { EmotionGroup } from "src/entities/IEmotionGroup";
 import { MoveDataModal } from "./moveDataModal";
+import { EmotionGroupEditModal } from "./emotionGroupEditModal";
+import { EmotionGroupDeleteModal } from "./emotionGroupDeleteModal";
 
 export class MoodTrackerSettingsTab extends PluginSettingTab {
 	constructor(private _plugin: MoodTrackerPlugin, app: App) {
@@ -25,7 +27,9 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 		this.addUseEmotionsSetting();
 		this.addFolderPathSetting();
 		this.addTemplateSetting();
-		this.addEmotionsSetting();
+		if (this._plugin.settings.useEmotions) {
+			this.addEmotionsSetting();
+		}
 	}
 
 	private addTrackerModalTitleSetting() {
@@ -54,6 +58,7 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 			.onChange(async (value) => {
 				this._plugin.settings.useEmotions = value;
 				await this._plugin.saveSettings();
+				this.display();
 			});
 		})
 	}
@@ -100,7 +105,7 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 		setting.addButton((button) => {
 			button.setButtonText("Apply")
 			.onClick(async () => {
-				new MoveDataModal(this.app, this._plugin, this, path).open();
+				new MoveDataModal(this.app, this._plugin, path).open();
 			})
 		})
 	}
@@ -123,57 +128,82 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 
 	private addEmotionsSetting() {
 		const settingGroupEl = this.containerEl.createEl("div");
-		settingGroupEl.createEl("h4", { text: "Emotions (moods)" });
-		settingGroupEl.createEl("p", {
-			text: "A list of emotions (moods), separated by commas or newlines. You will be able to choose one or more of these when adding a new mood tracker entry.\n You can add more sections for convenience via button at the bottom.",
+		settingGroupEl.createEl("h4", { text: "Emotions" });
+		settingGroupEl.createEl("small", {
+			text: "A list of emotions, separated by commas or newlines. You can define one or many emotion groups, each with own color, if needed.",
 		});
 
 		for (const [
 			index,
-			moodSection,
-		] of this._plugin.settings.emotionSections.entries()) {
+			emotionGroup,
+		] of this._plugin.settings.emotionGroups.entries()) {
 			const setting = new Setting(settingGroupEl);
 
-			setting.setName("Emotions (moods) section");
+			setting.setName(emotionGroup.name ?? `Emotions group ${index}`);
 
 			// TODO: text color
 
-			//setting.addColorPicker();
-			setting.addColorPicker((input) => {
-				input.setValue(moodSection.color).onChange(async (value) => {
-					this._plugin.settings.emotionSections[index].color = value;
-					await this._plugin.saveSettings();
-				});
+			setting.addExtraButton(cb => {
+				cb.setIcon('arrow-up')
+				.setTooltip("Move element up")
+				.setDisabled(index === 0)
+				.onClick(() => {
+					if (index > 0) {
+						const temp = this._plugin.settings.emotionGroups[index - 1].sortOrder;
+						this._plugin.settings.emotionGroups[index - 1].sortOrder = emotionGroup.sortOrder;
+						emotionGroup.sortOrder = temp;
+						this._plugin.saveSettings();
+						this.display();
+					}
+				})
+			});
+	
+			setting.addExtraButton(cb => {
+				cb.setIcon('arrow-down')
+				.setTooltip("Move element down")
+				.setDisabled(index >= this._plugin.settings.emotionGroups.length - 1)
+				.onClick(() => {
+					if (index < this._plugin.settings.emotionGroups.length - 1) {
+						const temp = this._plugin.settings.emotionGroups[index + 1].sortOrder;
+						this._plugin.settings.emotionGroups[index + 1].sortOrder = emotionGroup.sortOrder;
+						emotionGroup.sortOrder = temp;
+						this._plugin.saveSettings();
+						this.display();
+					}
+				})
 			});
 
-			setting.addTextArea((input) => {
-				input.inputEl.style.minHeight = "120px";
-				input.inputEl.style.maxHeight = "300px";
-				input.inputEl.style.maxWidth = "180px";
-				input
-					.setValue(moodSection.emotions.join("\n"))
-					.onChange(async (value) => {
-						this._plugin.settings.emotionSections[index].emotions =
-							value.split(/[\n,]/g);
-						await this._plugin.saveSettings();
+			setting.addExtraButton((cb) => {
+				cb.setIcon("edit")
+					.setTooltip("Edit Group")
+					.onClick(() => {
+						const modal = new EmotionGroupEditModal(this._plugin, emotionGroup, this.app);
+						modal.open();
+						modal.onClose = () => {
+							this.display();
+						};
 					});
 			});
 
-			setting.addButton((input) => {
-				input.setButtonText("Delete").onClick(async (value) => {
-					this._plugin.settings.emotionSections.splice(index, 1);
-					await this._plugin.saveSettings();
-					this.display();
-				});
+			setting.addExtraButton((cb) => {
+				cb.setIcon("trash")
+					.setTooltip("Delete note set")
+					.onClick(async () => {
+						new EmotionGroupDeleteModal(
+							this.app,
+							this._plugin,
+							this,
+							emotionGroup,
+						).open();
+					});
 			});
 
-			//setting.addButton(())
 		}
 
 		const addMoodSectionBtn = new ButtonComponent(settingGroupEl);
-		addMoodSectionBtn.setButtonText("Add Section");
+		addMoodSectionBtn.setButtonText("Add Group");
 		addMoodSectionBtn.onClick(async () => {
-			this._plugin.settings.emotionSections.push(new EmotionSection());
+			this._plugin.settings.emotionGroups.push(new EmotionGroup());
 			await this._plugin.saveSettings();
 			this.display();
 		});
