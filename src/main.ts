@@ -155,6 +155,10 @@ export default class MoodTrackerPlugin extends Plugin {
 			if (legacyEmotionSections) {
 				const convertedLegacyEmotionSections = this.dataIntegrityService.legacyEmotionSectionsToEmotionGroups(legacyEmotionSections);
 				this.settings.emotionGroups.push(...convertedLegacyEmotionSections);
+				// @ts-expect-error
+				this.settings['emotionSections'] = null;
+				// @ts-expect-error
+				delete this.settings['emotionSections'];
 			}
 			this.settings.emotionGroups = this.emotionService.sortEmotionGroups(this.settings.emotionGroups);
 			this.dataIntegrityService.fillMissingIds(this.settings.emotionGroups);
