@@ -7,13 +7,13 @@
 		IMoodTrackerEntry,
 		MoodTrackerEntry,
 	} from "src/entities/MoodTrackerEntry";
-	import { EmotionSection } from "src/entities/IEmotionSection";
+	import { EmotionGroup } from "src/entities/IEmotionGroup";
 	import { DailyNoteService } from "src/services/dailyNoteService";
 	import moment from "moment";
 	import { DateService } from "src/services/dateService";
 
 	let plugin: MoodTrackerPlugin;
-	let moodSections: EmotionSection[] = [];
+	let moodSections: EmotionGroup[] = [];
 	let moodRatingLabelDict: { [key: number]: string } = {};
 	let insertToNote = false;
 
@@ -22,7 +22,7 @@
 	$: dateTimeString = DateService.createDateTimeString(entry.dateTime);
 
 	store.plugin.subscribe((p) => {
-		moodSections = p.settings.emotionSections;
+		moodSections = p.settings.emotionGroups;
 		plugin = p;
 		moodRatingLabelDict = p.settings.moodRatingLabelDict;
 	});

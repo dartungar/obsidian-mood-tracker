@@ -1,10 +1,10 @@
-import { defaultEmotions as defaultEmotionSections } from "src/data/defaultEmotions";
-import { EmotionSection } from "src/entities/IEmotionSection";
+import { defaultEmotions as defaultEmotionGroups } from "src/data/defaultEmotions";
+import { EmotionGroup } from "src/entities/IEmotionGroup";
 
 
 export class MoodTrackerSettings {
     folderPath = "";
-    emotionSections: EmotionSection[] = [];
+    emotionGroups: EmotionGroup[] = [];
     moodRatingLabelDict: { [key: number]: string };
     template: string;
     trackerModalTitle: string;
@@ -13,7 +13,7 @@ export class MoodTrackerSettings {
 
 export const DEFAULT_SETTINGS: MoodTrackerSettings = {
     folderPath: "./data/",
-    emotionSections: defaultEmotionSections,
+    emotionGroups: defaultEmotionGroups,
     moodRatingLabelDict: { 
         1: "😨",
         2: "☹️",

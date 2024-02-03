@@ -12,11 +12,12 @@ import { MoodTrackerService } from "./services/moodTrackerEntryService";
 import { PersistenceService } from "./services/persistenceService";
 import { IMoodTrackerEntry } from "./entities/MoodTrackerEntry";
 import { MoodTrackerStatsModal } from "./statsModal/moodTrackerStatsModal";
-import { EmotionSection } from "./entities/IEmotionSection";
+import { EmotionGroup } from "./entities/IEmotionGroup";
 
 import type moment from "moment";
 import { DailyNoteService } from "./services/dailyNoteService";
 import { DataIntegrityService } from "./services/dataIntegrityService";
+import { EmotionsService } from "./services/emotionsService";
 
 declare global {
   interface Window {
@@ -31,6 +32,7 @@ export default class MoodTrackerPlugin extends Plugin {
 	persistenceService: PersistenceService = new PersistenceService(this);
 	dataIntegrityService: DataIntegrityService = new DataIntegrityService();
 	noteService = new DailyNoteService(this);
+	emotionService = new EmotionsService(this);
 	moodTrackerService: MoodTrackerService = new MoodTrackerService(
 		this.persistenceService
 	);
@@ -113,6 +115,7 @@ export default class MoodTrackerPlugin extends Plugin {
 	}
 
 	async loadSettings() {
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		const loadedData: MoodTrackerSettings | any = Object.assign(
 			{},
 			DEFAULT_SETTINGS,
@@ -130,12 +133,12 @@ export default class MoodTrackerPlugin extends Plugin {
 			migratedSettings.folderPath = loadedData.folderPath;
 			migratedSettings.moodRatingLabelDict =
 				loadedData.moodRatingLabelDict;
-			const emotionSection = new EmotionSection();
-			emotionSection.color = "#b8c1cf";
-			emotionSection.name = "";
-			emotionSection.emotions = legacyEmotions;
-			migratedSettings.emotionSections = [];
-			migratedSettings.emotionSections.push(emotionSection);
+			const emotionGroup = new EmotionGroup();
+			emotionGroup.color = "#b8c1cf";
+			emotionGroup.name = "";
+			emotionGroup.emotions = legacyEmotions;
+			migratedSettings.emotionGroups = [];
+			migratedSettings.emotionGroups.push(emotionGroup);
 			this.settings = Object.assign(
 				{},
 				DEFAULT_SETTINGS,
@@ -148,11 +151,19 @@ export default class MoodTrackerPlugin extends Plugin {
 			await this.saveSettings();
 		} else {
 			this.settings = loadedData; 
+			const legacyEmotionSections = loadedData.emotionSections;
+			if (legacyEmotionSections) {
+				const convertedLegacyEmotionSections = this.dataIntegrityService.legacyEmotionSectionsToEmotionGroups(legacyEmotionSections);
+				this.settings.emotionGroups.push(...convertedLegacyEmotionSections);
+			}
+			this.settings.emotionGroups = this.emotionService.sortEmotionGroups(this.settings.emotionGroups);
+			this.dataIntegrityService.fillMissingIds(this.settings.emotionGroups);
 			await this.saveSettings();
 		}
 	}
 
 	async saveSettings() {
+		this.settings.emotionGroups = this.emotionService.sortEmotionGroups(this.settings.emotionGroups);
 		await this.saveData(this.settings);
 	}
 }

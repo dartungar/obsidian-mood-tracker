@@ -1,9 +1,12 @@
-import { EmotionSection } from "src/entities/IEmotionSection";
+import { EmotionGroup } from "src/entities/IEmotionGroup";
 
-export const defaultEmotions: EmotionSection[] = [
+export const defaultEmotions: EmotionGroup[] = [
 	{
-		name: "",
+		id: "17c2b0b6-cead-4281-a830-e09dd2d851f2",
+		name: "Love and joy",
+		sortOrder: 0,
 		color: "#76de91",
+		textColor: undefined,
 		emotions: [
 			"joyful",
 			"content",
@@ -36,8 +39,11 @@ export const defaultEmotions: EmotionSection[] = [
 		],
 	},
 	{
-		name: "",
+		id: "f4e5cdb9-a24d-4a16-9c10-ca567d419de2",
+		name: "Neutral and surprise",
+		sortOrder: 1,
 		color: "#f2d05e",
+		textColor: undefined,
 		emotions: [
 			"ok",
 			"fine",
@@ -55,8 +61,11 @@ export const defaultEmotions: EmotionSection[] = [
 		],
 	},
 	{
-		name: "",
+		id: "5f18d172-d07b-4914-8715-e6e656a21697",
+		name: "Anger and stress",
+		sortOrder: 2,
 		color: "#f04a1d",
+		textColor: undefined,
 		emotions: [
 			"stressed",
 			"angry",
@@ -75,8 +84,11 @@ export const defaultEmotions: EmotionSection[] = [
 		],
 	},
 	{
-		name: "",
+		id: "275e754f-7186-4c5c-9e56-17c75aac623d",
+		name: "Sadness and fear",
+		sortOrder: 3,
 		color: "#837ff0",
+		textColor: undefined,
 		emotions: [
 			"sad",
 			"hurt",
