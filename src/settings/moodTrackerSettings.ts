@@ -1,5 +1,6 @@
 import { defaultEmotions as defaultEmotionGroups } from "src/data/defaultEmotions";
 import { EmotionGroup } from "src/entities/IEmotionGroup";
+import { NoteSelectionMethod } from "src/noteIntegration/noteSelectionMethod";
 
 
 export class MoodTrackerSettings {
@@ -9,6 +10,14 @@ export class MoodTrackerSettings {
     template: string;
     trackerModalTitle: string;
     useEmotions: boolean;
+    noteIntegrationSettings: NoteIntegrationSettings;
+}
+
+export interface NoteIntegrationSettings {
+    isEnabled: boolean;
+    dateTemplate?: string;
+    noteSelectionMethod?: NoteSelectionMethod;
+    folderPath?: string;
 }
 
 export const DEFAULT_SETTINGS: MoodTrackerSettings = {
@@ -23,5 +32,8 @@ export const DEFAULT_SETTINGS: MoodTrackerSettings = {
     },
     template: "- {{ICON}} {{NOTE}}",
     trackerModalTitle: "How are you feeling?",
-    useEmotions: true
+    useEmotions: true,
+    noteIntegrationSettings: {
+        isEnabled: false
+    }
 }
