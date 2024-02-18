@@ -3,26 +3,34 @@ Mood Tracker for Obsidian.md, inspired by [Amazing Marvin's](https://amazingmarv
 
 ## Why this plugin?
 While you definitely can build a mood tracking system in Obsidian with markdown files, metadata and Dataview, it can be tedious to maintain and use.
+
 This plugin provides a clean, user-friendly alternative with a lot of "batteries included".
+
 The data is stored in your vault, in plain JSON.
 
 ## Track Your Moods & Emotions
 Track your overall mood with "mood rating"; customize mood labels.
+
 Add nuanced emotions, if needed (fully customizable).
+
 Add notes to entries.
 
 [See demo](#mood-tracking)
 
 ## The history at a glance
 Visualize your mood history on a graph.
+
 See your average and most common moods and emotions.
+
 Click on a point on a graph to see that day's details.
+
 [See demo](#history-and-stats)
-You can also edit past entries and add new entries for past days.
-[See demo](#edit-past-entries)
+
+
+You can also edit past entries and add new entries for past days. [See demo](#edit-past-entries)
 
 #### Embeddable graph
-You can embed the graph into a note with codeblock:
+You can embed the graph into a note with `mood-tracker-stats` codeblock:
 ```mood-tracker-stats
 end: current-week
 daysBeforeEnd: 90
