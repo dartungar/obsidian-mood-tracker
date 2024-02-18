@@ -1,7 +1,4 @@
-import {
-	Notice,
-	Plugin,
-} from "obsidian";
+import { Notice, Plugin } from "obsidian";
 import {
 	DEFAULT_SETTINGS,
 	MoodTrackerSettings,
@@ -18,11 +15,12 @@ import type moment from "moment";
 import { DailyNoteService } from "./services/dailyNoteService";
 import { DataIntegrityService } from "./services/dataIntegrityService";
 import { EmotionsService } from "./services/emotionsService";
+import { STATS_CODEBLOCK_NAME, StatsCodeblockRenderer } from "./stats/statsCodeblockRenderer";
 
 declare global {
-  interface Window {
-    moment: typeof moment;
-  }
+	interface Window {
+		moment: typeof moment;
+	}
 }
 
 export default class MoodTrackerPlugin extends Plugin {
@@ -41,59 +39,45 @@ export default class MoodTrackerPlugin extends Plugin {
 	async onload() {
 		await this.loadSettings();
 		await this.loadEntries();
-
-		this.addRibbonIcon(
-			"smile-plus",
-			"Open Mood Tracker",
-			(evt: MouseEvent) => {
-				this.openTrackerModal();
-			}
-		);
-
-		this.addCommand({
-			id: "open-mood-tracker",
-			name: "Open Tracker",
-			callback: () => {
-				this.openTrackerModal();
-			},
-		});
-
-		this.addRibbonIcon(
-			"line-chart",
-			"Open Mood Tracking History",
-			(evt: MouseEvent) => {
-				this.openStatsModal();
-			}
-		);
-
-		this.addCommand({
-			id: "open-mood-tracker-history",
-			name: "Open History",
-			callback: () => {
-				this.openStatsModal();
-			},
-		});
-
+		this.addRibbonIcons();
+		this.addCommands();
+		this.addCodeblockRenderers();
 		this.addSettingTab(new MoodTrackerSettingsTab(this, this.app));
 	}
 
 	onunload() {}
 
-	openTrackerModal(entry: IMoodTrackerEntry | undefined = undefined, reopenStatsModalOnClose = false) {
-		new MoodTrackerModal(this.app, this, entry, reopenStatsModalOnClose).open();
+	openTrackerModal(
+		entry: IMoodTrackerEntry | undefined = undefined,
+		reopenStatsModalOnClose = false
+	) {
+		new MoodTrackerModal(
+			this.app,
+			this,
+			entry,
+			reopenStatsModalOnClose
+		).open();
 	}
 
 	openStatsModal(selectedDate = new Date()) {
 		if (this.activeStatsModel) {
 			this.activeStatsModel.close();
 		}
-		this.activeStatsModel = new MoodTrackerStatsModal(this.app, this, selectedDate);
+		this.activeStatsModel = new MoodTrackerStatsModal(
+			this.app,
+			this,
+			selectedDate
+		);
 		this.activeStatsModel.open();
 	}
 
 	async loadEntries() {
-		const loadedEntries = (await this.persistenceService.getEntries()) ?? [];
-		this.entries = this.dataIntegrityService.safeMergeData(loadedEntries, this.entries);
+		const loadedEntries =
+			(await this.persistenceService.getEntries()) ?? [];
+		this.entries = this.dataIntegrityService.safeMergeData(
+			loadedEntries,
+			this.entries
+		);
 	}
 
 	async saveEntries(): Promise<void> {
@@ -101,7 +85,7 @@ export default class MoodTrackerPlugin extends Plugin {
 	}
 
 	async saveEntry(entry: IMoodTrackerEntry): Promise<void> {
-		const index = this.entries.findIndex(e => e.id === entry.id);
+		const index = this.entries.findIndex((e) => e.id === entry.id);
 		if (index === -1) {
 			this.entries.push(entry);
 		} else {
@@ -127,7 +111,7 @@ export default class MoodTrackerPlugin extends Plugin {
 			legacyEmotions &&
 			Array.isArray(legacyEmotions) &&
 			legacyEmotions.length > 0 &&
-			typeof(legacyEmotions[0]) === 'string'
+			typeof legacyEmotions[0] === "string"
 		) {
 			const migratedSettings = new MoodTrackerSettings();
 			migratedSettings.folderPath = loadedData.folderPath;
@@ -150,24 +134,78 @@ export default class MoodTrackerPlugin extends Plugin {
 			);
 			await this.saveSettings();
 		} else {
-			this.settings = loadedData; 
+			this.settings = loadedData;
 			const legacyEmotionSections = loadedData.emotionSections;
 			if (legacyEmotionSections) {
-				const convertedLegacyEmotionSections = this.dataIntegrityService.legacyEmotionSectionsToEmotionGroups(legacyEmotionSections);
-				this.settings.emotionGroups.push(...convertedLegacyEmotionSections);
+				const convertedLegacyEmotionSections =
+					this.dataIntegrityService.legacyEmotionSectionsToEmotionGroups(
+						legacyEmotionSections
+					);
+				this.settings.emotionGroups.push(
+					...convertedLegacyEmotionSections
+				);
 				// @ts-expect-error
-				this.settings['emotionSections'] = null;
+				this.settings["emotionSections"] = null;
 				// @ts-expect-error
-				delete this.settings['emotionSections'];
+				delete this.settings["emotionSections"];
 			}
-			this.settings.emotionGroups = this.emotionService.sortEmotionGroups(this.settings.emotionGroups);
-			this.dataIntegrityService.fillMissingIds(this.settings.emotionGroups);
+			this.settings.emotionGroups = this.emotionService.sortEmotionGroups(
+				this.settings.emotionGroups
+			);
+			this.dataIntegrityService.fillMissingIds(
+				this.settings.emotionGroups
+			);
 			await this.saveSettings();
 		}
 	}
 
 	async saveSettings() {
-		this.settings.emotionGroups = this.emotionService.sortEmotionGroups(this.settings.emotionGroups);
+		this.settings.emotionGroups = this.emotionService.sortEmotionGroups(
+			this.settings.emotionGroups
+		);
 		await this.saveData(this.settings);
+	}
+
+	private addRibbonIcons() {
+		this.addRibbonIcon(
+			"smile-plus",
+			"Open Mood Tracker",
+			(evt: MouseEvent) => {
+				this.openTrackerModal();
+			}
+		);
+
+		this.addRibbonIcon(
+			"line-chart",
+			"Open Mood Tracking History",
+			(evt: MouseEvent) => {
+				this.openStatsModal();
+			}
+		);
+	}
+
+	private addCommands() {
+		this.addCommand({
+			id: "open-mood-tracker",
+			name: "Open Tracker",
+			callback: () => {
+				this.openTrackerModal();
+			},
+		});
+
+		this.addCommand({
+			id: "open-mood-tracker-history",
+			name: "Open History",
+			callback: () => {
+				this.openStatsModal();
+			},
+		});
+	}
+
+	private addCodeblockRenderers() {
+		this.registerMarkdownCodeBlockProcessor(STATS_CODEBLOCK_NAME, (source, el, ctx) => {
+			const renderer = new StatsCodeblockRenderer(source, el, this);
+			renderer.render();
+		})
 	}
 }

@@ -17,6 +17,33 @@ Click on a point on a graph to see that day's details.
 
 ![mood-tracker-stats-demo](https://github.com/dartungar/obsidian-mood-tracker/assets/36126057/7031bf7b-3e5d-4bfc-89bb-099d5f3c32fa)
 
+#### Embed the graph into notes
+You can embed the graph into a note with codeblock:
+```mood-tracker-stats
+end: current-week
+daysBeforeEnd: 90
+showAverage: true
+showMostCommonMood: true
+showCommonEmotionsList: true
+height: 500px
+```
+
+Options:
+- end: date in "YYYY-MM-DD" format, or dynamic date ("today", "current-week" (end of), "previous-week" (end of), "current-month" (end of), "previous-month" (end of))
+- daysBeforeEnd: number of days to show
+- showAverage: show average mood rating (defaults to false)
+- showMostCommonMood: show the most common emotion (defaults to false)
+- showCommonEmotionsList: show a list of the most common emotions (defaults to false)
+- height: height of the graph (pixels, %, anything that `style` attribute of HTML element would support) (defaults to 350px)
+- width: the same as height (defaults to 100%)
+
+For example, this codeblock will render records for the current month, with no additional info:
+
+```mood-tracker-stats
+end: current-month
+daysBeforeEnd: 39
+```
+
 ## Edit The History
 Edit past entries.
 Add new entries for past days.
