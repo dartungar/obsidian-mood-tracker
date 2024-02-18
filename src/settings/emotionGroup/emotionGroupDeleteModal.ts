@@ -1,5 +1,5 @@
 import { App } from "obsidian";
-import { MoodTrackerSettingsTab } from "./settingsTab";
+import { MoodTrackerSettingsTab } from "../settingsTab";
 import { EmotionGroup } from "src/entities/IEmotionGroup";
 import MoodTrackerPlugin from "src/main";
 import { ConfirmationModal } from "src/common/confirmationModal";

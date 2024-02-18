@@ -16,10 +16,7 @@
 		ChartData,
 	} from "chart.js";
 	import { IDayStats } from "src/entities/IDayStats";
-	import {
-		DEFAULT_SETTINGS,
-		MoodTrackerSettings,
-	} from "src/settings/moodTrackerSettings";
+	import MoodTrackerPlugin from "src/main";
 
 	ChartJS.register(
 		Title,
@@ -34,6 +31,7 @@
 	);
 
 	export let data: IDayStats[] = [];
+	export let plugin: MoodTrackerPlugin;
 
 	let chartRef: any;
 
@@ -86,7 +84,7 @@
 					stepSize: 1,
 					callback: function (val: number, _: any) {
 						// TODO: use ones from plugin settings!
-						return DEFAULT_SETTINGS.moodRatingLabelDict[val];
+						return plugin.settings.moodRatingLabelDict[val];
 					},
 				},
 			},

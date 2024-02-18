@@ -60,6 +60,7 @@ export class StatsCodeblockRenderer {
 			target: containerEl,
 			props: {
 				data: processedData,
+				plugin: this._plugin
 			},
 		});
 

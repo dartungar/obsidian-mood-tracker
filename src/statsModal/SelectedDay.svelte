@@ -6,16 +6,7 @@
     export let data: IMoodTrackerEntry[];
     export let dateString: string;
     export let plugin: MoodTrackerPlugin;
-
-
-    // TODO: get dict from settings
-    export let moodRatingDict: { [key: number]: string } = {
-        1: "😨",
-        2: "☹️",
-        3: "😐",
-        4: "🙂",
-        5: "😊",
-    };
+    export let moodRatingDict: { [key: number]: string } = plugin.settings.moodRatingLabelDict;
 
     function getTimeFromDate(date: Date) {
         const hours = date.getHours().toString().padStart(2, '0');

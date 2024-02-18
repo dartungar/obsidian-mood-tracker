@@ -64,7 +64,7 @@
 </div>
 
 <!-- chart -->
-<StatsChart data={processedData} on:clickChart={onClickChart}/>
+<StatsChart data={processedData} plugin={plugin} on:clickChart={onClickChart}/>
 
 <!-- total stats -->
 <div class="total-stats-container">

@@ -65,6 +65,7 @@
 	<div class="mood-rating-container">
 		<MoodRating
 			emoji={moodRatingLabelDict[1]}
+			fontSize={plugin.settings.moodRatingLabelSize}
 			title="very bad"
 			rating="1"
 			on:setRating={handleSetRating}
@@ -72,6 +73,7 @@
 		/>
 		<MoodRating
 			emoji={moodRatingLabelDict[2]}
+			fontSize={plugin.settings.moodRatingLabelSize}
 			title="bad"
 			rating="2"
 			on:setRating={handleSetRating}
@@ -79,6 +81,7 @@
 		/>
 		<MoodRating
 			emoji={moodRatingLabelDict[3]}
+			fontSize={plugin.settings.moodRatingLabelSize}
 			title="ok"
 			rating="3"
 			on:setRating={handleSetRating}
@@ -86,6 +89,7 @@
 		/>
 		<MoodRating
 			emoji={moodRatingLabelDict[4]}
+			fontSize={plugin.settings.moodRatingLabelSize}
 			title="good"
 			rating="4"
 			on:setRating={handleSetRating}
@@ -93,6 +97,7 @@
 		/>
 		<MoodRating
 			emoji={moodRatingLabelDict[5]}
+			fontSize={plugin.settings.moodRatingLabelSize}
 			title="very good"
 			rating="5"
 			on:setRating={handleSetRating}
