@@ -1,23 +1,27 @@
 # Mood Tracker
 Mood Tracker for Obsidian.md, inspired by [Amazing Marvin's](https://amazingmarvin.com/) Mood Tracker.
 
-> The data is stored in your vault, in plain JSON, in case you need to use it in another application. 
+## Why this plugin?
+While you definitely can build a mood tracking system in Obsidian with markdown files, metadata and Dataview, it can be tedious to maintain and use.
+This plugin provides a clean, user-friendly alternative with a lot of "batteries included".
+The data is stored in your vault, in plain JSON.
 
 ## Track Your Moods & Emotions
-Track your overall mood and more nuanced emotions.
+Track your overall mood with "mood rating"; customize mood labels.
+Add nuanced emotions, if needed (fully customizable).
 Add notes to entries.
 
-![mood-tracker-sections-demo](https://github.com/dartungar/obsidian-mood-tracker/assets/36126057/cdef3563-dbee-4bb6-b52e-78c09ba4d826)
+[See demo](#mood-tracking)
 
-
-## See The History
+## The history at a glance
 Visualize your mood history on a graph.
 See your average and most common moods and emotions.
 Click on a point on a graph to see that day's details.
+[See demo](#history-and-stats)
+You can also edit past entries and add new entries for past days.
+[See demo](#edit-past-entries)
 
-![mood-tracker-stats-demo](https://github.com/dartungar/obsidian-mood-tracker/assets/36126057/7031bf7b-3e5d-4bfc-89bb-099d5f3c32fa)
-
-#### Embed the graph into notes
+#### Embeddable graph
 You can embed the graph into a note with codeblock:
 ```mood-tracker-stats
 end: current-week
@@ -44,15 +48,10 @@ end: current-month
 daysBeforeEnd: 39
 ```
 
-## Edit The History
-Edit past entries.
-Add new entries for past days.
-
-![mood-tracker-edit-history-demo](https://github.com/dartungar/obsidian-mood-tracker/assets/36126057/2a5b325d-8737-4c94-9aee-de2476feebbc)
 
 
 ## Roadmap
-- [ ] Customize mood emojis
+- [x] Customize mood emojis
 - [ ] Customize graph colors
 - [ ] More chart types
 - [x] Edit past entries
@@ -60,4 +59,13 @@ Add new entries for past days.
 - [ ] Export data
 - [ ] Import data
 - [ ] Add data to daily notes
-- [ ] Read data from daily notes
+
+## Demos
+#### Mood tracking
+![mood-tracker-sections-demo](https://github.com/dartungar/obsidian-mood-tracker/assets/36126057/cdef3563-dbee-4bb6-b52e-78c09ba4d826)
+
+#### History and stats
+![mood-tracker-stats-demo](https://github.com/dartungar/obsidian-mood-tracker/assets/36126057/7031bf7b-3e5d-4bfc-89bb-099d5f3c32fa)
+
+#### Edit past entries
+![mood-tracker-edit-history-demo](https://github.com/dartungar/obsidian-mood-tracker/assets/36126057/2a5b325d-8737-4c94-9aee-de2476feebbc)
