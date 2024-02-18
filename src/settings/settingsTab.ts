@@ -7,11 +7,12 @@ import {
 	TFolder,
 } from "obsidian";
 import MoodTrackerPlugin from "src/main";
-import { GenericTextSuggester } from "./fileSuggester";
+import { GenericTextSuggester } from "./folderSetting/fileSuggester";
 import { EmotionGroup } from "src/entities/IEmotionGroup";
-import { MoveDataModal } from "./moveDataModal";
-import { EmotionGroupEditModal } from "./emotionGroupEditModal";
-import { EmotionGroupDeleteModal } from "./emotionGroupDeleteModal";
+import { MoveDataModal } from "./folderSetting/moveDataModal";
+import { EmotionGroupEditModal } from "./emotionGroup/emotionGroupEditModal";
+import { EmotionGroupDeleteModal } from "./emotionGroup/emotionGroupDeleteModal";
+import { MoodRatingLabelsEditModal } from "./moodRatingLabel/moodRatingLabelsEditModal";
 
 export class MoodTrackerSettingsTab extends PluginSettingTab {
 	constructor(private _plugin: MoodTrackerPlugin, app: App) {
@@ -24,9 +25,10 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 		containerEl.empty();
 
 		this.addTrackerModalTitleSetting();
-		this.addUseEmotionsSetting();
 		this.addFolderPathSetting();
 		this.addTemplateSetting();
+		this.addMoodRatingLabelsSetting();
+		this.addUseEmotionsSetting();
 		if (this._plugin.settings.useEmotions) {
 			this.addEmotionsSetting();
 		}
@@ -47,21 +49,7 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 		})
 	}
 
-	private addUseEmotionsSetting() {
-		const setting = new Setting(this.containerEl);
 
-		setting.setName("Use emotions")
-		setting.setDesc("Track more nuanced emotions in addition to simple mood rating");
-
-		setting.addToggle((input) => {
-			input.setValue(this._plugin.settings.useEmotions)
-			.onChange(async (value) => {
-				this._plugin.settings.useEmotions = value;
-				await this._plugin.saveSettings();
-				this.display();
-			});
-		})
-	}
 
 	// by C.Houmann (https://github.com/chhoumann/quickadd)
 	// TODO: try to implement better one, maybe look outside of obsidian plugins
@@ -123,6 +111,36 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 				await this._plugin.saveSettings();
 			});
 
+		})
+	}
+
+	private addMoodRatingLabelsSetting() {
+		const setting = new Setting(this.containerEl);
+
+		setting.setName("Mood rating labels")
+		setting.setDesc("Labels to use for mood rating. Used in tracker modal and stats.");
+
+		setting.addButton((button) => {
+			button.setButtonText("Edit")
+			.onClick(async () => {
+				new MoodRatingLabelsEditModal(this._plugin, app).open();
+			})
+		})
+	}
+
+	private addUseEmotionsSetting() {
+		const setting = new Setting(this.containerEl);
+
+		setting.setName("Use emotions")
+		setting.setDesc("Track more nuanced emotions in addition to simple mood rating");
+
+		setting.addToggle((input) => {
+			input.setValue(this._plugin.settings.useEmotions)
+			.onChange(async (value) => {
+				this._plugin.settings.useEmotions = value;
+				await this._plugin.saveSettings();
+				this.display();
+			});
 		})
 	}
 

@@ -42,6 +42,40 @@ export function getAverageMoodRatingByDay(entries: IMoodTrackerEntry[]): IDaySta
     return dayStats;
 }
 
+export function getTotalAverageMoodRating(stats: IDayStats[]): number {
+    const daysWithValues = stats.filter((s) => s.moodRating && s.moodRating > 0);
+    const totalMoodRating = daysWithValues.reduce((acc, curr) => acc + curr.moodRating!, 0);
+    return Math.round(totalMoodRating / daysWithValues.length * 10) / 10;
+}
+
+export function getMostCommonMoodRating(entries: IMoodTrackerEntry[]): number {
+    const moodRatings = entries.map((e) => e.moodRating);
+    const uniqueMoodRatings = [...new Set(moodRatings)];
+    const moodRatingCounts = uniqueMoodRatings.map((m) => {
+        return {
+            moodRating: m,
+            count: moodRatings.filter((a) => a === m).length,
+        };
+    });
+    const sortedMoodRatings = moodRatingCounts.sort((a, b) => b.count - a.count);
+    const mostCommonMoodRating = sortedMoodRatings.map((m) => m.moodRating);
+    return mostCommonMoodRating[0];
+}
+
+export function getMostCommonEmotions(stats: IDayStats[], count: number): string[] {
+    const allEmotions = stats.map((s) => s.emotions).flat();
+    const uniqueEmotions = [...new Set(allEmotions)];
+    const emotionCounts = uniqueEmotions.map((e) => {
+        return {
+            emotion: e,
+            count: allEmotions.filter((a) => a === e).length,
+        };
+    });
+    const sortedEmotions = emotionCounts.sort((a, b) => b.count - a.count);
+    const mostCommonEmotions = sortedEmotions.map((e) => e.emotion);
+    return mostCommonEmotions.splice(0, count);
+}
+
 
 function generateStringDatesForDateRange(start: Date | string, end: Date | string) : string[] {
 
