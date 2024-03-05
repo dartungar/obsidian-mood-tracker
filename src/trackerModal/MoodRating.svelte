@@ -5,6 +5,7 @@
     export let title = '';
     export let rating;
     export let activeRating;
+    export let fontSize;
     
     $: isActive = activeRating === Number(rating);
 
@@ -14,16 +15,15 @@
 	function setRating() {
         dispatch('setRating', {
             rating: Number(rating)
-		});
+		});1
 	}
 </script>
 
-<span class:active="{isActive === true}" title={title} on:click={setRating} on:keypress={setRating}>{emoji}</span>
+<span style="font-size: {fontSize + 'rem'}" class:active="{isActive === true}" title={title} on:click={setRating} on:keypress={setRating}>{emoji}</span>
 
 <style>
     span {
         margin: 5px;
-        font-size: 3rem;
         transition: border 0.2s;
         border-radius: var(--radius-s);
         border: 1px solid;

@@ -6,16 +6,7 @@
     export let data: IMoodTrackerEntry[];
     export let dateString: string;
     export let plugin: MoodTrackerPlugin;
-
-
-    // TODO: get dict from settings
-    export let moodRatingDict: { [key: number]: string } = {
-        1: "😨",
-        2: "☹️",
-        3: "😐",
-        4: "🙂",
-        5: "😊",
-    };
+    export let moodRatingDict: { [key: number]: string } = plugin.settings.moodRatingLabelDict;
 
     function getTimeFromDate(date: Date) {
         const hours = date.getHours().toString().padStart(2, '0');
@@ -33,8 +24,6 @@
     function openMoodTrackerModal(entry: IMoodTrackerEntry) {
         plugin.openTrackerModal(entry, true);
     }
-
-
 </script>
 
 <div>
@@ -44,7 +33,8 @@
 	{:else}
 		{#each data as entry}
 			<div>
-                <span style="cursor: pointer;" title="edit entry" on:click={() => openMoodTrackerModal(entry)} on:keyup={() => console.log("keyup in edit icon")}>✏️</span>
+                <!-- svelte-ignore a11y-click-events-have-key-events -->
+                <span style="cursor: pointer;" title="edit entry" on:click={() => openMoodTrackerModal(entry)}>✏️</span>
 				<span>{getTimeFromDate(entry.dateTime)}	{moodRatingDict[entry.moodRating]}	{entry.emotions.join(", ")}
 				</span>
                 {#if entry.note}
@@ -53,7 +43,7 @@
 			</div>
 		{/each}
 	{/if}
-<div><button on:click={openModalForNewEntry} style="cursor: pointer; margin-top: 0.5rem" on:keyup={() => console.log("keyup in add entry")}>add a new entry</button></div>
+<div><button on:click={openModalForNewEntry} style="cursor: pointer; margin-top: 0.5rem">add a new entry</button></div>
 </div>
 
 <style>
