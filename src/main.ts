@@ -12,7 +12,7 @@ import { MoodTrackerStatsModal } from "./statsModal/moodTrackerStatsModal";
 import { EmotionGroup } from "./entities/IEmotionGroup";
 
 import type moment from "moment";
-import { DailyNoteService } from "./services/dailyNoteService";
+import { FileService } from "./filesIntegration/fileService";
 import { DataIntegrityService } from "./services/dataIntegrityService";
 import { EmotionsService } from "./services/emotionsService";
 import { STATS_CODEBLOCK_NAME, StatsCodeblockRenderer } from "./stats/statsCodeblockRenderer";
@@ -29,7 +29,7 @@ export default class MoodTrackerPlugin extends Plugin {
 	entries: IMoodTrackerEntry[] = [];
 	persistenceService: PersistenceService = new PersistenceService(this);
 	dataIntegrityService: DataIntegrityService = new DataIntegrityService();
-	noteService = new DailyNoteService(this);
+	noteService = new FileService(this);
 	emotionService = new EmotionsService(this);
 	moodTrackerService: MoodTrackerService = new MoodTrackerService(
 		this.persistenceService

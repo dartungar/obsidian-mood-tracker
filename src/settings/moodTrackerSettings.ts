@@ -7,10 +7,13 @@ export class MoodTrackerSettings {
     emotionGroups: EmotionGroup[] = [];
     moodRatingLabelDict: { [key: number]: string };
     moodRatingLabelSize: number;
-    template: string;
     trackerModalTitle: string;
     useEmotions: boolean;
+    addToJournal: boolean;
+    journalFilePath: string;
+    entryTemplate: string;
 }
+
 
 export const DEFAULT_SETTINGS: MoodTrackerSettings = {
     folderPath: "./data/",
@@ -23,7 +26,9 @@ export const DEFAULT_SETTINGS: MoodTrackerSettings = {
         5: "😊",
     },
     moodRatingLabelSize: 3,
-    template: "- {{ICON}} {{NOTE}}",
+    entryTemplate: "- {{ICON}} {{NOTE}}",
     trackerModalTitle: "How are you feeling?",
-    useEmotions: true
+    useEmotions: true,
+    addToJournal: false,
+    journalFilePath: "",
 }

@@ -8,26 +8,31 @@ This plugin provides a clean, user-friendly alternative with a lot of "batteries
 
 The data is stored in your vault, in plain JSON.
 
-## Track Your Moods & Emotions
-Track your overall mood with "mood rating"; customize mood labels.
+## Track your moods & emotions
+Monitor mood with "mood rating"; personalize mood labels.
 
-Add nuanced emotions, if needed (fully customizable).
+Incorporate detailed emotions (fully customizable).
 
-Add notes to entries.
+Include notes in entries.
 
 [See demo](#mood-tracking)
 
-## The history at a glance
-Visualize your mood history on a graph.
+## Add mood tracking data to your journals
+Mood Tracker allows adding entries to notes, like a daily journal, with dynamic note paths based on the entry date.
 
-See your average and most common moods and emotions.
+[See demo](#add-entry-to-daily-note)
 
-Click on a point on a graph to see that day's details.
+## Mood tracking stats & history
+View mood history in a graph. 
+Track average and frequent moods and emotions. 
+Click a graph point to explore daily details.
 
 [See demo](#history-and-stats)
 
+You can also edit past entries and add new entries for past days.
 
-You can also edit past entries and add new entries for past days. [See demo](#edit-past-entries)
+[See demo](#edit-past-entries)
+
 
 #### Embeddable graph
 You can embed the graph into a note with `mood-tracker-stats` codeblock:
@@ -60,20 +65,26 @@ daysBeforeEnd: 39
 
 ## Roadmap
 - [x] Customize mood emojis
-- [ ] Customize graph colors
-- [ ] More chart types
 - [x] Edit past entries
 - [x] Emotion sections / blocks
+- [x] Add data to journals / daily notes
+- [ ] Customize graph colors
+- [ ] More chart types
 - [ ] Export data
 - [ ] Import data
-- [ ] Add data to daily notes
 
 ## Demos
 #### Mood tracking
 ![mood-tracker-sections-demo](https://github.com/dartungar/obsidian-mood-tracker/assets/36126057/cdef3563-dbee-4bb6-b52e-78c09ba4d826)
 
+
+#### Add entry to daily note
+![mood-tracker-add-to-note-demo](https://github.com/dartungar/obsidian-mood-tracker/assets/36126057/1d3f679d-adc6-4651-a340-c4012d72ce12)
+
+
 #### History and stats
 ![mood-tracker-stats-demo](https://github.com/dartungar/obsidian-mood-tracker/assets/36126057/7031bf7b-3e5d-4bfc-89bb-099d5f3c32fa)
+
 
 #### Edit past entries
 ![mood-tracker-edit-history-demo](https://github.com/dartungar/obsidian-mood-tracker/assets/36126057/2a5b325d-8737-4c94-9aee-de2476feebbc)
