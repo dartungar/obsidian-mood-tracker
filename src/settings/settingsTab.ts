@@ -26,8 +26,13 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 
 		this.addTrackerModalTitleSetting();
 		this.addFolderPathSetting();
-		this.addTemplateSetting();
 		this.addMoodRatingLabelsSetting();
+		this.addAddToNoteSettings();
+		if (this._plugin.settings.addToJournal) {
+			this.addJournalPathSetting();
+			this.addTemplateSetting();
+		}
+		
 		this.addUseEmotionsSetting();
 		if (this._plugin.settings.useEmotions) {
 			this.addEmotionsSetting();
@@ -41,6 +46,7 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 		setting.setDesc("Title for mood tracker modal");
 
 		setting.addText((input) => {
+			input.inputEl.style.width = "min(400px, 35vw)";
 			input.setValue(this._plugin.settings.trackerModalTitle)
 			.onChange(async (value) => {
 				this._plugin.settings.trackerModalTitle = value;
@@ -63,6 +69,7 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 		);
 
 		setting.addText((text) => {
+			text.inputEl.style.width = "min(335px, 35vw)";
 			text.setPlaceholder("data/")
 				.setValue(this._plugin.settings.folderPath)
 				.onChange(debounce(async (value) => {
@@ -98,16 +105,61 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 		})
 	}
 
+	private addAddToNoteSettings() {
+		const setting = new Setting(this.containerEl);
+
+		setting.setName("Add mood tracking info to a note");
+		setting.descEl.innerHTML = `When adding a mood tracker entry, also add its info to a note (e.g daily journal).<br> 
+		This is for journaling purposes only; main data is still stored in data.json`;
+
+		setting.addToggle((input) => {
+			input.setValue(this._plugin.settings.addToJournal)
+			.onChange(async (value) => {
+				this._plugin.settings.addToJournal = value;
+				await this._plugin.saveSettings();
+				this.display();
+			});
+
+		})
+	}
+
+	private addJournalPathSetting() {
+		const setting = new Setting(this.containerEl);
+
+		setting.setName("Note path");
+		setting.descEl.innerHTML = `Use a static file path, or {{DATE}} variable.<br>
+		Supports <a href="https://momentjs.com/docs/#/displaying/format/" target="_blank">moment.js formatting</a>.<br>
+		Example: journals/daily/{{DATE:YYYY-MM-DD}}.md
+		`
+
+		setting.addText((input) => {
+			input.inputEl.style.width = "min(400px, 35vw)";
+			input.setValue(this._plugin.settings.journalFilePath)
+			.onChange(async (value) => {
+				this._plugin.settings.journalFilePath = value;
+				await this._plugin.saveSettings();
+			});
+
+		})
+	}
+
 	private addTemplateSetting() {
 		const setting = new Setting(this.containerEl);
 
-		setting.setName("Template for inserting mood tracking entry in a note")
-		setting.setDesc("Available variables: {{TIME}} (time of entry), {{ICON}} (entry's mood icon), {{EMOTIONS}} (comma-separated list of emotions, if any), {{NOTE}} (entry's note)");
+		setting.setName("Template for inserting mood tracking entry in a note");
+		setting.descEl.innerHTML = `Available variables:<br>
+		{{DATE}} - date of entry <br>
+		{{TIME}} - time of entry <br>
+		{{ICON}} - entry's mood icon <br>
+		{{NOTE}} - entry's note <br>
+		{{EMOTIONS}} - comma-separated list of emotions, if any <br>
+		`;
 
-		setting.addTextArea((input) => {
-			input.setValue(this._plugin.settings.template)
+		setting.addText((input) => {
+			input.inputEl.style.width = "min(400px, 35vw)";
+			input.setValue(this._plugin.settings.entryTemplate)
 			.onChange(async (value) => {
-				this._plugin.settings.template = value;
+				this._plugin.settings.entryTemplate = value;
 				await this._plugin.saveSettings();
 			});
 

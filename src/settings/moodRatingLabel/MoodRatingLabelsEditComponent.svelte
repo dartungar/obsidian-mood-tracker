@@ -19,7 +19,7 @@
 
 <div class="edit-mood-labels-modal">
 	<div class="labels-aligned">
-		<div>
+		<div  class="mv-5">
 			<label for="veryGood">Very Good</label>
 			<input
 				id="veryGood"
@@ -27,7 +27,7 @@
 				bind:value={plugin.settings.moodRatingLabelDict[5]}
 			/>
 		</div>
-		<div>
+		<div class="mv-5">
 			<label for="good">Good</label>
 			<input
 				id="good"
@@ -35,7 +35,7 @@
 				bind:value={plugin.settings.moodRatingLabelDict[4]}
 			/>
 		</div>
-		<div>
+		<div class="mv-5">
 			<label for="ok">Ok</label>
 			<input
 				id="ok"
@@ -43,7 +43,7 @@
 				bind:value={plugin.settings.moodRatingLabelDict[3]}
 			/>
 		</div>
-		<div>
+		<div class="mv-5">
 			<label for="bad">Bad</label>
 			<input
 				id="bad"
@@ -51,7 +51,7 @@
 				bind:value={plugin.settings.moodRatingLabelDict[2]}
 			/>
 		</div>
-		<div>
+		<div class="mv-5">
 			<label for="veryBad">Very bad</label>
 			<input
 				id="veryBad"
@@ -59,7 +59,7 @@
 				bind:value={plugin.settings.moodRatingLabelDict[1]}
 			/>
 		</div>
-		<div style="margin-top: 8px;">
+		<div  class="mv-5">
 			<label for="size"
 				>Label size: {plugin.settings.moodRatingLabelSize} rem</label
 			>
@@ -74,7 +74,7 @@
 		</div>
 	</div>
 
-	<div>
+	<div class="mv-5">
 		<div>Preview:</div>
 		<div style="font-size: {plugin.settings.moodRatingLabelSize + 'rem'}">
 			{plugin.settings.moodRatingLabelDict[1]}
@@ -95,5 +95,10 @@
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
+		
+	}
+
+	.mv-5 {
+		margin: 5px 0;
 	}
 </style>

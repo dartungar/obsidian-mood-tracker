@@ -8,7 +8,6 @@
 		MoodTrackerEntry,
 	} from "src/entities/MoodTrackerEntry";
 	import { EmotionGroup } from "src/entities/IEmotionGroup";
-	import { DailyNoteService } from "src/services/dailyNoteService";
 	import moment from "moment";
 	import { DateService } from "src/services/dateService";
 
@@ -25,8 +24,8 @@
 		moodSections = p.settings.emotionGroups;
 		plugin = p;
 		moodRatingLabelDict = p.settings.moodRatingLabelDict;
+		insertToNote = plugin.settings.addToJournal;
 	});
-
 
 	function handleSetRating(event: any) {
 		entry.moodRating = Number(event.detail.rating);
@@ -49,7 +48,7 @@
 	async function saveEntry() {
 		await plugin!.saveEntry(entry);
 		if (insertToNote) {
-			plugin!.noteService.appendToCurrentNote(entry);
+			plugin!.noteService.addEntryToJournal(entry);
 		}
 		closeModalFunc();
 	}
@@ -106,13 +105,13 @@
 	</div>
 
 	{#if plugin.settings.useEmotions}
-	<div class="feelings-container">
-		<MoodSelector
-			on:toggleMood={handleToggleMood}
-			bind:activeMoods={entry.emotions}
-			{moodSections}
-		/>
-	</div>
+		<div class="feelings-container">
+			<MoodSelector
+				on:toggleMood={handleToggleMood}
+				bind:activeMoods={entry.emotions}
+				{moodSections}
+			/>
+		</div>
 	{/if}
 
 	<div class="note-container" style="font-size: 100%;">
@@ -122,23 +121,15 @@
 			bind:value={entry.note}
 		></textarea>
 	</div>
-	<div style="display: flex; align-items: center; gap: 0.8rem;">
-		<span>date & time of entry </span><input
-			id="datetime"
-			type="datetime-local"
-			value={dateTimeString}
-			on:change={handleDateTimeChange}
-            style="cursor: pointer;"
-		/><label for="datetime"></label>
-	</div>
-
 	<div style="display: flex; justify-content: space-between">
-		<div style="display: flex; align-items: center; gap: 0.8rem;" title="insert entry according to template (see settings) at the end of current note">
-			<span>insert into the current note</span><input
-				type="checkbox"
-                style="cursor: pointer;"
-				bind:value={insertToNote}
-			/>
+		<div style="display: flex; align-items: center; gap: 0.8rem;">
+			<span>date & time of entry </span><input
+				id="datetime"
+				type="datetime-local"
+				value={dateTimeString}
+				on:change={handleDateTimeChange}
+				style="cursor: pointer;"
+			/><label for="datetime"></label>
 		</div>
 		<button style="cursor: pointer;" on:click={saveEntry}>Save</button>
 	</div>
