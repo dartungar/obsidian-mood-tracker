@@ -33,8 +33,9 @@ You can also edit past entries and add new entries for past days.
 
 [See demo](#edit-past-entries)
 
+
 #### Embeddable graph
-You can embed the graph into a note with codeblock:
+You can embed the graph into a note with `mood-tracker-stats` codeblock:
 ```mood-tracker-stats
 end: current-week
 daysBeforeEnd: 90
