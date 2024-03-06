@@ -78,6 +78,7 @@ daysBeforeEnd: 39
 
 
 #### Add entry to daily note
+![mood-tracker-add-to-note-demo](https://github.com/dartungar/obsidian-mood-tracker/assets/36126057/1d3f679d-adc6-4651-a340-c4012d72ce12)
 
 
 #### History and stats
