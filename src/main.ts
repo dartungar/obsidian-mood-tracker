@@ -94,6 +94,14 @@ export default class MoodTrackerPlugin extends Plugin {
 		await this.saveEntries();
 	}
 
+	async deleteEntry(entry: IMoodTrackerEntry): Promise<void> {
+		const index = this.entries.findIndex((e) => e.id === entry.id);
+		if (index !== -1) {
+			this.entries.remove(entry);
+		} 
+		await this.saveEntries();
+	}
+
 	public showNotice(message: string, durationMs = 5000) {
 		new Notice(message, durationMs);
 	}
