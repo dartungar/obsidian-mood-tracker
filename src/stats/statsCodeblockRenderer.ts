@@ -1,7 +1,7 @@
 import MoodTrackerPlugin from "src/main";
 import { IStatsCodeblockConfig } from "./IStatsCodeblockConfig";
 import { generateDatasetForDateRange, getMostCommonEmotions, getMostCommonMoodRating, getTotalAverageMoodRating } from "src/stats/statsHelpers";
-import StatsChart from "./StatsChart.svelte";
+import StatsChart from "./charts/BarChart.svelte";
 import { IMoodTrackerEntry } from "src/entities/MoodTrackerEntry";
 import { IDayStats } from "src/entities/IDayStats";
 

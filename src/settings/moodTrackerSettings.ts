@@ -12,6 +12,7 @@ export class MoodTrackerSettings {
     addToJournal: boolean;
     journalFilePath: string;
     entryTemplate: string;
+    chartColor: string;
 }
 
 
@@ -31,4 +32,5 @@ export const DEFAULT_SETTINGS: MoodTrackerSettings = {
     useEmotions: true,
     addToJournal: false,
     journalFilePath: "",
+    chartColor: "#b26aba"
 }
