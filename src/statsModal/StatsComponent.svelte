@@ -1,6 +1,6 @@
 <script lang="ts">
 	import MoodTrackerPlugin from "src/main";
-	import StatsChart from "../stats/StatsChart.svelte";
+	import StatsChart from "../stats/charts/BarChart.svelte";
 	import store from "src/store";
     import { generateDatasetForDateRange, getMostCommonEmotions, getMostCommonMoodRating, getTotalAverageMoodRating } from "../stats/statsHelpers";
 	import { IDayStats } from "src/entities/IDayStats";

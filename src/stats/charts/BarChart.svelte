@@ -17,6 +17,7 @@
 	} from "chart.js";
 	import { IDayStats } from "src/entities/IDayStats";
 	import MoodTrackerPlugin from "src/main";
+	import { hexToRgba } from "./colorHelpers";
 
 	ChartJS.register(
 		Title,
@@ -34,6 +35,7 @@
 	export let plugin: MoodTrackerPlugin;
 
 	let chartRef: any;
+	let activeElementIndex: number;
 
 	$: transformedData = transformData(data);
 
@@ -47,7 +49,11 @@
 					label: "Average Mood Rating",
 					data: rawData.map((d) => d.moodRating),
 					//spanGaps: true,
-					// backgroundColor: "var(--text-muted)",
+					backgroundColor: rawData.map(x => hexToRgba(plugin.settings.chartColor, 0.5)),
+					hoverBackgroundColor: hexToRgba(
+						plugin.settings.chartColor,
+						0.85,
+					),
 					//pointBackgroundColor: "var(--text-normal)",
 				},
 			],
@@ -55,6 +61,7 @@
 	}
 
 	const dispatch = createEventDispatcher();
+	const datasetIndex = 0;
 
 	const onClick = (e: any) => {
 		try {
@@ -63,13 +70,25 @@
 
 			dispatch("clickChart", dataX);
 
-			// TODO: highlight clicked element
-			const clickedElement = chartRef.getElementsAtEventForMode(
+			let activeElements = chartRef.getElementsAtEventForMode(
 				e,
 				"nearest",
 				{ intersect: true },
 				true,
-			)[0].element;
+			);
+
+
+			if (activeElements.length > 0) {
+				let firstElement = activeElements[0];
+				let index = firstElement.index;
+
+				// always change active element's color back to normal
+				chartRef.data.datasets[datasetIndex].backgroundColor[activeElementIndex] = hexToRgba(plugin.settings.chartColor, 0.5);
+				chartRef.data.datasets[datasetIndex].backgroundColor[index] = hexToRgba(plugin.settings.chartColor, 0.85);
+				activeElementIndex = index;
+			} else {
+				chartRef.data.datasets[datasetIndex].backgroundColor[activeElementIndex] = hexToRgba(plugin.settings.chartColor, 0.5);
+			}
 		} catch (error) {} // ChartJS gives errors when clicked on empty space; ignore them
 	};
 

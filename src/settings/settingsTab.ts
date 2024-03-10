@@ -26,6 +26,7 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 
 		this.addTrackerModalTitleSetting();
 		this.addFolderPathSetting();
+		this.addChartColorSetting();
 		this.addMoodRatingLabelsSetting();
 		this.addAddToNoteSettings();
 		if (this._plugin.settings.addToJournal) {
@@ -54,8 +55,6 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 			});
 		})
 	}
-
-
 
 	// by C.Houmann (https://github.com/chhoumann/quickadd)
 	// TODO: try to implement better one, maybe look outside of obsidian plugins
@@ -123,6 +122,35 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 		})
 	}
 
+	private addChartColorSetting() {
+		const setting = new Setting(this.containerEl);
+
+		setting.setName("Mood rating labels")
+		setting.setDesc("Labels to use for mood rating. Used in tracker modal and stats.");
+
+		setting.addColorPicker((picker) => {
+			picker.setValue(this._plugin.settings.chartColor ?? "#000")
+			.onChange(async (value) => {
+				this._plugin.settings.chartColor = value;
+				await this._plugin.saveSettings();
+			})
+		})
+	}
+
+	private addMoodRatingLabelsSetting() {
+		const setting = new Setting(this.containerEl);
+
+		setting.setName("Mood rating labels")
+		setting.setDesc("Labels to use for mood rating. Used in tracker modal and stats.");
+
+		setting.addButton((button) => {
+			button.setButtonText("Edit")
+			.onClick(async () => {
+				new MoodRatingLabelsEditModal(this._plugin, app).open();
+			})
+		})
+	}
+
 	private addJournalPathSetting() {
 		const setting = new Setting(this.containerEl);
 
@@ -166,19 +194,7 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 		})
 	}
 
-	private addMoodRatingLabelsSetting() {
-		const setting = new Setting(this.containerEl);
 
-		setting.setName("Mood rating labels")
-		setting.setDesc("Labels to use for mood rating. Used in tracker modal and stats.");
-
-		setting.addButton((button) => {
-			button.setButtonText("Edit")
-			.onClick(async () => {
-				new MoodRatingLabelsEditModal(this._plugin, app).open();
-			})
-		})
-	}
 
 	private addUseEmotionsSetting() {
 		const setting = new Setting(this.containerEl);
