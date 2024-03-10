@@ -125,8 +125,8 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 	private addChartColorSetting() {
 		const setting = new Setting(this.containerEl);
 
-		setting.setName("Mood rating labels")
-		setting.setDesc("Labels to use for mood rating. Used in tracker modal and stats.");
+		setting.setName("Chart color")
+		setting.setDesc("Primary color for the chart elements (e.g line or bar).");
 
 		setting.addColorPicker((picker) => {
 			picker.setValue(this._plugin.settings.chartColor ?? "#000")
