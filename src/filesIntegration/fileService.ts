@@ -41,7 +41,7 @@ export class FileService {
 		const regex = /{{DATE:(.*?)}}/g;
 		return templatedPath.replace(regex, (match, dateFormat) => {
 			dateFormat ??= "yyyy-MM-dd";
-			return window.moment(date).format(dateFormat.toUpperCase());
+			return window.moment(date).format(dateFormat);
 		});
 	}
 
