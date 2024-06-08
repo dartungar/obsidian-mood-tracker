@@ -12,7 +12,7 @@ export class CreateFileModal extends ConfirmationModal {
     
         const directoryPath = path.substring(0, path.lastIndexOf("/"));
 
-        if (!vault.getFolderByPath(directoryPath)) {
+        if (directoryPath != "" && !vault.getFolderByPath(directoryPath)) {
           await vault.createFolder(directoryPath);
         }
     
