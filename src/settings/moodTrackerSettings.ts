@@ -10,6 +10,7 @@ export class MoodTrackerSettings {
     trackerModalTitle: string;
     useEmotions: boolean;
     addToJournal: boolean;
+    journalPosition: string;
     journalFilePath: string;
     entryTemplate: string;
     chartColor: string;
@@ -30,6 +31,7 @@ export const DEFAULT_SETTINGS: MoodTrackerSettings = {
     entryTemplate: "- {{ICON}} {{NOTE}}",
     trackerModalTitle: "How are you feeling?",
     useEmotions: true,
+    journalPosition: "## Mood Tracker",
     addToJournal: false,
     journalFilePath: "",
     chartColor: "#b26aba"
