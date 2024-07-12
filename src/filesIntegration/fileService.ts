@@ -59,7 +59,7 @@ export class FileService {
 		const contentArray: string[] = content.split("\n");
 		let index: number = contentArray.indexOf(this._plugin.settings.journalPosition);
 
-		if (index != -1) {
+		if (index != -1 || index == contentArray.length) {
 			while ( contentArray[index + 1].startsWith("-") ) {
 				index = index + 1;
 				if (index = contentArray.length) {
