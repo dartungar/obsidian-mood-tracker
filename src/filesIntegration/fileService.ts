@@ -45,7 +45,6 @@ export class FileService {
 		});
 	}
 
-
 	private async appendEntryToFile(
 		entry: MoodTrackerEntry,
 		file: TFile | null
@@ -58,12 +57,12 @@ export class FileService {
 		const content = await this._plugin.app.vault.read(file);
 		const contentArray: string[] = content.split("\n");
 
-		let index:number = contentArray.indexOf(this._plugin.settings.journalPosition);
+		let index: number = contentArray.indexOf(this._plugin.settings.journalPosition);
 
-		if (index != -1 || index == contentArray.length) {
+		if (index != -1 && index != contentArray.length) {
 			while ( contentArray[index + 1].startsWith("-") ) {
-				index++;
-				if (index == contentArray.length) {
+				index = index + 1;
+				if (index == contentArray.length || contentArray[index + 1] == undefined) {
 					break;
 				}
 			}
