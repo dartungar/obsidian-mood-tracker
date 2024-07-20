@@ -155,7 +155,6 @@
 		resize: none;
 		border: none;
 		outline: none;
-		font-size: 1.2rem;
 		padding: 0.5rem;
 		border: 1px solid var(--background-modifier-border);
 	}
