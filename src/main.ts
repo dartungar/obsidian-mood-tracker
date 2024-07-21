@@ -102,8 +102,17 @@ export default class MoodTrackerPlugin extends Plugin {
 		await this.saveEntries();
 	}
 
-	public showNotice(message: string, durationMs = 5000) {
-		new Notice(message, durationMs);
+	public showNotice(message: string, durationMs = 5000, title?: string) {
+		if (typeof title !== 'undefined') {
+			const notice = new Notice("", durationMs);
+			notice.noticeEl.append(
+				createEl("strong", { text: title, cls: "mood-tracker-notice-header"}),
+				createEl("br"),
+				message,
+			);
+		} else {
+			new Notice(message, durationMs);
+		}
 	}
 
 	async loadSettings() {

@@ -31,6 +31,7 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 		this.addAddToNoteSettings();
 		if (this._plugin.settings.addToJournal) {
 			this.addJournalPathSetting();
+			this.addJournalLocation();
 			this.addTemplateSetting();
 		}
 		
@@ -165,6 +166,25 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 			input.setValue(this._plugin.settings.journalFilePath)
 			.onChange(async (value) => {
 				this._plugin.settings.journalFilePath = value;
+				await this._plugin.saveSettings();
+			});
+
+		})
+	}
+
+	private addJournalLocation() {
+		const setting = new Setting(this.containerEl);
+
+		setting.setName("Entry location");
+		setting.descEl.innerHTML = `Where in the journal should the Mood-Tracker entry be placed?<br>
+		Example: ## Mood Tracker
+		`
+
+		setting.addText((input) => {
+			input.inputEl.style.width = "min(400px, 35vw)";
+			input.setValue(this._plugin.settings.journalPosition)
+			.onChange(async (value) => {
+				this._plugin.settings.journalPosition = value;
 				await this._plugin.saveSettings();
 			});
 
