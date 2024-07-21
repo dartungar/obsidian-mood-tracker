@@ -54,11 +54,32 @@ export class FileService {
 		}
 
 		const result = this.getEntryAsString(entry);
+		const content = await this._plugin.app.vault.read(file);
+		const contentArray: string[] = content.split("\n");
 
-		let content = await this._plugin.app.vault.read(file);
-		// TODO: add in specific place, e.g after specified heading
-		content = content.replace(/\n+$/g, "");
-		this._plugin.app.vault.modify(file, content + "\n" + result);
+		let index: number = contentArray.indexOf(this._plugin.settings.journalPosition);
+
+		if (index != -1 && index != contentArray.length && index+1 != contentArray.length) {
+			while ( contentArray[index + 1].startsWith("-") ) {
+				index = index + 1;
+				if (index == contentArray.length || contentArray[index + 1] == undefined) {
+					break;
+				}
+			}
+			contentArray.splice(index + 1, 0, `${result}`);
+			this._plugin.app.vault.modify(file, contentArray.join("\n"));
+		} else {
+			if ( index+1 != contentArray.length ) {
+				this._plugin.showNotice(
+					`could not find the selected position in your journal-file -> Adding mood to the bottom.`,
+					5000,
+					`Mood Tracker`
+				);
+			}
+			let original_content = content.replace(/\n+$/g, "");
+			this._plugin.app.vault.modify(file, original_content + "\n" + result);
+		}
+		return;
 	}
 
 	private getEntryAsString(entry: MoodTrackerEntry): string {
