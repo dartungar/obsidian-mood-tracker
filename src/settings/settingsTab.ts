@@ -176,7 +176,7 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 		const setting = new Setting(this.containerEl);
 
 		setting.setName("Entry location");
-		setting.descEl.innerHTML = `Where in the journal should the Mood-Tracker entry be placed?<br>
+		setting.descEl.innerHTML = `Where in the journal should the obsidian-mood-tracker entry be placed?<br>
 		Example: ## Mood Tracker
 		`
 
@@ -243,6 +243,9 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 			index,
 			emotionGroup,
 		] of this._plugin.settings.emotionGroups.entries()) {
+
+			emotionGroup.emotions = emotionGroup.emotions.sort((a, b) => a.localeCompare(b));
+
 			const setting = new Setting(settingGroupEl);
 
 			setting.setName(emotionGroup.name ?? `Emotions group ${index}`);
