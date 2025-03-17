@@ -40,10 +40,11 @@ export class EmotionsService {
 				emotionGroup.sortOrder !== undefined
 					? emotionGroup.sortOrder
 					: nextSortOrder++,
-				emotions: emotionGroup.emotions
+				emotions: this._plugin.settings.sortEmotionsAlphabetically && emotionGroup.emotions
 					? [...emotionGroup.emotions].sort((a, b) => a.localeCompare(b)) // Sort emotions alphabetically
-					: [],
+					: emotionGroup.emotions,
 		}));
+		
 
 		// Now, sort the notes array by sortOrder
 		filledGroups.sort((a, b) => a.sortOrder - b.sortOrder);

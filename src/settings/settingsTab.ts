@@ -34,6 +34,9 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 			this.addJournalLocation();
 			this.addTemplateSetting();
 		}
+
+		this.addUseSortingSetting();
+
 		
 		this.addUseEmotionsSetting();
 		if (this._plugin.settings.useEmotions) {
@@ -232,6 +235,23 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 		})
 	}
 
+	private addUseSortingSetting() {
+		const setting = new Setting(this.containerEl);
+
+		setting.setName("Sort emotions alphabetically")
+		setting.setDesc("Sort emotions within each group alphabetically");
+
+		setting.addToggle((input) => {
+			input.setValue(this._plugin.settings.sortEmotionsAlphabetically)
+			.onChange(async (value) => {
+				this._plugin.settings.sortEmotionsAlphabetically = value;
+				await this._plugin.saveSettings();
+				this.display();
+			});
+		})
+	}
+
+
 	private addEmotionsSetting() {
 		const settingGroupEl = this.containerEl.createEl("div");
 		settingGroupEl.createEl("h4", { text: "Emotions" });
@@ -244,7 +264,9 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 			emotionGroup,
 		] of this._plugin.settings.emotionGroups.entries()) {
 
-			emotionGroup.emotions = emotionGroup.emotions.sort((a, b) => a.localeCompare(b));
+			// if (this._plugin.settings.sortEmotionsAlphabetically) {
+			// 	emotionGroup.emotions = emotionGroup.emotions.sort((a, b) => a.localeCompare(b));
+			// }
 
 			const setting = new Setting(settingGroupEl);
 
