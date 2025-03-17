@@ -264,10 +264,6 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 			emotionGroup,
 		] of this._plugin.settings.emotionGroups.entries()) {
 
-			// if (this._plugin.settings.sortEmotionsAlphabetically) {
-			// 	emotionGroup.emotions = emotionGroup.emotions.sort((a, b) => a.localeCompare(b));
-			// }
-
 			const setting = new Setting(settingGroupEl);
 
 			setting.setName(emotionGroup.name ?? `Emotions group ${index}`);
