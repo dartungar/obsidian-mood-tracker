@@ -82,16 +82,22 @@ export class FileService {
 		return;
 	}
 
+	//Added custom date & time formatting capability to note entry 
 	private getEntryAsString(entry: MoodTrackerEntry): string {
-		const templ = this._plugin.settings.entryTemplate;
-		return templ
-			.replace("{{TIME}}", window.moment(entry.dateTime).format("HH:mm"))
-			.replace("{{DATE}}", window.moment(entry.dateTime).format("YYYY-MM-DD"))
-			.replace(
-				"{{ICON}}",
-				this._plugin.settings.moodRatingLabelDict[entry.moodRating]
-			)
-			.replace("{{EMOTIONS}}", entry.emotions.join(", "))
-			.replace("{{NOTE}}", entry.note);
+	    const templ = this._plugin.settings.entryTemplate;
+	
+	    return templ
+	        .replace(/{{TIME(:.*?)?}}/g, (match, format) => {
+	            const timeFormat = format ? format.substring(1) : "HH:mm";
+	            return window.moment(entry.dateTime).format(timeFormat);
+	        })
+	        .replace(/{{DATE(:.*?)?}}/g, (match, format) => {
+	            const dateFormat = format ? format.substring(1) : "YYYY-MM-DD";
+	            return window.moment(entry.dateTime).format(dateFormat);
+	        })
+	        .replace("{{ICON}}", this._plugin.settings.moodRatingLabelDict[entry.moodRating])
+	        .replace("{{EMOTIONS}}", entry.emotions.join(", "))
+	        .replace("{{NOTE}}", entry.note)
+	        .replace("{{LINEBREAK}}", "\n");
 	}
 }
