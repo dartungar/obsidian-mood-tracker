@@ -82,10 +82,9 @@ export class FileService {
 		return;
 	}
 
-	//Added custom date & time formatting capability to note entry 
 	private getEntryAsString(entry: MoodTrackerEntry): string {
 	    const templ = this._plugin.settings.entryTemplate;
-	
+
 	    return templ
 	        .replace(/{{TIME(:.*?)?}}/g, (match, format) => {
 	            const timeFormat = format ? format.substring(1) : "HH:mm";
