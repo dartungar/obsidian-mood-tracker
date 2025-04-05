@@ -200,8 +200,9 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 		setting.setName("Template for inserting mood tracking entry in a note");
 		setting.descEl.innerHTML = `Available variables:<br>
 		{{DATE}} - date of entry <br>
-		{{TIME}} - time of entry <br>
+		{{TIME}} - time of entry - supports custom formatting - eg: {{TIME:HH-mm-ss}} <br>
 		{{ICON}} - entry's mood icon <br>
+  		{{LINEBREAK}} - begins new line <br>
 		{{NOTE}} - entry's note <br>
 		{{EMOTIONS}} - comma-separated list of emotions, if any <br>
 		`;
