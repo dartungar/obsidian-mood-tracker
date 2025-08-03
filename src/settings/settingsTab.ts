@@ -34,6 +34,9 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 			this.addJournalLocation();
 			this.addTemplateSetting();
 		}
+
+		this.addUseSortingSetting();
+
 		
 		this.addUseEmotionsSetting();
 		if (this._plugin.settings.useEmotions) {
@@ -197,8 +200,9 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 		setting.setName("Template for inserting mood tracking entry in a note");
 		setting.descEl.innerHTML = `Available variables:<br>
 		{{DATE}} - date of entry <br>
-		{{TIME}} - time of entry <br>
+		{{TIME}} - time of entry - supports custom formatting - eg: {{TIME:HH-mm-ss}} <br>
 		{{ICON}} - entry's mood icon <br>
+  		{{LINEBREAK}} - begins new line <br>
 		{{NOTE}} - entry's note <br>
 		{{EMOTIONS}} - comma-separated list of emotions, if any <br>
 		`;
@@ -232,6 +236,23 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 		})
 	}
 
+	private addUseSortingSetting() {
+		const setting = new Setting(this.containerEl);
+
+		setting.setName("Sort emotions alphabetically")
+		setting.setDesc("Sort emotions within each group alphabetically");
+
+		setting.addToggle((input) => {
+			input.setValue(this._plugin.settings.sortEmotionsAlphabetically)
+			.onChange(async (value) => {
+				this._plugin.settings.sortEmotionsAlphabetically = value;
+				await this._plugin.saveSettings();
+				this.display();
+			});
+		})
+	}
+
+
 	private addEmotionsSetting() {
 		const settingGroupEl = this.containerEl.createEl("div");
 		settingGroupEl.createEl("h4", { text: "Emotions" });
@@ -243,6 +264,7 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 			index,
 			emotionGroup,
 		] of this._plugin.settings.emotionGroups.entries()) {
+
 			const setting = new Setting(settingGroupEl);
 
 			setting.setName(emotionGroup.name ?? `Emotions group ${index}`);
