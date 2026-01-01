@@ -2,6 +2,7 @@
 	import { EmotionGroup } from "src/entities/IEmotionGroup";
 	import MoodTrackerPlugin from "src/main";
 	import store from "src/store";
+	import { t } from "src/i18n";
 
 	export let emotionGroup: EmotionGroup;
 	export let closeModalFunc: () => void;
@@ -24,20 +25,20 @@
 
 <div class="edit-modal">
 	<div class="edit-modal-section">
-		<label for="nameInput">Group name</label>
+		<label for="nameInput">{t("modals.emotionGroupEdit.name")}</label>
 		<input id="nameInput" type="text" bind:value={emotionGroup.name} />
 	</div>
 	<div class="edit-modal-section">
-		<label for="colorInput">Background color</label>
+		<label for="colorInput">{t("modals.emotionGroupEdit.color")}</label>
 		<input id="colorInput" type="color" bind:value={emotionGroup.color} />
 	</div>
 	<div class="edit-modal-section">
-		<label for="emotionsInput">Emotions (separated by commas or newlines)</label
+		<label for="emotionsInput">{t("modals.emotionGroupEdit.emotions")}</label
 		>
 		<textarea id="emotionsInput" value={emotionGroup.emotions.join("\n")} on:change={onEmotionsChange} />
 	</div>
 	<div>
-		<button on:click={save}>Save</button>
+		<button on:click={save}>{t("modals.emotionGroupEdit.save")}</button>
 	</div>
 </div>
 

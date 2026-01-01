@@ -10,6 +10,7 @@
 	import { EmotionGroup } from "src/entities/IEmotionGroup";
 	import moment from "moment";
 	import { DateService } from "src/services/dateService";
+	import { t } from "src/i18n";
 
 	let plugin: MoodTrackerPlugin;
 	let moodSections: EmotionGroup[] = [];
@@ -65,7 +66,7 @@
 		<MoodRating
 			emoji={moodRatingLabelDict[1]}
 			fontSize={plugin.settings.moodRatingLabelSize}
-			title="very bad"
+			title={t("moodRatings.veryBad")}
 			rating="1"
 			on:setRating={handleSetRating}
 			bind:activeRating={entry.moodRating}
@@ -73,7 +74,7 @@
 		<MoodRating
 			emoji={moodRatingLabelDict[2]}
 			fontSize={plugin.settings.moodRatingLabelSize}
-			title="bad"
+			title={t("moodRatings.bad")}
 			rating="2"
 			on:setRating={handleSetRating}
 			bind:activeRating={entry.moodRating}
@@ -81,7 +82,7 @@
 		<MoodRating
 			emoji={moodRatingLabelDict[3]}
 			fontSize={plugin.settings.moodRatingLabelSize}
-			title="ok"
+			title={t("moodRatings.ok")}
 			rating="3"
 			on:setRating={handleSetRating}
 			bind:activeRating={entry.moodRating}
@@ -89,7 +90,7 @@
 		<MoodRating
 			emoji={moodRatingLabelDict[4]}
 			fontSize={plugin.settings.moodRatingLabelSize}
-			title="good"
+			title={t("moodRatings.good")}
 			rating="4"
 			on:setRating={handleSetRating}
 			bind:activeRating={entry.moodRating}
@@ -97,7 +98,7 @@
 		<MoodRating
 			emoji={moodRatingLabelDict[5]}
 			fontSize={plugin.settings.moodRatingLabelSize}
-			title="very good"
+			title={t("moodRatings.veryGood")}
 			rating="5"
 			on:setRating={handleSetRating}
 			bind:activeRating={entry.moodRating}
@@ -117,13 +118,13 @@
 	<div class="note-container" style="font-size: 100%;">
 		<textarea
 			class="note"
-			placeholder="add a note about what you feel (optional)"
+			placeholder={t("modals.tracker.notePlaceholder")}
 			bind:value={entry.note}
 		></textarea>
 	</div>
 	<div style="display: flex; justify-content: space-between">
 		<div style="display: flex; align-items: center; gap: 0.8rem;">
-			<span>date & time of entry </span><input
+			<span>{t("modals.tracker.dateTime")} </span><input
 				id="datetime"
 				type="datetime-local"
 				value={dateTimeString}
@@ -131,7 +132,7 @@
 				style="cursor: pointer;"
 			/><label for="datetime"></label>
 		</div>
-		<button style="cursor: pointer;" on:click={saveEntry}>Save</button>
+		<button style="cursor: pointer;" on:click={saveEntry}>{t("modals.tracker.save")}</button>
 	</div>
 </div>
 

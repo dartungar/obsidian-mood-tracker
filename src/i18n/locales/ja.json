@@ -1,0 +1,257 @@
+{
+    "commands": {
+        "openTracker": "トラッカーを開く",
+        "openHistory": "履歴を開く"
+    },
+    "ribbon": {
+        "openTracker": "気分トラッカーを開く",
+        "openHistory": "気分の履歴を開く"
+    },
+    "modals": {
+        "tracker": {
+            "title": "今の気分はどうですか？",
+            "dateTime": "日時",
+            "note": "メモ",
+            "notePlaceholder": "メモを追加（任意）",
+            "save": "保存",
+            "cancel": "キャンセル"
+        },
+        "stats": {
+            "title": "気分の履歴",
+            "noEntries": "エントリーが見つかりません",
+            "noData": "データがありません",
+            "averageMood": "平均気分",
+            "mostCommonMood": "最も多い気分",
+            "mostCommonEmotions": "最も多い感情",
+            "editEntry": "エントリーを編集",
+            "deleteEntry": "エントリーを削除",
+            "from": "開始",
+            "to": "終了",
+            "noEntriesForDay": "この日のエントリーはありません。グラフをクリックして別の日を選択してください。",
+            "addNewEntry": "新しいエントリーを追加"
+        },
+        "deleteEntry": {
+            "title": "エントリーを削除",
+            "message": "このエントリーを削除してもよろしいですか？",
+            "confirm": "削除",
+            "cancel": "キャンセル"
+        },
+        "emotionGroupEdit": {
+            "title": "感情グループを編集",
+            "name": "名前",
+            "color": "色",
+            "textColor": "テキスト色",
+            "emotions": "感情",
+            "addEmotion": "感情を追加",
+            "emotionPlaceholder": "感情名を入力",
+            "save": "保存",
+            "cancel": "キャンセル"
+        },
+        "emotionGroupDelete": {
+            "title": "感情グループを削除",
+            "message": "この感情グループを削除してもよろしいですか？",
+            "confirm": "削除",
+            "cancel": "キャンセル"
+        },
+        "moodRatingLabels": {
+            "title": "気分評価ラベルを編集",
+            "description": "気分評価のラベルをカスタマイズ",
+            "labelSize": "ラベルサイズ",
+            "preview": "プレビュー",
+            "save": "保存",
+            "cancel": "キャンセル"
+        },
+        "moveData": {
+            "title": "データを移動",
+            "message": "データファイルを新しい場所に移動しますか？",
+            "move": "移動",
+            "cancel": "キャンセル"
+        },
+        "createFile": {
+            "title": "ファイルを作成",
+            "message": "ファイルが存在しません。作成しますか？",
+            "create": "作成",
+            "cancel": "キャンセル"
+        },
+        "confirmation": {
+            "confirm": "確認",
+            "cancel": "キャンセル"
+        }
+    },
+    "settings": {
+        "title": "気分トラッカー設定",
+        "trackerModalTitle": {
+            "name": "トラッカーモーダルのタイトル",
+            "desc": "気分トラッカーモーダルのタイトル"
+        },
+        "folderPath": {
+            "name": "データファイルを保存するフォルダ",
+            "desc": "気分トラッカーのデータを保存するフォルダのパス",
+            "placeholder": "data/",
+            "folderNotExist": "フォルダが存在しません",
+            "apply": "適用"
+        },
+        "chartColor": {
+            "name": "グラフの色",
+            "desc": "気分追跡グラフで使用する色"
+        },
+        "moodRatingLabels": {
+            "name": "気分評価ラベル",
+            "desc": "各気分評価レベルの絵文字やラベルをカスタマイズ",
+            "edit": "編集"
+        },
+        "addToJournal": {
+            "name": "ジャーナルに追加",
+            "desc": "気分エントリーをデイリージャーナルに追加"
+        },
+        "journalPath": {
+            "name": "ジャーナルパスパターン",
+            "desc": "ジャーナルファイルのパスパターン（例：'journal/{{date:YYYY-MM-DD}}'）",
+            "placeholder": "journal/{{date:YYYY-MM-DD}}"
+        },
+        "journalLocation": {
+            "name": "ジャーナル内の場所",
+            "desc": "気分エントリーを追加するジャーナル内のセクション",
+            "placeholder": "## 気分トラッカー"
+        },
+        "entryTemplate": {
+            "name": "エントリーテンプレート",
+            "desc": "気分エントリーのテンプレート（{{ICON}}、{{NOTE}}）",
+            "placeholder": "- {{ICON}} {{NOTE}}"
+        },
+        "sortEmotions": {
+            "name": "感情をアルファベット順に並べ替え",
+            "desc": "各グループ内の感情をアルファベット順に並べ替える"
+        },
+        "useEmotions": {
+            "name": "感情を使用",
+            "desc": "気分評価と一緒に感情の追跡を有効にする"
+        },
+        "emotionGroups": {
+            "name": "感情グループ",
+            "desc": "感情グループとその内容を設定",
+            "add": "グループを追加",
+            "edit": "編集",
+            "delete": "削除",
+            "moveUp": "上に移動",
+            "moveDown": "下に移動",
+            "noGroups": "感情グループが設定されていません"
+        }
+    },
+    "moodRatings": {
+        "veryBad": "とても悪い",
+        "bad": "悪い",
+        "ok": "普通",
+        "good": "良い",
+        "veryGood": "とても良い"
+    },
+    "emotionGroups": {
+        "loveAndJoy": "愛と喜び",
+        "neutralAndSurprise": "中立と驚き",
+        "angerAndStress": "怒りとストレス",
+        "sadnessAndFear": "悲しみと恐れ"
+    },
+    "emotions": {
+        "joyful": "喜んでいる",
+        "content": "満足している",
+        "pleased": "嬉しい",
+        "satisfied": "満たされた",
+        "happy": "幸せ",
+        "amused": "楽しい",
+        "delighted": "喜ばしい",
+        "cheerful": "陽気な",
+        "jovial": "愉快な",
+        "blissful": "至福の",
+        "proud": "誇らしい",
+        "triumphant": "勝ち誇った",
+        "optimistic": "楽観的な",
+        "eager": "熱心な",
+        "hopeful": "希望に満ちた",
+        "enthusiastic": "熱狂的な",
+        "excited": "興奮している",
+        "euphoric": "有頂天な",
+        "enchanted": "魅了された",
+        "loving": "愛情深い",
+        "romantic": "ロマンチックな",
+        "affectionate": "愛情のこもった",
+        "passionate": "情熱的な",
+        "attracted": "惹かれている",
+        "sentimental": "感傷的な",
+        "compassionate": "思いやりのある",
+        "peaceful": "平和な",
+        "relieved": "安心した",
+        "ok": "まあまあ",
+        "fine": "大丈夫",
+        "bored": "退屈",
+        "surprised": "驚いた",
+        "shocked": "ショックを受けた",
+        "dismayed": "がっかりした",
+        "confused": "困惑している",
+        "disillusioned": "幻滅した",
+        "perplexed": "当惑している",
+        "amazed": "驚嘆した",
+        "astonished": "仰天した",
+        "moved": "感動した",
+        "touched": "心を打たれた",
+        "stressed": "ストレスを感じている",
+        "angry": "怒っている",
+        "enraged": "激怒している",
+        "hateful": "憎しみを感じている",
+        "hostile": "敵意を持っている",
+        "agitated": "動揺している",
+        "frustrated": "イライラしている",
+        "irritated": "苛立っている",
+        "annoyed": "うんざりしている",
+        "aggravated": "悪化した",
+        "envious": "羨ましい",
+        "jealous": "嫉妬している",
+        "disgusted": "嫌悪感を感じている",
+        "contemptful": "軽蔑している",
+        "sad": "悲しい",
+        "hurt": "傷ついた",
+        "agonizing": "苦悩している",
+        "depressed": "憂鬱",
+        "sorrowful": "悲哀を感じている",
+        "disappointed": "失望している",
+        "displeased": "不快な",
+        "shameful": "恥ずかしい",
+        "regretful": "後悔している",
+        "guilty": "罪悪感を感じている",
+        "neglected": "無視された",
+        "isolated": "孤立している",
+        "lonely": "寂しい",
+        "despaired": "絶望している",
+        "grieving": "悲嘆している",
+        "powerless": "無力な",
+        "fearful": "恐れている",
+        "scared": "怖がっている",
+        "helpless": "無力感を感じている",
+        "frightened": "怯えている",
+        "panicking": "パニックになっている",
+        "hystetical": "ヒステリックな",
+        "insecure": "不安定な",
+        "inferior": "劣等感を感じている",
+        "inadequate": "不適切な",
+        "nervous": "緊張している",
+        "anxious": "不安な",
+        "worried": "心配している",
+        "dreadful": "恐ろしい",
+        "mortified": "屈辱的な"
+    },
+    "notifications": {
+        "entrySaved": "エントリーが正常に保存されました",
+        "entryDeleted": "エントリーが削除されました",
+        "entryUpdated": "エントリーが更新されました",
+        "settingsSaved": "設定が保存されました",
+        "errorSavingData": "データの保存中にエラーが発生しました",
+        "errorLoadingData": "データの読み込み中にエラーが発生しました",
+        "dataFileMoved": "データファイルが正常に移動されました",
+        "emotionGroupSaved": "感情グループが保存されました",
+        "emotionGroupDeleted": "感情グループが削除されました"
+    },
+    "errors": {
+        "folderNotExist": "フォルダが存在しません",
+        "fileNotFound": "ファイルが見つかりません",
+        "invalidData": "無効なデータ形式"
+    }
+}

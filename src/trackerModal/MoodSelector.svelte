@@ -1,7 +1,8 @@
 <script>
 	import { createEventDispatcher } from 'svelte';
 	import { each } from 'svelte/internal';
-    
+	import { translateEmotion } from 'src/i18n';
+
     export let moodSections;
     export let activeMoods;
 
@@ -18,14 +19,14 @@
     {#each moodSections as moodSection}
     <div class="mood-section">
         {#each moodSection.emotions as mood}
-            <span 
-            on:click={(e) => toogleMood(mood)} 
-            on:keypress={(e) => toogleMood(mood)} 
+            <span
+            on:click={(e) => toogleMood(mood)}
+            on:keypress={(e) => toogleMood(mood)}
             class="mood-item"
             class:active={activeMoods.includes(mood)}
             style="border-color: {moodSection.color}; background-color: {moodSection.color}"
             >
-                {mood}            
+                {translateEmotion(mood)}
             </span>
         {/each}
     </div>

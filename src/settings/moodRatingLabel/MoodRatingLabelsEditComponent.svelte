@@ -2,6 +2,7 @@
 	import { EmotionGroup } from "src/entities/IEmotionGroup";
 	import MoodTrackerPlugin from "src/main";
 	import store from "src/store";
+	import { t } from "src/i18n";
 
 	export let closeModalFunc: () => void;
 
@@ -20,7 +21,7 @@
 <div class="edit-mood-labels-modal">
 	<div class="labels-aligned">
 		<div  class="mv-5">
-			<label for="veryGood">Very Good</label>
+			<label for="veryGood">{t("moodRatings.veryGood")}</label>
 			<input
 				id="veryGood"
 				type="text"
@@ -28,7 +29,7 @@
 			/>
 		</div>
 		<div class="mv-5">
-			<label for="good">Good</label>
+			<label for="good">{t("moodRatings.good")}</label>
 			<input
 				id="good"
 				type="text"
@@ -36,7 +37,7 @@
 			/>
 		</div>
 		<div class="mv-5">
-			<label for="ok">Ok</label>
+			<label for="ok">{t("moodRatings.ok")}</label>
 			<input
 				id="ok"
 				type="text"
@@ -44,7 +45,7 @@
 			/>
 		</div>
 		<div class="mv-5">
-			<label for="bad">Bad</label>
+			<label for="bad">{t("moodRatings.bad")}</label>
 			<input
 				id="bad"
 				type="text"
@@ -52,7 +53,7 @@
 			/>
 		</div>
 		<div class="mv-5">
-			<label for="veryBad">Very bad</label>
+			<label for="veryBad">{t("moodRatings.veryBad")}</label>
 			<input
 				id="veryBad"
 				type="text"
@@ -61,7 +62,7 @@
 		</div>
 		<div  class="mv-5">
 			<label for="size"
-				>Label size: {plugin.settings.moodRatingLabelSize} rem</label
+				>{t("modals.moodRatingLabels.labelSize")}: {plugin.settings.moodRatingLabelSize} rem</label
 			>
 			<input
 				id="size"
@@ -75,7 +76,7 @@
 	</div>
 
 	<div class="mv-5">
-		<div>Preview:</div>
+		<div>{t("modals.moodRatingLabels.preview")}:</div>
 		<div style="font-size: {plugin.settings.moodRatingLabelSize + 'rem'}">
 			{plugin.settings.moodRatingLabelDict[1]}
 			{plugin.settings.moodRatingLabelDict[2]}
@@ -86,7 +87,7 @@
 	</div>
 
 	<div>
-		<button on:click={save}>Save</button>
+		<button on:click={save}>{t("modals.moodRatingLabels.save")}</button>
 	</div>
 </div>
 

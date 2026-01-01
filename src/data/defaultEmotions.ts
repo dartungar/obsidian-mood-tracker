@@ -80,7 +80,7 @@ export const defaultEmotions: EmotionGroup[] = [
 			"envious",
 			"jealous",
 			"disgusted",
-			"contemptful ",
+			"contemptful",
 		],
 	},
 	{

@@ -3,6 +3,7 @@ import { App, Modal } from "obsidian";
 import store from "src/store";
 import MoodTrackerPlugin from "src/main";
 import EmotionsGroupEditComponent from "./EmotionGroupEditComponent.svelte";
+import { t } from "src/i18n";
 
 export class EmotionGroupEditModal extends Modal {
     component: EmotionsGroupEditComponent;
@@ -15,7 +16,7 @@ export class EmotionGroupEditModal extends Modal {
         store.plugin.set(this._plugin);
 
         this.modalEl.addClass("mood-tracker-modal");
-        this.titleEl.innerText = "Edit emotion group";
+        this.titleEl.innerText = t("modals.emotionGroupEdit.title");
 
         this.component = new EmotionsGroupEditComponent({
             target: this.contentEl,

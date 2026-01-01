@@ -7,6 +7,7 @@
 	import { IMoodTrackerEntry } from "src/entities/MoodTrackerEntry";
 	import SelectedDay from "./SelectedDay.svelte";
 	import { DateService } from "src/services/dateService";
+	import { t, translateEmotion } from "src/i18n";
 
     let plugin: MoodTrackerPlugin;
     let startDate: string = DateService.createDateString(subtractDays(new Date(), 14));
@@ -57,10 +58,10 @@
 </script>
 
 <!-- date picker -->
-<h2>Mood Tracking History</h2>
+<h2>{t("modals.stats.title")}</h2>
 <div class="date-picker-container">
-    from: <input bind:value={startDate} on:change={generateDatasetDebounced} type="date" min="2000-01-01" pattern="\d{4}-\d{2}-\d{2}" />
-    to: <input bind:value={endDate} on:change={generateDatasetDebounced} type="date" min="2000-01-01"  required pattern="\d{4}-\d{2}-\d{2}"/>
+    {t("modals.stats.from")}: <input bind:value={startDate} on:change={generateDatasetDebounced} type="date" min="2000-01-01" pattern="\d{4}-\d{2}-\d{2}" />
+    {t("modals.stats.to")}: <input bind:value={endDate} on:change={generateDatasetDebounced} type="date" min="2000-01-01"  required pattern="\d{4}-\d{2}-\d{2}"/>
 </div>
 
 <!-- chart -->
@@ -68,9 +69,9 @@
 
 <!-- total stats -->
 <div class="total-stats-container">
-    <div>Average mood: {moodRatingLabelDict[Math.round(averageMoodRating)]} ({averageMoodRating})</div>
-    <div>Most common mood: {moodRatingLabelDict[mostCommonMood]}</div>
-    <div>Common emotions: {mostCommonEmotions.join(', ')}</div>
+    <div>{t("modals.stats.averageMood")}: {moodRatingLabelDict[Math.round(averageMoodRating)]} ({averageMoodRating})</div>
+    <div>{t("modals.stats.mostCommonMood")}: {moodRatingLabelDict[mostCommonMood]}</div>
+    <div>{t("modals.stats.mostCommonEmotions")}: {mostCommonEmotions.map(e => translateEmotion(e)).join(', ')}</div>
 </div>
 
 <SelectedDay plugin={plugin} dateString={selectedDateString} data={selectedDayData} moodRatingDict={moodRatingLabelDict}/>

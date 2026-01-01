@@ -1,0 +1,257 @@
+{
+    "commands": {
+        "openTracker": "Open Tracker",
+        "openHistory": "Open History"
+    },
+    "ribbon": {
+        "openTracker": "Open Mood Tracker",
+        "openHistory": "Open Mood Tracking History"
+    },
+    "modals": {
+        "tracker": {
+            "title": "How are you feeling?",
+            "dateTime": "Date and time",
+            "note": "Note",
+            "notePlaceholder": "Add a note (optional)",
+            "save": "Save",
+            "cancel": "Cancel"
+        },
+        "stats": {
+            "title": "Mood Tracking History",
+            "noEntries": "No entries found",
+            "noData": "No data available",
+            "averageMood": "Average mood",
+            "mostCommonMood": "Most common mood",
+            "mostCommonEmotions": "Most common emotions",
+            "editEntry": "Edit Entry",
+            "deleteEntry": "Delete Entry",
+            "from": "from",
+            "to": "to",
+            "noEntriesForDay": "No entries for this day. Click diagram to select another day.",
+            "addNewEntry": "add a new entry"
+        },
+        "deleteEntry": {
+            "title": "Delete Entry",
+            "message": "Are you sure you want to delete this entry?",
+            "confirm": "Delete",
+            "cancel": "Cancel"
+        },
+        "emotionGroupEdit": {
+            "title": "Edit Emotion Group",
+            "name": "Name",
+            "color": "Color",
+            "textColor": "Text Color",
+            "emotions": "Emotions",
+            "addEmotion": "Add emotion",
+            "emotionPlaceholder": "Enter emotion name",
+            "save": "Save",
+            "cancel": "Cancel"
+        },
+        "emotionGroupDelete": {
+            "title": "Delete Emotion Group",
+            "message": "Are you sure you want to delete this emotion group?",
+            "confirm": "Delete",
+            "cancel": "Cancel"
+        },
+        "moodRatingLabels": {
+            "title": "Edit mood rating labels",
+            "description": "Customize the labels for mood ratings",
+            "labelSize": "Label size",
+            "preview": "Preview",
+            "save": "Save",
+            "cancel": "Cancel"
+        },
+        "moveData": {
+            "title": "Move Data",
+            "message": "Move data file to new location?",
+            "move": "Move",
+            "cancel": "Cancel"
+        },
+        "createFile": {
+            "title": "Create File",
+            "message": "File doesn't exist. Create it?",
+            "create": "Create",
+            "cancel": "Cancel"
+        },
+        "confirmation": {
+            "confirm": "Confirm",
+            "cancel": "Cancel"
+        }
+    },
+    "settings": {
+        "title": "Mood Tracker Settings",
+        "trackerModalTitle": {
+            "name": "Tracker modal title",
+            "desc": "Title for mood tracker modal"
+        },
+        "folderPath": {
+            "name": "Folder to store data file",
+            "desc": "A path to a folder where mood tracker data will be stored.",
+            "placeholder": "data/",
+            "folderNotExist": "Folder does not exist",
+            "apply": "Apply"
+        },
+        "chartColor": {
+            "name": "Chart color",
+            "desc": "Color used for mood tracking charts"
+        },
+        "moodRatingLabels": {
+            "name": "Mood Rating Labels",
+            "desc": "Customize the emojis or labels for each mood rating level",
+            "edit": "Edit"
+        },
+        "addToJournal": {
+            "name": "Add to journal",
+            "desc": "Add mood entries to your daily journal"
+        },
+        "journalPath": {
+            "name": "Journal path pattern",
+            "desc": "Path pattern for journal files (e.g., 'journal/{{date:YYYY-MM-DD}}')",
+            "placeholder": "journal/{{date:YYYY-MM-DD}}"
+        },
+        "journalLocation": {
+            "name": "Journal location",
+            "desc": "Section in journal where mood entry will be added",
+            "placeholder": "## Mood Tracker"
+        },
+        "entryTemplate": {
+            "name": "Entry template",
+            "desc": "Template for mood entries ({{ICON}}, {{NOTE}})",
+            "placeholder": "- {{ICON}} {{NOTE}}"
+        },
+        "sortEmotions": {
+            "name": "Sort emotions alphabetically",
+            "desc": "Sort emotions in alphabetical order within each group"
+        },
+        "useEmotions": {
+            "name": "Use emotions",
+            "desc": "Enable emotion tracking along with mood ratings"
+        },
+        "emotionGroups": {
+            "name": "Emotion Groups",
+            "desc": "Configure emotion groups and their contents",
+            "add": "Add Group",
+            "edit": "Edit",
+            "delete": "Delete",
+            "moveUp": "Move up",
+            "moveDown": "Move down",
+            "noGroups": "No emotion groups configured"
+        }
+    },
+    "moodRatings": {
+        "veryBad": "very bad",
+        "bad": "bad",
+        "ok": "ok",
+        "good": "good",
+        "veryGood": "very good"
+    },
+    "emotionGroups": {
+        "loveAndJoy": "Love and joy",
+        "neutralAndSurprise": "Neutral and surprise",
+        "angerAndStress": "Anger and stress",
+        "sadnessAndFear": "Sadness and fear"
+    },
+    "emotions": {
+        "joyful": "joyful",
+        "content": "content",
+        "pleased": "pleased",
+        "satisfied": "satisfied",
+        "happy": "happy",
+        "amused": "amused",
+        "delighted": "delighted",
+        "cheerful": "cheerful",
+        "jovial": "jovial",
+        "blissful": "blissful",
+        "proud": "proud",
+        "triumphant": "triumphant",
+        "optimistic": "optimistic",
+        "eager": "eager",
+        "hopeful": "hopeful",
+        "enthusiastic": "enthusiastic",
+        "excited": "excited",
+        "euphoric": "euphoric",
+        "enchanted": "enchanted",
+        "loving": "loving",
+        "romantic": "romantic",
+        "affectionate": "affectionate",
+        "passionate": "passionate",
+        "attracted": "attracted",
+        "sentimental": "sentimental",
+        "compassionate": "compassionate",
+        "peaceful": "peaceful",
+        "relieved": "relieved",
+        "ok": "ok",
+        "fine": "fine",
+        "bored": "bored",
+        "surprised": "surprised",
+        "shocked": "shocked",
+        "dismayed": "dismayed",
+        "confused": "confused",
+        "disillusioned": "disillusioned",
+        "perplexed": "perplexed",
+        "amazed": "amazed",
+        "astonished": "astonished",
+        "moved": "moved",
+        "touched": "touched",
+        "stressed": "stressed",
+        "angry": "angry",
+        "enraged": "enraged",
+        "hateful": "hateful",
+        "hostile": "hostile",
+        "agitated": "agitated",
+        "frustrated": "frustrated",
+        "irritated": "irritated",
+        "annoyed": "annoyed",
+        "aggravated": "aggravated",
+        "envious": "envious",
+        "jealous": "jealous",
+        "disgusted": "disgusted",
+        "contemptful": "contemptful",
+        "sad": "sad",
+        "hurt": "hurt",
+        "agonizing": "agonizing",
+        "depressed": "depressed",
+        "sorrowful": "sorrowful",
+        "disappointed": "disappointed",
+        "displeased": "displeased",
+        "shameful": "shameful",
+        "regretful": "regretful",
+        "guilty": "guilty",
+        "neglected": "neglected",
+        "isolated": "isolated",
+        "lonely": "lonely",
+        "despaired": "despaired",
+        "grieving": "grieving",
+        "powerless": "powerless",
+        "fearful": "fearful",
+        "scared": "scared",
+        "helpless": "helpless",
+        "frightened": "frightened",
+        "panicking": "panicking",
+        "hystetical": "hysterical",
+        "insecure": "insecure",
+        "inferior": "inferior",
+        "inadequate": "inadequate",
+        "nervous": "nervous",
+        "anxious": "anxious",
+        "worried": "worried",
+        "dreadful": "dreadful",
+        "mortified": "mortified"
+    },
+    "notifications": {
+        "entrySaved": "Entry saved successfully",
+        "entryDeleted": "Entry deleted",
+        "entryUpdated": "Entry updated",
+        "settingsSaved": "Settings saved",
+        "errorSavingData": "Error saving data",
+        "errorLoadingData": "Error loading data",
+        "dataFileMoved": "Data file moved successfully",
+        "emotionGroupSaved": "Emotion group saved",
+        "emotionGroupDeleted": "Emotion group deleted"
+    },
+    "errors": {
+        "folderNotExist": "Folder does not exist",
+        "fileNotFound": "File not found",
+        "invalidData": "Invalid data format"
+    }
+}
