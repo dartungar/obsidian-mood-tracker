@@ -1,5 +1,6 @@
 import { defaultEmotions as defaultEmotionGroups } from "src/data/defaultEmotions";
 import { EmotionGroup } from "src/entities/IEmotionGroup";
+import type { SupportedLanguage } from "src/i18n";
 
 
 export class MoodTrackerSettings {
@@ -15,6 +16,7 @@ export class MoodTrackerSettings {
     journalFilePath: string;
     entryTemplate: string;
     chartColor: string;
+    language?: SupportedLanguage; // User-selected language (optional)
 }
 
 
@@ -36,5 +38,6 @@ export const DEFAULT_SETTINGS: MoodTrackerSettings = {
     journalPosition: "## Mood Tracker",
     addToJournal: false,
     journalFilePath: "",
-    chartColor: "#b26aba"
+    chartColor: "#b26aba",
+    language: undefined // Auto-detect from Obsidian
 }

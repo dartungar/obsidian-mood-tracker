@@ -11,7 +11,9 @@
     "importHelpers": true,
     "isolatedModules": true,
     "verbatimModuleSyntax": false,
-	"strictNullChecks": true,
+    "strictNullChecks": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
     "lib": [
       "DOM",
       "ES5",
@@ -20,6 +22,11 @@
     ]
   },
   "include": [
-    "**/*.ts"
+    "src/**/*.ts",
+    "src/**/*.svelte"
   ],
+  "exclude": [
+    "src/tests/**/*",
+    "vitest.config.ts"
+  ]
 }

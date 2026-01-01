@@ -13,6 +13,7 @@ import { MoveDataModal } from "./folderSetting/moveDataModal";
 import { EmotionGroupEditModal } from "./emotionGroup/emotionGroupEditModal";
 import { EmotionGroupDeleteModal } from "./emotionGroup/emotionGroupDeleteModal";
 import { MoodRatingLabelsEditModal } from "./moodRatingLabel/moodRatingLabelsEditModal";
+import { t } from "src/i18n";
 
 export class MoodTrackerSettingsTab extends PluginSettingTab {
 	constructor(private _plugin: MoodTrackerPlugin, app: App) {
@@ -47,8 +48,8 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 	private addTrackerModalTitleSetting() {
 		const setting = new Setting(this.containerEl);
 
-		setting.setName("Tracker modal title")
-		setting.setDesc("Title for mood tracker modal");
+		setting.setName(t("settings.trackerModalTitle.name"))
+		setting.setDesc(t("settings.trackerModalTitle.desc"));
 
 		setting.addText((input) => {
 			input.inputEl.style.width = "min(400px, 35vw)";
@@ -66,14 +67,12 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 		const setting = new Setting(this.containerEl);
 		let path = this._plugin.settings.folderPath;
 
-		setting.setName("Folder to store data file");
-		setting.setDesc(
-			"A path to a folder where mood tracker data will be stored."
-		);
+		setting.setName(t("settings.folderPath.name"));
+		setting.setDesc(t("settings.folderPath.desc"));
 
 		setting.addText((text) => {
 			text.inputEl.style.width = "min(335px, 35vw)";
-			text.setPlaceholder("data/")
+			text.setPlaceholder(t("settings.folderPath.placeholder"))
 				.setValue(this._plugin.settings.folderPath)
 				.onChange(debounce(async (value) => {
 					if (value === this._plugin.settings.folderPath) {
@@ -87,7 +86,7 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 						return;
 					}
 					text.inputEl.style.border = "1px solid red";
-					text.inputEl.title = "Folder does not exist";
+					text.inputEl.title = t("settings.folderPath.folderNotExist");
 				}, 500, true));
 
 			new GenericTextSuggester(
@@ -101,7 +100,7 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 		});
 
 		setting.addButton((button) => {
-			button.setButtonText("Apply")
+			button.setButtonText(t("settings.folderPath.apply"))
 			.onClick(async () => {
 				new MoveDataModal(this.app, this._plugin, path).open();
 			})
@@ -111,9 +110,8 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 	private addAddToNoteSettings() {
 		const setting = new Setting(this.containerEl);
 
-		setting.setName("Add mood tracking info to a note");
-		setting.descEl.innerHTML = `When adding a mood tracker entry, also add its info to a note (e.g daily journal).<br> 
-		This is for journaling purposes only; main data is still stored in data.json`;
+		setting.setName(t("settings.addToJournal.name"));
+		setting.setDesc(t("settings.addToJournal.desc"));
 
 		setting.addToggle((input) => {
 			input.setValue(this._plugin.settings.addToJournal)
@@ -129,8 +127,8 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 	private addChartColorSetting() {
 		const setting = new Setting(this.containerEl);
 
-		setting.setName("Chart color")
-		setting.setDesc("Primary color for the chart elements (e.g line or bar).");
+		setting.setName(t("settings.chartColor.name"))
+		setting.setDesc(t("settings.chartColor.desc"));
 
 		setting.addColorPicker((picker) => {
 			picker.setValue(this._plugin.settings.chartColor ?? "#000")
@@ -144,11 +142,11 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 	private addMoodRatingLabelsSetting() {
 		const setting = new Setting(this.containerEl);
 
-		setting.setName("Mood rating labels")
-		setting.setDesc("Labels to use for mood rating. Used in tracker modal and stats.");
+		setting.setName(t("settings.moodRatingLabels.name"))
+		setting.setDesc(t("settings.moodRatingLabels.desc"));
 
 		setting.addButton((button) => {
-			button.setButtonText("Edit")
+			button.setButtonText(t("settings.moodRatingLabels.edit"))
 			.onClick(async () => {
 				new MoodRatingLabelsEditModal(this._plugin, app).open();
 			})
@@ -158,11 +156,8 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 	private addJournalPathSetting() {
 		const setting = new Setting(this.containerEl);
 
-		setting.setName("Note path");
-		setting.descEl.innerHTML = `Use a static file path, or {{DATE}} variable.<br>
-		Supports <a href="https://momentjs.com/docs/#/displaying/format/" target="_blank">moment.js formatting</a>.<br>
-		Example: journals/daily/{{DATE:YYYY-MM-DD}}.md
-		`
+		setting.setName(t("settings.journalPath.name"));
+		setting.setDesc(t("settings.journalPath.desc"));
 
 		setting.addText((input) => {
 			input.inputEl.style.width = "min(400px, 35vw)";
@@ -178,10 +173,8 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 	private addJournalLocation() {
 		const setting = new Setting(this.containerEl);
 
-		setting.setName("Entry location");
-		setting.descEl.innerHTML = `Where in the journal should the Mood-Tracker entry be placed?<br>
-		Example: ## Mood Tracker
-		`
+		setting.setName(t("settings.journalLocation.name"));
+		setting.setDesc(t("settings.journalLocation.desc"));
 
 		setting.addText((input) => {
 			input.inputEl.style.width = "min(400px, 35vw)";
@@ -197,15 +190,8 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 	private addTemplateSetting() {
 		const setting = new Setting(this.containerEl);
 
-		setting.setName("Template for inserting mood tracking entry in a note");
-		setting.descEl.innerHTML = `Available variables:<br>
-		{{DATE}} - date of entry <br>
-		{{TIME}} - time of entry - supports custom formatting - eg: {{TIME:HH-mm-ss}} <br>
-		{{ICON}} - entry's mood icon <br>
-  		{{LINEBREAK}} - begins new line <br>
-		{{NOTE}} - entry's note <br>
-		{{EMOTIONS}} - comma-separated list of emotions, if any <br>
-		`;
+		setting.setName(t("settings.entryTemplate.name"));
+		setting.setDesc(t("settings.entryTemplate.desc"));
 
 		setting.addText((input) => {
 			input.inputEl.style.width = "min(400px, 35vw)";
@@ -223,8 +209,8 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 	private addUseEmotionsSetting() {
 		const setting = new Setting(this.containerEl);
 
-		setting.setName("Use emotions")
-		setting.setDesc("Track more nuanced emotions in addition to simple mood rating");
+		setting.setName(t("settings.useEmotions.name"))
+		setting.setDesc(t("settings.useEmotions.desc"));
 
 		setting.addToggle((input) => {
 			input.setValue(this._plugin.settings.useEmotions)
@@ -239,8 +225,8 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 	private addUseSortingSetting() {
 		const setting = new Setting(this.containerEl);
 
-		setting.setName("Sort emotions alphabetically")
-		setting.setDesc("Sort emotions within each group alphabetically");
+		setting.setName(t("settings.sortEmotions.name"))
+		setting.setDesc(t("settings.sortEmotions.desc"));
 
 		setting.addToggle((input) => {
 			input.setValue(this._plugin.settings.sortEmotionsAlphabetically)
@@ -255,9 +241,9 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 
 	private addEmotionsSetting() {
 		const settingGroupEl = this.containerEl.createEl("div");
-		settingGroupEl.createEl("h4", { text: "Emotions" });
+		settingGroupEl.createEl("h4", { text: t("settings.emotionGroups.name") });
 		settingGroupEl.createEl("small", {
-			text: "A list of emotions, separated by commas or newlines. You can define one or many emotion groups, each with own color, if needed.",
+			text: t("settings.emotionGroups.desc"),
 		});
 
 		for (const [
@@ -267,13 +253,13 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 
 			const setting = new Setting(settingGroupEl);
 
-			setting.setName(emotionGroup.name ?? `Emotions group ${index}`);
+			setting.setName(emotionGroup.name ?? `${t("settings.emotionGroups.name")} ${index}`);
 
 			// TODO: text color
 
 			setting.addExtraButton(cb => {
 				cb.setIcon('arrow-up')
-				.setTooltip("Move element up")
+				.setTooltip(t("settings.emotionGroups.moveUp"))
 				.setDisabled(index === 0)
 				.onClick(() => {
 					if (index > 0) {
@@ -285,10 +271,10 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 					}
 				})
 			});
-	
+
 			setting.addExtraButton(cb => {
 				cb.setIcon('arrow-down')
-				.setTooltip("Move element down")
+				.setTooltip(t("settings.emotionGroups.moveDown"))
 				.setDisabled(index >= this._plugin.settings.emotionGroups.length - 1)
 				.onClick(() => {
 					if (index < this._plugin.settings.emotionGroups.length - 1) {
@@ -303,7 +289,7 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 
 			setting.addExtraButton((cb) => {
 				cb.setIcon("edit")
-					.setTooltip("Edit Group")
+					.setTooltip(t("settings.emotionGroups.edit"))
 					.onClick(() => {
 						const modal = new EmotionGroupEditModal(this._plugin, emotionGroup, this.app);
 						modal.open();
@@ -315,7 +301,7 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 
 			setting.addExtraButton((cb) => {
 				cb.setIcon("trash")
-					.setTooltip("Delete note set")
+					.setTooltip(t("settings.emotionGroups.delete"))
 					.onClick(async () => {
 						new EmotionGroupDeleteModal(
 							this.app,
@@ -329,7 +315,7 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 		}
 
 		const addMoodSectionBtn = new ButtonComponent(settingGroupEl);
-		addMoodSectionBtn.setButtonText("Add Group");
+		addMoodSectionBtn.setButtonText(t("settings.emotionGroups.add"));
 		addMoodSectionBtn.onClick(async () => {
 			this._plugin.settings.emotionGroups.push(new EmotionGroup());
 			await this._plugin.saveSettings();

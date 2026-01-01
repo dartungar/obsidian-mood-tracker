@@ -28,6 +28,8 @@
 	"dependencies": {
 		"@popperjs/core": "^2.11.7",
 		"chart.js": "^4.2.1",
-		"svelte-chartjs": "^3.1.2"
+		"svelte-chartjs": "^3.1.2",
+		"i18next": "^23.7.6",
+		"svelte-i18n": "^4.0.0"
 	}
 }

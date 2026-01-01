@@ -16,6 +16,7 @@ import { FileService } from "./filesIntegration/fileService";
 import { DataIntegrityService } from "./services/dataIntegrityService";
 import { EmotionsService } from "./services/emotionsService";
 import { STATS_CODEBLOCK_NAME, StatsCodeblockRenderer } from "./stats/statsCodeblockRenderer";
+import { initI18n, t } from "./i18n";
 
 declare global {
 	interface Window {
@@ -38,6 +39,7 @@ export default class MoodTrackerPlugin extends Plugin {
 
 	async onload() {
 		await this.loadSettings();
+		await initI18n(this.settings.language);
 		await this.loadEntries();
 		this.addRibbonIcons();
 		this.addCommands();
@@ -186,7 +188,7 @@ export default class MoodTrackerPlugin extends Plugin {
 	private addRibbonIcons() {
 		this.addRibbonIcon(
 			"smile-plus",
-			"Open Mood Tracker",
+			t("ribbon.openTracker"),
 			(evt: MouseEvent) => {
 				this.openTrackerModal();
 			}
@@ -194,7 +196,7 @@ export default class MoodTrackerPlugin extends Plugin {
 
 		this.addRibbonIcon(
 			"line-chart",
-			"Open Mood Tracking History",
+			t("ribbon.openHistory"),
 			(evt: MouseEvent) => {
 				this.openStatsModal();
 			}
@@ -204,7 +206,7 @@ export default class MoodTrackerPlugin extends Plugin {
 	private addCommands() {
 		this.addCommand({
 			id: "open-mood-tracker",
-			name: "Open Tracker",
+			name: t("commands.openTracker"),
 			callback: () => {
 				this.openTrackerModal();
 			},
@@ -212,7 +214,7 @@ export default class MoodTrackerPlugin extends Plugin {
 
 		this.addCommand({
 			id: "open-mood-tracker-history",
-			name: "Open History",
+			name: t("commands.openHistory"),
 			callback: () => {
 				this.openStatsModal();
 			},

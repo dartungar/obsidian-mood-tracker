@@ -5,6 +5,7 @@
 	} from "src/entities/MoodTrackerEntry";
 	import MoodTrackerPlugin from "src/main";
 	import { DeleteEntryModal } from "./deleteEntryModal";
+	import { t, translateEmotion } from "src/i18n";
 
 	export let data: IMoodTrackerEntry[];
 	export let dateString: string;
@@ -39,27 +40,27 @@
 <div>
 	<h4>{dateString}</h4>
 	{#if !data || data.length === 0}
-		<div>No entries for this day. Click diagram to select another day.</div>
+		<div>{t("modals.stats.noEntriesForDay")}</div>
 	{:else}
 		{#each data as entry}
 			<div>
 				<!-- svelte-ignore a11y-click-events-have-key-events -->
 				<span
 					style="cursor: pointer;"
-					title="edit entry"
+					title={t("modals.stats.editEntry")}
 					on:click={() => openMoodTrackerModal(entry)}>✏️</span
 				>
                 				<!-- svelte-ignore a11y-click-events-have-key-events -->
 				<span
                 style="cursor: pointer;"
-                title="delete entry"
+                title={t("modals.stats.deleteEntry")}
                 on:click={() => deleteEntry(entry)}>🗑️</span
             >
 
 				<span
 					>{getTimeFromDate(entry.dateTime)}
 					{moodRatingDict[entry.moodRating]}
-					{entry.emotions.join(", ")}
+					{entry.emotions.map(e => translateEmotion(e)).join(", ")}
 				</span>
 				{#if entry.note}
 					<span>📄 <i>{entry.note}</i></span>
@@ -71,7 +72,7 @@
 	<div>
 		<button
 			on:click={openModalForNewEntry}
-			style="cursor: pointer; margin-top: 0.5rem">add a new entry</button
+			style="cursor: pointer; margin-top: 0.5rem">{t("modals.stats.addNewEntry")}</button
 		>
 	</div>
 </div>
