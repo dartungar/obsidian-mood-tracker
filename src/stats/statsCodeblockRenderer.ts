@@ -1,7 +1,8 @@
 import MoodTrackerPlugin from "src/main";
 import { IStatsCodeblockConfig } from "./IStatsCodeblockConfig";
 import { generateDatasetForDateRange, getMostCommonEmotions, getMostCommonMoodRating, getTotalAverageMoodRating } from "src/stats/statsHelpers";
-import StatsChart from "./charts/BarChart.svelte";
+import BarChart from "./charts/BarChart.svelte";
+import LineChart from "./charts/LineChart.svelte";
 import { IMoodTrackerEntry } from "src/entities/MoodTrackerEntry";
 import { IDayStats } from "src/entities/IDayStats";
 
@@ -14,7 +15,8 @@ const defaultConfig: IStatsCodeblockConfig = {
 	showMostCommonMood: false,
 	showCommonEmotionsList: false,
     height: "350px",
-    width: "100%"
+    width: "100%",
+    chartType: "bar"
 };
 
 export class StatsCodeblockRenderer {
@@ -56,7 +58,7 @@ export class StatsCodeblockRenderer {
         containerEl.style.height = this._config.height;
         containerEl.style.width = this._config.width;
 
-		new StatsChart({
+		new (this._config.chartType === 'line' ? LineChart : BarChart)({
 			target: containerEl,
 			props: {
 				data: processedData,
@@ -156,6 +158,11 @@ export class StatsCodeblockRenderer {
 					break;
 				case "showCommonEmotionsList":
 					config.showCommonEmotionsList = value.toLowerCase() === "true";
+					break;
+				case "chartType":
+					if (value === "line" || value === "bar") {
+						config.chartType = value;
+					}
 					break;
 				// Here you may want to handle any unexpected keys or provide error handling
 			}            
