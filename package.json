@@ -6,6 +6,7 @@
 	"scripts": {
 		"dev": "node esbuild.config.mjs",
 		"build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
+		"test": "vitest run",
 		"version": "node version-bump.mjs && git add manifest.json versions.json"
 	},
 	"keywords": [],
@@ -23,13 +24,13 @@
 		"svelte": "^3.58.0",
 		"svelte-preprocess": "^5.0.3",
 		"tslib": "2.4.0",
-		"typescript": "^5.0.0"
+		"typescript": "^5.0.0",
+		"vitest": "^4.0.18"
 	},
 	"dependencies": {
 		"@popperjs/core": "^2.11.7",
 		"chart.js": "^4.2.1",
-		"svelte-chartjs": "^3.1.2",
 		"i18next": "^23.7.6",
-		"svelte-i18n": "^4.0.0"
+		"svelte-chartjs": "^3.1.2"
 	}
 }

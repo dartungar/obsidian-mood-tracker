@@ -8,8 +8,16 @@ let isInitialized = false;
 /**
  * Reset i18n state (for testing only)
  */
-export function resetI18n(): void {
+export async function resetI18n(): Promise<void> {
     isInitialized = false;
+    if (i18next.isInitialized) {
+        await i18next.init({
+            lng: 'en',
+            fallbackLng: 'en',
+            resources: {},
+            interpolation: { escapeValue: false }
+        });
+    }
 }
 
 export const SUPPORTED_LANGUAGES = {
@@ -54,15 +62,15 @@ export async function initI18n(language?: string): Promise<void> {
  * Detect language from Obsidian's moment locale
  */
 export function detectLanguage(): SupportedLanguage {
-    // Try to get language from Obsidian's moment
     const momentLocale = window.moment?.locale?.() || 'en';
-    
-    // Check if the locale starts with a supported language code
-    if (momentLocale.startsWith('ja')) {
-        return 'ja';
+
+    // Check if the locale starts with any supported language code
+    for (const lang of Object.keys(SUPPORTED_LANGUAGES) as SupportedLanguage[]) {
+        if (momentLocale.startsWith(lang)) {
+            return lang;
+        }
     }
-    
-    // Default to English
+
     return 'en';
 }
 

@@ -59,7 +59,7 @@
 
 <div class="modal-inner-container">
 	<div style="display: flex; justify-content: center">
-		<h3>{plugin.settings.trackerModalTitle === "How are you feeling?" ? t("modals.tracker.title") : plugin.settings.trackerModalTitle}</h3>
+		<h3>{plugin.settings.trackerModalTitle || t("modals.tracker.title")}</h3>
 	</div>
 
 	<div class="mood-rating-container">

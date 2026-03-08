@@ -53,7 +53,8 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 
 		setting.addText((input) => {
 			input.inputEl.style.width = "min(400px, 35vw)";
-			input.setValue(this._plugin.settings.trackerModalTitle)
+			input.setPlaceholder(t("modals.tracker.title"))
+			.setValue(this._plugin.settings.trackerModalTitle)
 			.onChange(async (value) => {
 				this._plugin.settings.trackerModalTitle = value;
 				await this._plugin.saveSettings();
