@@ -13,7 +13,7 @@ import { MoveDataModal } from "./folderSetting/moveDataModal";
 import { EmotionGroupEditModal } from "./emotionGroup/emotionGroupEditModal";
 import { EmotionGroupDeleteModal } from "./emotionGroup/emotionGroupDeleteModal";
 import { MoodRatingLabelsEditModal } from "./moodRatingLabel/moodRatingLabelsEditModal";
-import { t } from "src/i18n";
+import { t, translateEmotionGroup } from "src/i18n";
 
 export class MoodTrackerSettingsTab extends PluginSettingTab {
 	constructor(private _plugin: MoodTrackerPlugin, app: App) {
@@ -253,7 +253,7 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 
 			const setting = new Setting(settingGroupEl);
 
-			setting.setName(emotionGroup.name ?? `${t("settings.emotionGroups.name")} ${index}`);
+			setting.setName(emotionGroup.name ? translateEmotionGroup(emotionGroup.name) : `${t("settings.emotionGroups.name")} ${index}`);
 
 			// TODO: text color
 

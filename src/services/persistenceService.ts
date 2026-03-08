@@ -1,5 +1,6 @@
 import { MoodTrackerEntry } from "src/entities/MoodTrackerEntry";
 import MoodTrackerPlugin from "src/main";
+import { t } from "src/i18n";
 
 
 export class PersistenceService {
@@ -28,7 +29,7 @@ export class PersistenceService {
             
             return data;
         } catch (error) {
-            this.plugin.showNotice(`Error loading mood tracker entries from file ${this.filepath}: ${error}`);
+            this.plugin.showNotice(t("notifications.errorLoadingData"));
             console.warn(error);
         }
     }
@@ -45,7 +46,7 @@ export class PersistenceService {
             const jsonData = JSON.stringify(entries, null, 2);
             await adapter.write(this.filepath, jsonData);
         } catch (error) {
-            this.plugin.showNotice(`Error saving mood tracker data to file ${this.filepath}: ${error}`);
+            this.plugin.showNotice(t("notifications.errorSavingData"));
             console.warn(error);
         }
     }
@@ -54,13 +55,13 @@ export class PersistenceService {
         const adapter = this.plugin.app.vault.adapter;
 
         if (!await adapter.exists(this.plugin.settings.folderPath)) {
-            this.plugin.showNotice(`Mood Tracker: folder "${this.plugin.settings.folderPath}" not found, creating it...`);
+            this.plugin.showNotice(t("notifications.folderNotFound", { path: this.plugin.settings.folderPath }));
             await adapter.mkdir(this.plugin.settings.folderPath);
-            this.plugin.showNotice(`Mood Tracker: created a folder "${this.plugin.settings.folderPath}". You can change the path in the settings; for now you'll have to move mood-tracker-data.json manually. Click to dismiss`, 30000);
+            this.plugin.showNotice(t("notifications.folderCreated", { path: this.plugin.settings.folderPath }), 30000);
         }
 
         if (!await adapter.exists(this.filepath)) {
-            this.plugin.showNotice(`No mood tracker data file found at "${this.filepath}". Creating a new data file...`);
+            this.plugin.showNotice(t("notifications.noDataFile", { path: this.filepath }));
             await adapter.write(this.filepath, "[]");
         }
     }

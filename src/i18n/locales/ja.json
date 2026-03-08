@@ -82,13 +82,13 @@
         },
         "moveData": {
             "title": "データを移動",
-            "message": "データファイルを新しい場所に移動しますか？",
+            "message": "気分トラッカーデータを「{{from}}」から「{{to}}」に移動しますか？",
             "move": "移動",
             "cancel": "キャンセル"
         },
         "createFile": {
             "title": "ファイルを作成",
-            "message": "ファイルが存在しません。作成しますか？",
+            "message": "「{{path}}」にファイルが存在しません。\n作成しますか？",
             "create": "作成",
             "cancel": "キャンセル"
         },
@@ -266,11 +266,18 @@
         "errorLoadingData": "データの読み込み中にエラーが発生しました",
         "dataFileMoved": "データファイルが正常に移動されました",
         "emotionGroupSaved": "感情グループが保存されました",
-        "emotionGroupDeleted": "感情グループが削除されました"
+        "emotionGroupDeleted": "感情グループが削除されました",
+        "errorMovingData": "気分トラッカーデータの移動中にエラーが発生しました。詳細はコンソールを確認してください。",
+        "folderCreated": "フォルダ「{{path}}」を作成しました。設定でパスを変更できます。mood-tracker-data.jsonは手動で移動する必要があります。",
+        "folderNotFound": "フォルダ「{{path}}」が見つかりません。作成しています...",
+        "noDataFile": "「{{path}}」に気分トラッカーデータファイルが見つかりません。新しいデータファイルを作成しています...",
+        "journalPositionNotFound": "ジャーナルファイル内の指定位置が見つかりませんでした。末尾に追加します。",
+        "legacyMigration": "気分トラッカーが更新されました。新しい感情設定をご確認ください！"
     },
     "errors": {
         "folderNotExist": "フォルダが存在しません",
         "fileNotFound": "ファイルが見つかりません",
-        "invalidData": "無効なデータ形式"
+        "invalidData": "無効なデータ形式",
+        "dateParseError": "日付「{{date}}」の解析中にエラーが発生しました"
     }
 }

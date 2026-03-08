@@ -1,6 +1,7 @@
 import { App } from "obsidian";
 import { ConfirmationModal } from "src/common/confirmationModal";
 import MoodTrackerPlugin from "src/main";
+import { t } from "src/i18n";
 
 export class MoveDataModal extends ConfirmationModal {
 	constructor(
@@ -10,7 +11,7 @@ export class MoveDataModal extends ConfirmationModal {
 	) {
 		super(
 			app,
-			`Move mood tracking data from "${_plugin.settings.folderPath}" to "${newPath}" ?`,
+			t("modals.moveData.message", { from: _plugin.settings.folderPath, to: newPath }),
 			() => this.onConfirmation()
 		);
 	}
@@ -25,7 +26,7 @@ export class MoveDataModal extends ConfirmationModal {
 			await this._plugin.loadEntries();
 		} catch (error) {
 			this._plugin.showNotice(
-				"Error moving mood tracking data. See console for details."
+				t("notifications.errorMovingData")
 			);
 			if (await adapter.exists(newPathFull)) {
 				await adapter.remove(newPathFull);
@@ -35,7 +36,7 @@ export class MoveDataModal extends ConfirmationModal {
 
 		await adapter.remove(oldPathFull);
 		this._plugin.showNotice(
-			`Successfully moved mood tracking data from "${this._plugin.settings.folderPath}" to "${this.newPath}".`
+			t("notifications.dataFileMoved")
 		);
 
 		this._plugin.settings.folderPath = this.newPath;

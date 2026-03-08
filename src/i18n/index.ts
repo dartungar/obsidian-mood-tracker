@@ -1,9 +1,16 @@
 import i18next from 'i18next';
-import type { I18nResources } from './types';
+import type { I18nResources, I18nKey } from './types';
 import en from './locales/en.json';
 import ja from './locales/ja.json';
 
 let isInitialized = false;
+
+/**
+ * Reset i18n state (for testing only)
+ */
+export function resetI18n(): void {
+    isInitialized = false;
+}
 
 export const SUPPORTED_LANGUAGES = {
     en: 'English',
@@ -34,7 +41,9 @@ export async function initI18n(language?: string): Promise<void> {
             ja: { translation: ja }
         },
         interpolation: {
-            escapeValue: false // Not needed for React/Svelte
+            // Svelte's text interpolation ({...}) auto-escapes output.
+            // Do NOT use {@html} or innerHTML with translation strings.
+            escapeValue: false
         }
     });
     
@@ -76,7 +85,7 @@ export async function changeLanguage(language: SupportedLanguage): Promise<void>
  * @param key - The translation key in dot notation (e.g., 'commands.openTracker')
  * @param options - Optional interpolation values
  */
-export function t(key: string, options?: any): string {
+export function t(key: I18nKey, options?: Record<string, unknown>): string {
     return i18next.t(key, options) as string;
 }
 
@@ -127,13 +136,13 @@ export function formatDate(date: Date | moment.Moment, format?: string): string 
  */
 export function translateEmotion(emotion: string): string {
     const key = `emotions.${emotion}`;
-    const translation = t(key);
-    
+    const translation = i18next.t(key) as string;
+
     // If translation key not found, return original
     if (translation === key) {
         return emotion;
     }
-    
+
     return translation;
 }
 
@@ -143,13 +152,13 @@ export function translateEmotion(emotion: string): string {
  */
 export function translateEmotionGroup(groupName: string): string {
     // Try to find matching default group
-    const groupKeyMap: Record<string, string> = {
+    const groupKeyMap: Record<string, I18nKey> = {
         'Love and joy': 'emotionGroups.loveAndJoy',
         'Neutral and surprise': 'emotionGroups.neutralAndSurprise',
         'Anger and stress': 'emotionGroups.angerAndStress',
         'Sadness and fear': 'emotionGroups.sadnessAndFear'
     };
-    
+
     const key = groupKeyMap[groupName];
     if (key) {
         return t(key);
@@ -163,14 +172,14 @@ export function translateEmotionGroup(groupName: string): string {
  * Helper to get mood rating label translation
  */
 export function translateMoodRating(rating: number): string {
-    const ratingMap: Record<number, string> = {
+    const ratingMap: Record<number, I18nKey> = {
         1: 'moodRatings.veryBad',
         2: 'moodRatings.bad',
         3: 'moodRatings.ok',
         4: 'moodRatings.good',
         5: 'moodRatings.veryGood'
     };
-    
+
     const key = ratingMap[rating];
     return key ? t(key) : '';
 }

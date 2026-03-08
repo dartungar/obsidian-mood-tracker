@@ -82,13 +82,13 @@
         },
         "moveData": {
             "title": "Move Data",
-            "message": "Move data file to new location?",
+            "message": "Move mood tracking data from \"{{from}}\" to \"{{to}}\"?",
             "move": "Move",
             "cancel": "Cancel"
         },
         "createFile": {
             "title": "Create File",
-            "message": "File doesn't exist. Create it?",
+            "message": "The file at location \"{{path}}\" doesn't exist.\nWould you like to create it?",
             "create": "Create",
             "cancel": "Cancel"
         },
@@ -266,11 +266,18 @@
         "errorLoadingData": "Error loading data",
         "dataFileMoved": "Data file moved successfully",
         "emotionGroupSaved": "Emotion group saved",
-        "emotionGroupDeleted": "Emotion group deleted"
+        "emotionGroupDeleted": "Emotion group deleted",
+        "errorMovingData": "Error moving mood tracking data. See console for details.",
+        "folderCreated": "Created a folder \"{{path}}\". You can change the path in the settings; for now you'll have to move mood-tracker-data.json manually.",
+        "folderNotFound": "Folder \"{{path}}\" not found, creating it...",
+        "noDataFile": "No mood tracker data file found at \"{{path}}\". Creating a new data file...",
+        "journalPositionNotFound": "Could not find the selected position in your journal file. Adding mood to the bottom.",
+        "legacyMigration": "Mood Tracker has been updated. Check out the new emotion settings!"
     },
     "errors": {
         "folderNotExist": "Folder does not exist",
         "fileNotFound": "File not found",
-        "invalidData": "Invalid data format"
+        "invalidData": "Invalid data format",
+        "dateParseError": "Error parsing date {{date}}"
     }
 }

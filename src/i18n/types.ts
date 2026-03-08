@@ -25,6 +25,29 @@ export interface I18nResources {
             mostCommonEmotions: string;
             editEntry: string;
             deleteEntry: string;
+            from: string;
+            to: string;
+            presets: {
+                week: string;
+                month: string;
+                year: string;
+            };
+            chartTypes: {
+                bar: string;
+                line: string;
+                doughnut: string;
+                polar: string;
+                radar: string;
+            };
+            breakdown: {
+                label: string;
+                moodRating: string;
+                topEmotions: string;
+                emotionGroup: string;
+                dayOfWeek: string;
+            };
+            noEntriesForDay: string;
+            addNewEntry: string;
         };
         deleteEntry: {
             title: string;
@@ -53,6 +76,7 @@ export interface I18nResources {
             title: string;
             description: string;
             labelSize: string;
+            preview: string;
             save: string;
             cancel: string;
         };
@@ -84,6 +108,7 @@ export interface I18nResources {
             desc: string;
             placeholder: string;
             folderNotExist: string;
+            apply: string;
         };
         chartColor: {
             name: string;
@@ -127,6 +152,8 @@ export interface I18nResources {
             add: string;
             edit: string;
             delete: string;
+            moveUp: string;
+            moveDown: string;
             noGroups: string;
         };
     };
@@ -244,11 +271,18 @@ export interface I18nResources {
         dataFileMoved: string;
         emotionGroupSaved: string;
         emotionGroupDeleted: string;
+        errorMovingData: string;
+        folderCreated: string;
+        folderNotFound: string;
+        noDataFile: string;
+        journalPositionNotFound: string;
+        legacyMigration: string;
     };
     errors: {
         folderNotExist: string;
         fileNotFound: string;
         invalidData: string;
+        dateParseError: string;
     };
 }
 

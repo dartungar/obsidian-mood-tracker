@@ -36,10 +36,15 @@ export default class MoodTrackerPlugin extends Plugin {
 		this.persistenceService
 	);
 	activeStatsModel: MoodTrackerStatsModal;
+	private _pendingMigrationNotice = false;
 
 	async onload() {
 		await this.loadSettings();
 		await initI18n(this.settings.language);
+		if (this._pendingMigrationNotice) {
+			this.showNotice(t("notifications.legacyMigration"), 15000);
+			this._pendingMigrationNotice = false;
+		}
 		await this.loadEntries();
 		this.addRibbonIcons();
 		this.addCommands();
@@ -147,10 +152,7 @@ export default class MoodTrackerPlugin extends Plugin {
 				DEFAULT_SETTINGS,
 				migratedSettings
 			);
-			this.showNotice(
-				"Mood Tracker has been updated. Check out the new emotion settings!",
-				15000
-			);
+			this._pendingMigrationNotice = true;
 			await this.saveSettings();
 		} else {
 			this.settings = loadedData;

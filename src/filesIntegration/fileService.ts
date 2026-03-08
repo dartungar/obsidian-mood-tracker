@@ -2,6 +2,7 @@ import { TFile } from "obsidian";
 import { MoodTrackerEntry } from "src/entities/MoodTrackerEntry";
 import MoodTrackerPlugin from "src/main";
 import { CreateFileModal } from "./createFileModal";
+import { t } from "src/i18n";
 
 export class FileService {
 	constructor(private _plugin: MoodTrackerPlugin) {}
@@ -71,9 +72,8 @@ export class FileService {
 		} else {
 			if ( index+1 != contentArray.length ) {
 				this._plugin.showNotice(
-					`could not find the selected position in your journal-file -> Adding mood to the bottom.`,
-					5000,
-					`Mood Tracker`
+					t("notifications.journalPositionNotFound"),
+					5000
 				);
 			}
 			const original_content = content.replace(/\n+$/g, "");
