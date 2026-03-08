@@ -27,6 +27,25 @@
             "deleteEntry": "Delete Entry",
             "from": "from",
             "to": "to",
+            "presets": {
+                "week": "Week",
+                "month": "Month",
+                "year": "Year"
+            },
+            "chartTypes": {
+                "bar": "Bar",
+                "line": "Line",
+                "doughnut": "Doughnut",
+                "polar": "Polar",
+                "radar": "Radar"
+            },
+            "breakdown": {
+                "label": "Breakdown",
+                "moodRating": "Mood Rating",
+                "topEmotions": "Top Emotions",
+                "emotionGroup": "Emotion Group",
+                "dayOfWeek": "Day of Week"
+            },
             "noEntriesForDay": "No entries for this day. Click diagram to select another day.",
             "addNewEntry": "add a new entry"
         },

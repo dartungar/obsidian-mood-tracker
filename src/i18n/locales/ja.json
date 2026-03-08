@@ -27,6 +27,25 @@
             "deleteEntry": "エントリーを削除",
             "from": "開始",
             "to": "終了",
+            "presets": {
+                "week": "週",
+                "month": "月",
+                "year": "年"
+            },
+            "chartTypes": {
+                "bar": "棒グラフ",
+                "line": "折れ線",
+                "doughnut": "ドーナツ",
+                "polar": "ポーラー",
+                "radar": "レーダー"
+            },
+            "breakdown": {
+                "label": "内訳",
+                "moodRating": "気分評価",
+                "topEmotions": "上位の感情",
+                "emotionGroup": "感情グループ",
+                "dayOfWeek": "曜日"
+            },
             "noEntriesForDay": "この日のエントリーはありません。グラフをクリックして別の日を選択してください。",
             "addNewEntry": "新しいエントリーを追加"
         },
