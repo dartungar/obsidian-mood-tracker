@@ -1,5 +1,6 @@
 import { IMoodTrackerEntry } from "src/entities/MoodTrackerEntry";
 import { EmotionGroup } from "src/entities/IEmotionGroup";
+import { t } from "src/i18n";
 
 export interface IAggregateData {
     labels: string[];
@@ -96,7 +97,10 @@ export function aggregateByEmotionGroup(
 export function aggregateByDayOfWeek(
     entries: IMoodTrackerEntry[],
 ): IAggregateData {
-    const dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    const dayNames = [
+        t("daysOfWeek.mon"), t("daysOfWeek.tue"), t("daysOfWeek.wed"),
+        t("daysOfWeek.thu"), t("daysOfWeek.fri"), t("daysOfWeek.sat"), t("daysOfWeek.sun")
+    ];
     const sums = new Array(7).fill(0);
     const counts = new Array(7).fill(0);
 

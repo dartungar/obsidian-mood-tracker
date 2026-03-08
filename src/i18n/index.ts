@@ -94,6 +94,9 @@ export async function changeLanguage(language: SupportedLanguage): Promise<void>
  * @param options - Optional interpolation values
  */
 export function t(key: I18nKey, options?: Record<string, unknown>): string {
+    if (!isInitialized) {
+        console.warn(`i18n: t() called before initialization for key "${key}"`);
+    }
     return i18next.t(key, options) as string;
 }
 
@@ -101,27 +104,29 @@ export function t(key: I18nKey, options?: Record<string, unknown>): string {
  * Get nested translation object
  * Useful for getting all translations under a specific namespace
  */
-export function getTranslations(namespace?: string): any {
+export function getTranslations(namespace?: string): Record<string, unknown> {
     if (!namespace) {
-        return i18next.store.data[i18next.language]?.translation || {};
+        return (i18next.store.data[i18next.language]?.translation || {}) as Record<string, unknown>;
     }
-    
+
     const translations = i18next.store.data[i18next.language]?.translation || {};
     const keys = namespace.split('.');
     let result: any = translations;
-    
+
     for (const key of keys) {
-        result = result?.[key];
-        if (!result) break;
+        if (!result || typeof result !== 'object' || !Object.prototype.hasOwnProperty.call(result, key)) {
+            return {};
+        }
+        result = result[key];
     }
-    
-    return result || {};
+
+    return (result || {}) as Record<string, unknown>;
 }
 
 /**
  * Format date according to current locale
  */
-export function formatDate(date: Date | moment.Moment, format?: string): string {
+export function formatDate(date: Date | ReturnType<typeof window.moment>, format?: string): string {
     const currentLang = getCurrentLanguage();
     const momentDate = window.moment(date);
     
@@ -143,15 +148,25 @@ export function formatDate(date: Date | moment.Moment, format?: string): string 
  * Returns original if no translation found (for user-added emotions)
  */
 export function translateEmotion(emotion: string): string {
-    const key = `emotions.${emotion}`;
-    const translation = i18next.t(key) as string;
+    // Access the emotions namespace directly to avoid dot-traversal issues
+    // with emotion names that might contain dots
+    const translations = i18next.store.data[i18next.language]?.translation as any;
+    const translation = translations?.emotions?.[emotion];
 
-    // If translation key not found, return original
-    if (translation === key) {
-        return emotion;
+    if (typeof translation === 'string') {
+        return translation;
     }
 
-    return translation;
+    // Fallback to English if not found in current language
+    const enTranslations = i18next.store.data['en']?.translation as any;
+    const enTranslation = enTranslations?.emotions?.[emotion];
+
+    if (typeof enTranslation === 'string' && i18next.language !== 'en') {
+        return enTranslation;
+    }
+
+    // Return original for user-defined emotions
+    return emotion;
 }
 
 /**

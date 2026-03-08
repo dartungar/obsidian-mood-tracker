@@ -29,7 +29,7 @@ export class PersistenceService {
             
             return data;
         } catch (error) {
-            this.plugin.showNotice(t("notifications.errorLoadingData"));
+            this.plugin.showNotice(t("notifications.errorLoadingData", { path: this.filepath, error: String(error) }));
             console.warn(error);
         }
     }
@@ -46,7 +46,7 @@ export class PersistenceService {
             const jsonData = JSON.stringify(entries, null, 2);
             await adapter.write(this.filepath, jsonData);
         } catch (error) {
-            this.plugin.showNotice(t("notifications.errorSavingData"));
+            this.plugin.showNotice(t("notifications.errorSavingData", { path: this.filepath, error: String(error) }));
             console.warn(error);
         }
     }

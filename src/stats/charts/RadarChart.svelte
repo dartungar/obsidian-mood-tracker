@@ -14,6 +14,7 @@
 	} from "chart.js";
 	import type { IAggregateData } from "../aggregateHelpers";
 	import { hexToRgba } from "./colorHelpers";
+	import { t } from "src/i18n";
 
 	ChartJS.register(
 		Title, Tooltip, Legend, LineElement, PointElement,
@@ -30,7 +31,7 @@
 			labels: raw.labels,
 			datasets: [
 				{
-					label: "Value",
+					label: t("modals.stats.chartDatasetLabel"),
 					data: raw.values,
 					backgroundColor: hexToRgba(chartColor, 0.2),
 					borderColor: hexToRgba(chartColor, 0.8),

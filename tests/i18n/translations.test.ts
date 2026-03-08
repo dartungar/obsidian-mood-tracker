@@ -166,7 +166,7 @@ describe('翻訳ファイルの完全性チェック', () => {
             if (filtered.length > 0) {
                 console.warn('Possibly untranslated Japanese entries:', filtered);
             }
-            // 警告のみで、エラーにはしない（一部の技術用語は英語のまま使用される可能性がある）
+            expect(filtered, 'Untranslated Japanese entries found in important UI paths').toHaveLength(0);
         });
     });
 
@@ -234,8 +234,8 @@ describe('翻訳ファイルの完全性チェック', () => {
                             issues.push(`${lang}.json - Untrimmed string at ${currentPath}`);
                         }
                         
-                        // 連続する空白（意図的なものを除く）
-                        if (/\s{2,}/.test(obj[key]) && !obj[key].includes('  ')) {
+                        // 連続する空白
+                        if (/\s{2,}/.test(obj[key])) {
                             issues.push(`${lang}.json - Multiple spaces at ${currentPath}`);
                         }
                     } else if (typeof obj[key] === 'object' && !Array.isArray(obj[key])) {
@@ -250,7 +250,7 @@ describe('翻訳ファイルの完全性チェック', () => {
             if (issues.length > 0) {
                 console.warn('Formatting issues:', issues);
             }
-            // 警告のみで、エラーにはしない
+            expect(issues, 'Formatting issues found in translation strings').toHaveLength(0);
         });
     });
 });

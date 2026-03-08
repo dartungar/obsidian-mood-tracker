@@ -17,8 +17,7 @@ cd obsidian-mood-tracker
 # 依存関係をインストール
 npm install
 
-# i18n実装を完了（実際のコードにt()関数を適用）
-# この段階では基盤のみ作成されているため、実装が必要
+# このリポジトリには、UI全体へのi18n実装（t()関数の適用）が含まれています
 ```
 
 ## 2. テスト用Vaultの作成
@@ -217,7 +216,7 @@ tail -f ~/Library/Application\ Support/obsidian/logs/main.log
 ### 6.1 開発フロー
 ```bash
 # 1. 自動テストを実行
-npm run test:i18n
+npm test
 
 # 2. ビルド
 npm run build

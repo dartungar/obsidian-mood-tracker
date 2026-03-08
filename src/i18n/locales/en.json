@@ -46,12 +46,13 @@
                 "emotionGroup": "Emotion Group",
                 "dayOfWeek": "Day of Week"
             },
+            "chartDatasetLabel": "Value",
             "noEntriesForDay": "No entries for this day. Click diagram to select another day.",
             "addNewEntry": "add a new entry"
         },
         "deleteEntry": {
             "title": "Delete Entry",
-            "message": "Are you sure you want to delete this entry?",
+            "message": "Are you sure you want to delete the entry for {{date}}?",
             "confirm": "Delete",
             "cancel": "Cancel"
         },
@@ -67,7 +68,7 @@
             "cancel": "Cancel"
         },
         "emotionGroupDelete": {
-            "title": "Delete Emotion Group",
+            "title": "Delete emotion group \"{{name}}\"?",
             "message": "Are you sure you want to delete this emotion group?",
             "confirm": "Delete",
             "cancel": "Cancel"
@@ -130,7 +131,7 @@
         },
         "journalLocation": {
             "name": "Journal location",
-            "desc": "Section in journal where mood entry will be added",
+            "desc": "Section heading in your journal where mood entries will be added. Must match an existing heading in your journal file (e.g. '## Mood Tracker').",
             "placeholder": "## Mood Tracker"
         },
         "entryTemplate": {
@@ -262,8 +263,8 @@
         "entryDeleted": "Entry deleted",
         "entryUpdated": "Entry updated",
         "settingsSaved": "Settings saved",
-        "errorSavingData": "Error saving data",
-        "errorLoadingData": "Error loading data",
+        "errorSavingData": "Error saving data to {{path}}: {{error}}",
+        "errorLoadingData": "Error loading data from {{path}}: {{error}}",
         "dataFileMoved": "Data file moved successfully",
         "emotionGroupSaved": "Emotion group saved",
         "emotionGroupDeleted": "Emotion group deleted",
@@ -279,5 +280,14 @@
         "fileNotFound": "File not found",
         "invalidData": "Invalid data format",
         "dateParseError": "Error parsing date {{date}}"
+    },
+    "daysOfWeek": {
+        "mon": "Mon",
+        "tue": "Tue",
+        "wed": "Wed",
+        "thu": "Thu",
+        "fri": "Fri",
+        "sat": "Sat",
+        "sun": "Sun"
     }
 }

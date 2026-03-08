@@ -6,18 +6,38 @@ function createMomentLike(date?: any) {
             const month = String(d.getMonth() + 1).padStart(2, '0');
             const day = String(d.getDate()).padStart(2, '0');
             const hours = String(d.getHours()).padStart(2, '0');
+            const hours12 = String(d.getHours() % 12 || 12);
             const minutes = String(d.getMinutes()).padStart(2, '0');
+            const ampm = d.getHours() >= 12 ? 'PM' : 'AM';
+            const monthLong = d.toLocaleDateString('en', { month: 'long' });
+            const dayNum = String(d.getDate());
 
-            return fmt
-                .replace('YYYY', String(year))
-                .replace('MM', month)
-                .replace('DD', day)
-                .replace('HH', hours)
-                .replace('mm', minutes)
-                .replace('MMMM', d.toLocaleDateString('en', { month: 'long' }))
-                .replace(/(?<!\d)D(?!\d)/, String(d.getDate()))
-                .replace('h', String(d.getHours() % 12 || 12))
-                .replace('A', d.getHours() >= 12 ? 'PM' : 'AM');
+            // Token-based replacement: replace longest tokens first to avoid
+            // substring collisions (e.g., MMMM before MM, DD before D, HH before h)
+            const tokens: Record<string, string> = {
+                'YYYY': String(year),
+                'MMMM': monthLong,
+                'MM': month,
+                'DD': day,
+                'HH': hours,
+                'mm': minutes,
+                'A': ampm,
+            };
+
+            // Build regex from token keys sorted by length (longest first)
+            const tokenPattern = new RegExp(
+                Object.keys(tokens).sort((a, b) => b.length - a.length).join('|'),
+                'g'
+            );
+
+            let result = fmt.replace(tokenPattern, (match) => tokens[match]);
+            // Handle single-char tokens that could collide with text:
+            // 'D' (unpadded day) - only match standalone D not preceded/followed by letter
+            result = result.replace(/(?<![A-Za-z])D(?![A-Za-z])/g, dayNum);
+            // 'h' (12-hour) - only match standalone h not preceded/followed by letter
+            result = result.replace(/(?<![A-Za-z])h(?![A-Za-z])/g, hours12);
+
+            return result;
         },
         toDate: () => d
     };
@@ -34,7 +54,8 @@ const momentMock = Object.assign(
                 return currentLocale;
             }
             return currentLocale;
-        }
+        },
+        _resetLocale: () => { currentLocale = 'ja'; }
     }
 );
 

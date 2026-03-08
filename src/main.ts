@@ -129,6 +129,10 @@ export default class MoodTrackerPlugin extends Plugin {
 			DEFAULT_SETTINGS,
 			await this.loadData()
 		);
+		// Migrate legacy default trackerModalTitle to empty string so i18n fallback is used
+		if (loadedData.trackerModalTitle === "How are you feeling?") {
+			loadedData.trackerModalTitle = "";
+		}
 		// look out for legacy settings!
 		const legacyEmotions = loadedData.emotions;
 		if (

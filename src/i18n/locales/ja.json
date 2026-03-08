@@ -46,12 +46,13 @@
                 "emotionGroup": "感情グループ",
                 "dayOfWeek": "曜日"
             },
+            "chartDatasetLabel": "値",
             "noEntriesForDay": "この日のエントリーはありません。グラフをクリックして別の日を選択してください。",
             "addNewEntry": "新しいエントリーを追加"
         },
         "deleteEntry": {
             "title": "エントリーを削除",
-            "message": "このエントリーを削除してもよろしいですか？",
+            "message": "{{date}} のエントリーを削除してもよろしいですか？",
             "confirm": "削除",
             "cancel": "キャンセル"
         },
@@ -67,7 +68,7 @@
             "cancel": "キャンセル"
         },
         "emotionGroupDelete": {
-            "title": "感情グループを削除",
+            "title": "感情グループ「{{name}}」を削除しますか？",
             "message": "この感情グループを削除してもよろしいですか？",
             "confirm": "削除",
             "cancel": "キャンセル"
@@ -130,7 +131,7 @@
         },
         "journalLocation": {
             "name": "ジャーナル内の場所",
-            "desc": "気分エントリーを追加するジャーナル内のセクション",
+            "desc": "気分エントリーを追加するジャーナル内の見出し。ジャーナルファイル内の見出しと一致させてください（例: '## 気分トラッカー'）。",
             "placeholder": "## 気分トラッカー"
         },
         "entryTemplate": {
@@ -262,8 +263,8 @@
         "entryDeleted": "エントリーが削除されました",
         "entryUpdated": "エントリーが更新されました",
         "settingsSaved": "設定が保存されました",
-        "errorSavingData": "データの保存中にエラーが発生しました",
-        "errorLoadingData": "データの読み込み中にエラーが発生しました",
+        "errorSavingData": "{{path}} へのデータ保存中にエラーが発生しました: {{error}}",
+        "errorLoadingData": "{{path}} からのデータ読み込み中にエラーが発生しました: {{error}}",
         "dataFileMoved": "データファイルが正常に移動されました",
         "emotionGroupSaved": "感情グループが保存されました",
         "emotionGroupDeleted": "感情グループが削除されました",
@@ -279,5 +280,14 @@
         "fileNotFound": "ファイルが見つかりません",
         "invalidData": "無効なデータ形式",
         "dateParseError": "日付「{{date}}」の解析中にエラーが発生しました"
+    },
+    "daysOfWeek": {
+        "mon": "月",
+        "tue": "火",
+        "wed": "水",
+        "thu": "木",
+        "fri": "金",
+        "sat": "土",
+        "sun": "日"
     }
 }

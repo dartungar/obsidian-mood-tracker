@@ -46,6 +46,7 @@ export interface I18nResources {
                 emotionGroup: string;
                 dayOfWeek: string;
             };
+            chartDatasetLabel: string;
             noEntriesForDay: string;
             addNewEntry: string;
         };
@@ -283,6 +284,15 @@ export interface I18nResources {
         fileNotFound: string;
         invalidData: string;
         dateParseError: string;
+    };
+    daysOfWeek: {
+        mon: string;
+        tue: string;
+        wed: string;
+        thu: string;
+        fri: string;
+        sat: string;
+        sun: string;
     };
 }
 

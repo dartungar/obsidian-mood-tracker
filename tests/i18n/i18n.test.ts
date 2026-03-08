@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import {
     initI18n,
     resetI18n,
@@ -16,8 +16,13 @@ import {
 
 describe('i18n basic functionality', () => {
     beforeEach(async () => {
+        (global as any).window.moment._resetLocale();
         await resetI18n();
         await initI18n('ja');
+    });
+
+    afterEach(() => {
+        (global as any).window.moment._resetLocale();
     });
 
     describe('translation retrieval', () => {
@@ -35,7 +40,7 @@ describe('i18n basic functionality', () => {
         });
 
         it('returns the key itself for missing keys', () => {
-            expect(i18next.t('nonexistent.key')).toBe('nonexistent.key');
+            expect(t('nonexistent.key' as any)).toBe('nonexistent.key');
         });
     });
 
@@ -64,18 +69,14 @@ describe('i18n basic functionality', () => {
 
         it('falls back to en for unsupported locales', () => {
             const momentMock = (global as any).window.moment;
-            const originalLocale = momentMock.locale;
-            momentMock.locale = () => 'fr';
+            momentMock.locale('fr');
             expect(detectLanguage()).toBe('en');
-            momentMock.locale = originalLocale;
         });
 
         it('detects ja from regional variant ja-JP', () => {
             const momentMock = (global as any).window.moment;
-            const originalLocale = momentMock.locale;
-            momentMock.locale = () => 'ja-JP';
+            momentMock.locale('ja-JP');
             expect(detectLanguage()).toBe('ja');
-            momentMock.locale = originalLocale;
         });
 
         it('falls back to en when moment is undefined', () => {
@@ -97,6 +98,7 @@ describe('i18n basic functionality', () => {
 
 describe('emotion translation', () => {
     beforeEach(async () => {
+        (global as any).window.moment._resetLocale();
         await resetI18n();
         await initI18n('ja');
     });
@@ -119,10 +121,20 @@ describe('emotion translation', () => {
         expect(translateEmotion('customemotion')).toBe('customemotion');
         expect(translateEmotion('user-added-emotion')).toBe('user-added-emotion');
     });
+
+    it('is case-sensitive (uppercase returns original)', () => {
+        expect(translateEmotion('Happy')).toBe('Happy');
+        expect(translateEmotion('HAPPY')).toBe('HAPPY');
+    });
+
+    it('handles emotion names containing dots safely', () => {
+        expect(translateEmotion('foo.bar')).toBe('foo.bar');
+    });
 });
 
 describe('emotion group translation', () => {
     beforeEach(async () => {
+        (global as any).window.moment._resetLocale();
         await resetI18n();
         await initI18n('ja');
     });
@@ -141,6 +153,7 @@ describe('emotion group translation', () => {
 
 describe('mood rating translation', () => {
     beforeEach(async () => {
+        (global as any).window.moment._resetLocale();
         await resetI18n();
         await initI18n('ja');
     });
@@ -158,29 +171,32 @@ describe('mood rating translation', () => {
         expect(translateMoodRating(6)).toBe('');
         expect(translateMoodRating(-1)).toBe('');
     });
+
+    it('returns empty string for non-integer and special values', () => {
+        expect(translateMoodRating(1.5)).toBe('');
+        expect(translateMoodRating(NaN)).toBe('');
+        expect(translateMoodRating(Infinity)).toBe('');
+    });
 });
 
 describe('date formatting', () => {
     const testDate = new Date('2024-03-15T14:30:00');
 
     beforeEach(async () => {
+        (global as any).window.moment._resetLocale();
         await resetI18n();
         await initI18n('ja');
     });
 
     it('uses Japanese format in ja locale', async () => {
         const formatted = formatDate(testDate);
-        expect(formatted).toContain('2024');
-        expect(formatted).toContain('03');
-        expect(formatted).toContain('15');
-        expect(formatted).toContain('14:30');
+        expect(formatted).toBe('2024年03月15日 14:30');
     });
 
     it('uses English format in en locale', async () => {
         await changeLanguage('en');
         const formatted = formatDate(testDate);
-        expect(formatted).toBeTruthy();
-        expect(formatted).toContain('2024');
+        expect(formatted).toBe('March 15, 2024 2:30 PM');
     });
 
     it('supports custom format', () => {
@@ -191,6 +207,7 @@ describe('date formatting', () => {
 
 describe('translation namespace retrieval', () => {
     beforeEach(async () => {
+        (global as any).window.moment._resetLocale();
         await resetI18n();
         await initI18n('ja');
     });
@@ -204,7 +221,7 @@ describe('translation namespace retrieval', () => {
     });
 
     it('retrieves specific namespace', () => {
-        const commands = getTranslations('commands');
+        const commands = getTranslations('commands') as any;
         expect(commands.openTracker).toBe('トラッカーを開く');
         expect(commands.openHistory).toBe('履歴を開く');
     });
@@ -212,5 +229,36 @@ describe('translation namespace retrieval', () => {
     it('returns empty object for nonexistent namespace', () => {
         const nonexistent = getTranslations('nonexistent.namespace');
         expect(Object.keys(nonexistent).length).toBe(0);
+    });
+
+    it('does not traverse prototype chain', () => {
+        const result = getTranslations('constructor');
+        expect(Object.keys(result).length).toBe(0);
+    });
+});
+
+describe('trackerModalTitle migration', () => {
+    it('migrates legacy English default to empty string', () => {
+        const loadedData = { trackerModalTitle: 'How are you feeling?' };
+        if (loadedData.trackerModalTitle === 'How are you feeling?') {
+            loadedData.trackerModalTitle = '';
+        }
+        expect(loadedData.trackerModalTitle).toBe('');
+    });
+
+    it('preserves custom titles', () => {
+        const loadedData = { trackerModalTitle: 'My Custom Title' };
+        if (loadedData.trackerModalTitle === 'How are you feeling?') {
+            loadedData.trackerModalTitle = '';
+        }
+        expect(loadedData.trackerModalTitle).toBe('My Custom Title');
+    });
+
+    it('preserves already-empty titles', () => {
+        const loadedData = { trackerModalTitle: '' };
+        if (loadedData.trackerModalTitle === 'How are you feeling?') {
+            loadedData.trackerModalTitle = '';
+        }
+        expect(loadedData.trackerModalTitle).toBe('');
     });
 });

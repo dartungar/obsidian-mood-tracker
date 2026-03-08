@@ -1,6 +1,5 @@
 <script>
 	import { createEventDispatcher } from 'svelte';
-	import { each } from 'svelte/internal';
 	import { translateEmotion } from 'src/i18n';
 
     export let moodSections;
