@@ -19,7 +19,7 @@ export class EmotionGroupDeleteModal extends ConfirmationModal {
 
 	async onConfirmation(): Promise<void> {
 		this.plugin.settings.emotionGroups.remove(this.emotionGroup);
-		this.plugin.saveSettings();
+		await this.plugin.saveSettings();
 		this.settingsTab.display();
 		this.close();
 	}

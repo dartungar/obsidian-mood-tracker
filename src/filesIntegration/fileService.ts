@@ -1,6 +1,7 @@
 import { TFile } from "obsidian";
 import { MoodTrackerEntry } from "src/entities/MoodTrackerEntry";
 import MoodTrackerPlugin from "src/main";
+import { moment } from "src/services/obsidianMoment";
 import { CreateFileModal } from "./createFileModal";
 
 export class FileService {
@@ -9,6 +10,7 @@ export class FileService {
 	public async addEntryToJournal(entry: MoodTrackerEntry): Promise<void> {
 		if (!this._plugin.settings.journalFilePath) {
 			await this.appendToCurrentNote(entry);
+			return;
 		}
 
 		const filePath = this.replaceVariablesInTemplatedPath(
@@ -30,7 +32,7 @@ export class FileService {
 
 	public async appendToCurrentNote(entry: MoodTrackerEntry): Promise<void> {
 		const file = this._plugin.app.workspace.getActiveFile();
-		this.appendEntryToFile(entry, file);
+		await this.appendEntryToFile(entry, file);
 	}
 
 	private replaceVariablesInTemplatedPath(
@@ -39,9 +41,9 @@ export class FileService {
 	): string {
 		// TODO: format from templated path
 		const regex = /{{DATE:(.*?)}}/g;
-		return templatedPath.replace(regex, (match, dateFormat) => {
+		return templatedPath.replace(regex, (_match, dateFormat) => {
 			dateFormat ??= "yyyy-MM-dd";
-			return window.moment(date).format(dateFormat);
+			return moment(date).format(dateFormat);
 		});
 	}
 
@@ -67,7 +69,7 @@ export class FileService {
 				}
 			}
 			contentArray.splice(index + 1, 0, `${result}`);
-			this._plugin.app.vault.modify(file, contentArray.join("\n"));
+			await this._plugin.app.vault.modify(file, contentArray.join("\n"));
 		} else {
 			if ( index+1 != contentArray.length ) {
 				this._plugin.showNotice(
@@ -77,7 +79,7 @@ export class FileService {
 				);
 			}
 			const original_content = content.replace(/\n+$/g, "");
-			this._plugin.app.vault.modify(file, original_content + "\n" + result);
+			await this._plugin.app.vault.modify(file, original_content + "\n" + result);
 		}
 		return;
 	}
@@ -86,13 +88,13 @@ export class FileService {
 		const templ = this._plugin.settings.entryTemplate;
 
 		return templ
-			.replace(/{{TIME(:.*?)?}}/g, (match, format) => {
+			.replace(/{{TIME(:.*?)?}}/g, (_match, format) => {
 				const timeFormat = format ? format.substring(1) : "HH:mm";
-				return window.moment(entry.dateTime).format(timeFormat);
+				return moment(entry.dateTime).format(timeFormat);
 			})
-			.replace(/{{DATE(:.*?)?}}/g, (match, format) => {
+			.replace(/{{DATE(:.*?)?}}/g, (_match, format) => {
 				const dateFormat = format ? format.substring(1) : "YYYY-MM-DD";
-				return window.moment(entry.dateTime).format(dateFormat);
+				return moment(entry.dateTime).format(dateFormat);
 			})
 			.replace(/{{ICON}}/g, this._plugin.settings.moodRatingLabelDict[entry.moodRating])
 			.replace(/{{EMOTIONS}}/g, entry.emotions.join(", "))

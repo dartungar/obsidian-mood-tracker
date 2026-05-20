@@ -11,17 +11,16 @@ import { IMoodTrackerEntry } from "./entities/MoodTrackerEntry";
 import { MoodTrackerStatsModal } from "./statsModal/moodTrackerStatsModal";
 import { EmotionGroup } from "./entities/IEmotionGroup";
 
-import type moment from "moment";
 import { FileService } from "./filesIntegration/fileService";
 import { DataIntegrityService } from "./services/dataIntegrityService";
+import type { LegacyEmotionSection } from "./services/dataIntegrityService";
 import { EmotionsService } from "./services/emotionsService";
 import { STATS_CODEBLOCK_NAME, StatsCodeblockRenderer } from "./stats/statsCodeblockRenderer";
 
-declare global {
-	interface Window {
-		moment: typeof moment;
-	}
-}
+type LegacyMoodTrackerSettings = MoodTrackerSettings & {
+	emotions?: unknown;
+	emotionSections?: LegacyEmotionSection[];
+};
 
 export default class MoodTrackerPlugin extends Plugin {
 	readonly dataFileName: string = "mood-tracker-data.json";
@@ -36,7 +35,14 @@ export default class MoodTrackerPlugin extends Plugin {
 	);
 	activeStatsModel: MoodTrackerStatsModal;
 
-	async onload() {
+	onload() {
+		void this.initialize().catch((error: unknown) => {
+			console.error("Mood Tracker failed to load", error);
+			this.showNotice("Mood Tracker failed to load. See console for details.");
+		});
+	}
+
+	private async initialize(): Promise<void> {
 		await this.loadSettings();
 		await this.loadEntries();
 		this.addRibbonIcons();
@@ -71,7 +77,7 @@ export default class MoodTrackerPlugin extends Plugin {
 		this.activeStatsModel.open();
 	}
 
-	async loadEntries() {
+	async loadEntries(): Promise<void> {
 		const loadedEntries =
 			(await this.persistenceService.getEntries()) ?? [];
 		this.entries = this.dataIntegrityService.safeMergeData(
@@ -115,20 +121,19 @@ export default class MoodTrackerPlugin extends Plugin {
 		}
 	}
 
-	async loadSettings() {
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		const loadedData: MoodTrackerSettings | any = Object.assign(
+	async loadSettings(): Promise<void> {
+		const savedData = (await this.loadData()) as Partial<LegacyMoodTrackerSettings> | null;
+		const loadedData = Object.assign(
 			{},
 			DEFAULT_SETTINGS,
-			await this.loadData()
-		);
+			savedData
+		) as LegacyMoodTrackerSettings;
 		// look out for legacy settings!
 		const legacyEmotions = loadedData.emotions;
 		if (
-			legacyEmotions &&
 			Array.isArray(legacyEmotions) &&
 			legacyEmotions.length > 0 &&
-			typeof legacyEmotions[0] === "string"
+			legacyEmotions.every((emotion): emotion is string => typeof emotion === "string")
 		) {
 			const migratedSettings = new MoodTrackerSettings();
 			migratedSettings.folderPath = loadedData.folderPath;
@@ -161,10 +166,9 @@ export default class MoodTrackerPlugin extends Plugin {
 				this.settings.emotionGroups.push(
 					...convertedLegacyEmotionSections
 				);
-				// @ts-expect-error
-				this.settings["emotionSections"] = null;
-				// @ts-expect-error
-				delete this.settings["emotionSections"];
+				delete (this.settings as MoodTrackerSettings & {
+					emotionSections?: LegacyEmotionSection[];
+				}).emotionSections;
 			}
 			this.settings.emotionGroups = this.emotionService.sortEmotionGroups(
 				this.settings.emotionGroups
@@ -176,7 +180,7 @@ export default class MoodTrackerPlugin extends Plugin {
 		}
 	}
 
-	async saveSettings() {
+	async saveSettings(): Promise<void> {
 		this.settings.emotionGroups = this.emotionService.sortEmotionGroups(
 			this.settings.emotionGroups
 		);
@@ -187,7 +191,7 @@ export default class MoodTrackerPlugin extends Plugin {
 		this.addRibbonIcon(
 			"smile-plus",
 			"Open Mood Tracker",
-			(evt: MouseEvent) => {
+			(_evt: MouseEvent) => {
 				this.openTrackerModal();
 			}
 		);
@@ -195,7 +199,7 @@ export default class MoodTrackerPlugin extends Plugin {
 		this.addRibbonIcon(
 			"line-chart",
 			"Open Mood Tracking History",
-			(evt: MouseEvent) => {
+			(_evt: MouseEvent) => {
 				this.openStatsModal();
 			}
 		);
@@ -220,7 +224,7 @@ export default class MoodTrackerPlugin extends Plugin {
 	}
 
 	private addCodeblockRenderers() {
-		this.registerMarkdownCodeBlockProcessor(STATS_CODEBLOCK_NAME, (source, el, ctx) => {
+		this.registerMarkdownCodeBlockProcessor(STATS_CODEBLOCK_NAME, (source, el, _ctx) => {
 			const renderer = new StatsCodeblockRenderer(source, el, this);
 			renderer.render();
 		})

@@ -14,17 +14,22 @@ export abstract class ConfirmationModal extends Modal {
 	onOpen() {
 		const { contentEl } = this;
 		this.titleEl.setText(this.title);
-		const btnsDiv = contentEl.createDiv();
-		btnsDiv.style.marginTop = "10px"
+		const btnsDiv = contentEl.createDiv("mood-tracker-confirmation-actions");
 		const okBtn = btnsDiv.createEl("button", { text: "Ok" });
-		okBtn.style.marginRight = "0.5rem";
+		okBtn.addClass("mood-tracker-confirmation-ok");
 		okBtn.tabIndex = 0;
-		okBtn.onClickEvent(async () => await this.onConfirmCallback());
+		okBtn.onClickEvent(() => {
+			void this.onConfirmCallback().catch((error) => {
+				console.error("Mood Tracker confirmation failed", error);
+			});
+		});
 		const cancelBtn = btnsDiv.createEl("button", { text: "Cancel" });
 		cancelBtn.tabIndex = 1;
 		cancelBtn.onClickEvent(() => {
 			if (this.onCancelCallback) {
-				this.onCancelCallback();
+				void this.onCancelCallback().catch((error) => {
+					console.error("Mood Tracker cancellation failed", error);
+				});
 			}
 			this.close();
 		});

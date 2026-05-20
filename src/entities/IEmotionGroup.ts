@@ -1,5 +1,3 @@
-import { randomUUID } from "crypto";
-
 export interface IEmotionGroup {
     id: string,
     name: string,
@@ -10,7 +8,7 @@ export interface IEmotionGroup {
 }
 
 export class EmotionGroup implements IEmotionGroup {
-    id = randomUUID();
+    id = crypto.randomUUID();
     name = "emotion group";
     sortOrder: number | undefined;
     color = "#b84444";

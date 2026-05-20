@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { EmotionGroup } from "src/entities/IEmotionGroup";
 	import MoodTrackerPlugin from "src/main";
 	import store from "src/store";
 
@@ -12,7 +11,11 @@
 	});
 
 	function save() {
-		plugin.saveSettings();
+		void saveAndClose();
+	}
+
+	async function saveAndClose() {
+		await plugin.saveSettings();
 		closeModalFunc();
 	}
 </script>

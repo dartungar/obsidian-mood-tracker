@@ -14,7 +14,7 @@ export class MoodTrackerService {
     
 
     // add entry
-    public addEntry(entry: MoodTrackerEntry) {
+    public addEntry(_entry: MoodTrackerEntry) {
 
     }
 

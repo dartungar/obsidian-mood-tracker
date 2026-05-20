@@ -1,6 +1,6 @@
 import esbuild from "esbuild";
 import process from "process";
-import builtins from "builtin-modules";
+import { builtinModules } from "node:module";
 import esbuildSvelte from "esbuild-svelte";
 import sveltePreprocess from "svelte-preprocess";
 
@@ -13,7 +13,11 @@ if you want to view the source, please visit the github repository of this plugi
 
 const prod = (process.argv[2] === "production");
 
-
+const builtins = Array.from(new Set(
+	builtinModules.flatMap((builtin) =>
+		builtin.startsWith("node:") ? [builtin] : [builtin, `node:${builtin}`]
+	)
+));
 
 const context = await esbuild.context({
 	plugins: [

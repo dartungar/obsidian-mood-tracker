@@ -11,3 +11,28 @@
 .mood-tracker-notice-header {
 	font-weight: 900;
 }
+
+.mood-tracker-confirmation-actions {
+	margin-top: 10px;
+}
+
+.mood-tracker-confirmation-ok {
+	margin-right: 0.5rem;
+}
+
+.mood-tracker-setting-input-medium {
+	width: min(335px, 35vw);
+}
+
+.mood-tracker-setting-input-wide {
+	width: min(400px, 35vw);
+}
+
+.mood-tracker-setting-input-invalid {
+	border: 1px solid var(--text-error, red);
+}
+
+.mood-tracker-stats-codeblock {
+	height: var(--mood-tracker-stats-height);
+	width: var(--mood-tracker-stats-width);
+}

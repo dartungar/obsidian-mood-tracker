@@ -8,7 +8,7 @@ import {
 } from "src/entities/MoodTrackerEntry";
 
 export class MoodTrackerModal extends Modal {
-	modal: TrackerModal;
+	modal: TrackerModal | undefined;
 
 	constructor(
 		app: App,
@@ -19,11 +19,18 @@ export class MoodTrackerModal extends Modal {
 		super(app);
 	}
 
-	async onOpen() {
+	onOpen() {
 		store.plugin.set(this.plugin);
 
 		this.modalEl.addClass("mood-tracker-modal");
 
+		void this.renderTracker().catch((error: unknown) => {
+			console.error("Mood Tracker failed to open tracker modal", error);
+			this.plugin.showNotice("Mood Tracker failed to open tracker. See console for details.");
+		});
+	}
+
+	private async renderTracker(): Promise<void> {
 		// reload data in case data file was synced / modified
 		await this.plugin.loadEntries();
 
@@ -42,6 +49,6 @@ export class MoodTrackerModal extends Modal {
 	}
 
 	onClose() {
-		this.modal.$destroy();
+		this.modal?.$destroy();
 	}
 }

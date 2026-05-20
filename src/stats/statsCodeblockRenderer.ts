@@ -5,6 +5,7 @@ import BarChart from "./charts/BarChart.svelte";
 import LineChart from "./charts/LineChart.svelte";
 import { IMoodTrackerEntry } from "src/entities/MoodTrackerEntry";
 import { IDayStats } from "src/entities/IDayStats";
+import { moment } from "src/services/obsidianMoment";
 
 export const STATS_CODEBLOCK_NAME = "mood-tracker-stats";
 
@@ -41,8 +42,7 @@ export class StatsCodeblockRenderer {
 	render(): void {
 		const rawData: IMoodTrackerEntry[] = this._plugin?.entries ?? [];
 		const endDate = this.getEndDate(this._config.end);
-		const startDate = window
-			.moment(endDate)
+		const startDate = moment(endDate)
 			.subtract(this._config.daysBeforeEnd, "days")
 			.toDate();
 		const processedData = generateDatasetForDateRange(
@@ -55,8 +55,10 @@ export class StatsCodeblockRenderer {
 
         const containerEl = this.parentEl.createDiv("mood-tracker-stats-codeblock");
 
-        containerEl.style.height = this._config.height;
-        containerEl.style.width = this._config.width;
+        containerEl.setCssProps({
+            "--mood-tracker-stats-height": this._config.height,
+            "--mood-tracker-stats-width": this._config.width,
+        });
 
 		new (this._config.chartType === 'line' ? LineChart : BarChart)({
 			target: containerEl,
@@ -85,21 +87,19 @@ export class StatsCodeblockRenderer {
 			case "today":
 				return new Date();
 			case "previous-month":
-				return window
-					.moment()
+				return moment()
 					.subtract(1, "months")
 					.endOf("month")
 					.toDate();
 			case "current-month":
-				return window.moment().endOf("month").toDate();
+				return moment().endOf("month").toDate();
 			case "previous-week":
-				return window
-					.moment()
+				return moment()
 					.subtract(1, "weeks")
 					.endOf("isoWeek")
 					.toDate();
 			case "current-week":
-				return window.moment().endOf("isoWeek").toDate();
+				return moment().endOf("isoWeek").toDate();
 			default:
 				try {
 					return new Date(rangeEndRaw);

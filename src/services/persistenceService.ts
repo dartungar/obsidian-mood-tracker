@@ -1,5 +1,6 @@
 import { MoodTrackerEntry } from "src/entities/MoodTrackerEntry";
 import MoodTrackerPlugin from "src/main";
+import { moment } from "src/services/obsidianMoment";
 
 
 export class PersistenceService {
@@ -40,7 +41,7 @@ export class PersistenceService {
 
         try {
             // override toJSON so dates will be saved with preserved timezone 
-            Date.prototype.toJSON = function(){ return window.moment(this).format(); }
+            Date.prototype.toJSON = function(){ return moment(this).format(); }
             const entries = this.plugin.entries;
             const jsonData = JSON.stringify(entries, null, 2);
             await adapter.write(this.filepath, jsonData);

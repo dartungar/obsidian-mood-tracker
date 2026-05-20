@@ -1,4 +1,3 @@
-import { randomUUID } from "crypto";
 import { EmotionGroup } from "src/entities/IEmotionGroup";
 import { MoodTrackerEntry } from "src/entities/MoodTrackerEntry";
 
@@ -33,7 +32,7 @@ export class DataIntegrityService {
     public fillMissingIds(emotionGroups: EmotionGroup[]): void {
         emotionGroups.forEach(eg => {
             if (!eg.id) {
-                eg.id = randomUUID();
+                eg.id = crypto.randomUUID();
             }
         })
     }
@@ -44,7 +43,7 @@ export class DataIntegrityService {
             eg.color = x.color;
             eg.emotions = x.emotions;
             eg.name = x.name ?? "unnamed group";
-            eg.id = randomUUID();
+            eg.id = crypto.randomUUID();
             return eg;
         })
     }

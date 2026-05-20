@@ -6,20 +6,26 @@ import { DateService } from "src/services/dateService";
 
 
 export class MoodTrackerStatsModal extends Modal {
-    component: StatsComponent;
+    component: StatsComponent | undefined;
 
     constructor(app: App, private plugin: MoodTrackerPlugin, private selectedDate: Date) {
         super(app);
     }
 
-    async onOpen() {
+    onOpen() {
         store.plugin.set(this.plugin);
 
         this.modalEl.addClass("mood-tracker-modal");
 
+        void this.renderStats().catch((error: unknown) => {
+            console.error("Mood Tracker failed to open stats modal", error);
+            this.plugin.showNotice("Mood Tracker failed to open stats. See console for details.");
+        });
+    }
+
+    private async renderStats(): Promise<void> {
         // reload data in case data file was synced / modified
         await this.plugin.loadEntries();
-
         this.component = new StatsComponent({
             target: this.contentEl,
             props: {
@@ -29,6 +35,6 @@ export class MoodTrackerStatsModal extends Modal {
     }
 
     onClose() {
-        this.component.$destroy();
+        this.component?.$destroy();
     }
 }

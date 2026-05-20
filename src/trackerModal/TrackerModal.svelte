@@ -8,8 +8,8 @@
 		MoodTrackerEntry,
 	} from "src/entities/MoodTrackerEntry";
 	import { EmotionGroup } from "src/entities/IEmotionGroup";
-	import moment from "moment";
 	import { DateService } from "src/services/dateService";
+	import { moment } from "src/services/obsidianMoment";
 
 	let plugin: MoodTrackerPlugin;
 	let moodSections: EmotionGroup[] = [];
@@ -42,13 +42,13 @@
 	}
 
 	function handleDateTimeChange(event: any) {
-		entry.dateTime = window.moment(event.target.value).toDate();
+		entry.dateTime = moment(event.target.value).toDate();
 	}
 
 	async function saveEntry() {
 		await plugin!.saveEntry(entry);
 		if (insertToNote) {
-			plugin!.noteService.addEntryToJournal(entry);
+			await plugin!.noteService.addEntryToJournal(entry);
 		}
 		closeModalFunc();
 	}
