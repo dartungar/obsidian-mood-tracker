@@ -287,6 +287,17 @@ export class MoodTrackerSettingsTab extends PluginSettingTab {
 			.setDesc("A list of emotions, separated by commas or newlines. You can define one or many emotion groups, each with own color, if needed.")
 			.setHeading();
 
+		new Setting(settingGroupEl)
+			.setName("Collapse groups by default")
+			.setDesc("Start the tracker modal with emotion groups collapsed.")
+			.addToggle((input) => {
+				input.setValue(this._plugin.settings.collapseEmotionGroupsByDefault)
+					.onChange(async (value) => {
+						this._plugin.settings.collapseEmotionGroupsByDefault = value;
+						await this._plugin.saveSettings();
+					});
+			});
+
 		for (const [
 			index,
 			emotionGroup,

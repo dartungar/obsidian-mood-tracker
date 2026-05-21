@@ -110,6 +110,7 @@
 				on:toggleMood={handleToggleMood}
 				bind:activeMoods={entry.emotions}
 				{moodSections}
+				collapseSectionsByDefault={plugin.settings.collapseEmotionGroupsByDefault}
 			/>
 		</div>
 	{/if}
